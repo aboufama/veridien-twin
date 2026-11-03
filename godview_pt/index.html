@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>God view</title>
+<style>
+  :root { --paper: #f3f3ef; --ink: #1d1d1b; --muted: #6b6b66; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #f3f3ef; --ink: #1d1d1b; --muted: #6b6b66; } }
+  :root[data-theme="dark"] { --paper: #f3f3ef; --ink: #1d1d1b; --muted: #6b6b66; }
+  html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font: 13px/1.4 system-ui, sans-serif; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; touch-action: none; }
+  #line { position: fixed; left: 16px; bottom: 12px; color: var(--muted); }
+  #help { position: fixed; right: 16px; bottom: 12px; color: var(--muted); cursor: default; }
+  #keys { display: none; position: fixed; right: 16px; bottom: 36px; background: var(--paper); border: 1px solid #d8d8d2; padding: 10px 12px; }
+  #help:hover + #keys, #keys:hover { display: block; }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div id="line"></div>
+<div id="help">?</div>
+<div id="keys">drag: orbit &middot; right / shift-drag: pan &middot; wheel: zoom &middot; F: reset &middot; C: cutaway &middot; 1-4: viewpoints</div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

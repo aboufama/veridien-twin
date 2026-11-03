@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>God view judge</title>
+<style>
+  :root { --paper: #f3f3ef; --ink: #1d1d1b; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #f3f3ef; --ink: #1d1d1b; } }
+  :root[data-theme="dark"] { --paper: #f3f3ef; --ink: #1d1d1b; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 13px/1.4 system-ui, sans-serif; }
+  canvas { display: block; width: 100%; max-width: 1440px; aspect-ratio: 16 / 10; background: var(--paper); }
+  #msg { padding: 8px 16px; }
+</style>
+</head>
+<body>
+<canvas id="view" width="1440" height="900"></canvas>
+<div id="msg">loading</div>
+<script type="module" src="./judge.js"></script>
+</body>
+</html>

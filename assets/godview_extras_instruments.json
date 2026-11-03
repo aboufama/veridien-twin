@@ -1,0 +1,472 @@
+{
+ "version": 1,
+ "source": "scripts/build_godview_instruments.py",
+ "meshes": [
+  {
+   "name": "extra_L_jaw_a",
+   "file": "meshes/extra_L_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/jaw_a",
+   "replaces": "L_jaw_a",
+   "build_dir": null,
+   "vertex_count": 19226,
+   "triangle_count": 23456,
+   "max_chord_error_m": 0.0001406,
+   "max_edge_m": 0.010112,
+   "bbox": [
+    [
+     -0.002224,
+     -0.001975,
+     -0.004217
+    ],
+    [
+     0.002224,
+     0.002447,
+     0.019818
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     19226
+    ],
+    "normals": [
+     230712,
+     19226
+    ],
+    "indices": [
+     461424,
+     70368
+    ]
+   },
+   "bytes": 742896,
+   "sha256_16": "d77520239920a260",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'jaw_A' + OCC edge fillets",
+    "fillets": {
+     "rounded": 163,
+     "left_sharp": 554,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 154.1
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_jaw_b",
+   "file": "meshes/extra_L_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/jaw_b",
+   "replaces": "L_jaw_b",
+   "build_dir": null,
+   "vertex_count": 14256,
+   "triangle_count": 17072,
+   "max_chord_error_m": 7.841e-05,
+   "max_edge_m": 0.010112,
+   "bbox": [
+    [
+     -0.002224,
+     -0.002447,
+     -0.004215
+    ],
+    [
+     0.002224,
+     0.001975,
+     0.019818
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     14256
+    ],
+    "normals": [
+     171072,
+     14256
+    ],
+    "indices": [
+     342144,
+     51216
+    ]
+   },
+   "bytes": 547008,
+   "sha256_16": "ccb52a4b0f684e94",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'jaw_B' + OCC edge fillets",
+    "fillets": {
+     "rounded": 149,
+     "left_sharp": 640,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 155.3
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_collar",
+   "file": "meshes/extra_L_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "replaces": "L_collar",
+   "build_dir": null,
+   "vertex_count": 5747,
+   "triangle_count": 8563,
+   "max_chord_error_m": 1.895e-05,
+   "max_edge_m": 0.31174,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002222,
+     -0.310098
+    ],
+    [
+     0.0025,
+     0.002222,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5747
+    ],
+    "normals": [
+     68964,
+     5747
+    ],
+    "indices": [
+     137928,
+     25689
+    ]
+   },
+   "bytes": 240684,
+   "sha256_16": "4b4927dad8b8a07f",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": false,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'tube' + OCC edge fillets",
+    "fillets": {
+     "rounded": 22,
+     "left_sharp": 50,
+     "radii_mm": [
+      0.25,
+      0.08
+     ],
+     "s": 11.6
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_pin",
+   "file": "meshes/extra_L_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "replaces": "L_pin",
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.53e-06,
+   "max_edge_m": 0.004001,
+   "bbox": [
+    [
+     -0.002596,
+     -0.0009,
+     -0.0009
+    ],
+    [
+     0.002596,
+     0.0009,
+     0.0009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'pin' + OCC edge fillets",
+    "fillets": {
+     "rounded": 0,
+     "left_sharp": 30,
+     "radii_mm": [],
+     "s": 0.0
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_R_jaw_a",
+   "file": "meshes/extra_R_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/jaw_a",
+   "replaces": "R_jaw_a",
+   "build_dir": null,
+   "vertex_count": 9940,
+   "triangle_count": 13356,
+   "max_chord_error_m": 1.728e-05,
+   "max_edge_m": 0.0053513,
+   "bbox": [
+    [
+     -0.002199,
+     -0.001975,
+     -0.004217
+    ],
+    [
+     0.004012,
+     0.00225,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     9940
+    ],
+    "normals": [
+     119280,
+     9940
+    ],
+    "indices": [
+     238560,
+     40068
+    ]
+   },
+   "bytes": 398832,
+   "sha256_16": "5d2b6b055cc0d3a5",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'jaw_A' + OCC edge fillets",
+    "fillets": {
+     "rounded": 83,
+     "left_sharp": 493,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 150.5
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_jaw_b",
+   "file": "meshes/extra_R_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/jaw_b",
+   "replaces": "R_jaw_b",
+   "build_dir": null,
+   "vertex_count": 12263,
+   "triangle_count": 17646,
+   "max_chord_error_m": 0.002339,
+   "max_edge_m": 0.0048378,
+   "bbox": [
+    [
+     -0.002199,
+     -0.00225,
+     -0.004215
+    ],
+    [
+     0.004013,
+     0.001975,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12263
+    ],
+    "normals": [
+     147156,
+     12263
+    ],
+    "indices": [
+     294312,
+     52938
+    ]
+   },
+   "bytes": 506064,
+   "sha256_16": "a244bca6ad22680d",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'jaw_B' + OCC edge fillets",
+    "fillets": {
+     "rounded": 80,
+     "left_sharp": 481,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 153.9
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_collar",
+   "file": "meshes/extra_R_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "replaces": "R_collar",
+   "build_dir": null,
+   "vertex_count": 5747,
+   "triangle_count": 8563,
+   "max_chord_error_m": 1.895e-05,
+   "max_edge_m": 0.31206,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002222,
+     -0.310417
+    ],
+    [
+     0.0025,
+     0.002222,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5747
+    ],
+    "normals": [
+     68964,
+     5747
+    ],
+    "indices": [
+     137928,
+     25689
+    ]
+   },
+   "bytes": 240684,
+   "sha256_16": "73eae87cf39a1803",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": false,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'tube' + OCC edge fillets",
+    "fillets": {
+     "rounded": 22,
+     "left_sharp": 50,
+     "radii_mm": [
+      0.25,
+      0.08
+     ],
+     "s": 16.0
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_pin",
+   "file": "meshes/extra_R_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "replaces": "R_pin",
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.53e-06,
+   "max_edge_m": 0.004001,
+   "bbox": [
+    [
+     -0.002596,
+     -0.0009,
+     -0.0009
+    ],
+    [
+     0.002596,
+     0.0009,
+     0.0009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'pin' + OCC edge fillets",
+    "fillets": {
+     "rounded": 0,
+     "left_sharp": 30,
+     "radii_mm": [],
+     "s": 0.0
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  }
+ ]
+}

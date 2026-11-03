@@ -1,0 +1,720 @@
+{
+ "version": 1,
+ "units": "m",
+ "frame": "static meshes in D; the scope cables in K",
+ "note": "the stand and wiring (scripts/build_godview_stand_wiring.py, ADR-136); merged into godview_extras.json",
+ "bench": {
+  "z": -0.0662643,
+  "note": "god's-eye view only (mergeExtras): the table under the stand, the base's underside. The camera simulations keep scene.json bench.z = 0.003735660994053"
+ },
+ "checks": {
+  "frame": {
+   "T_D_asm": "x 1e-3 (mm -> m), then the fit below",
+   "fit_rotation_deg": 0.02874,
+   "fit_translation_mm": [
+    -0.0628,
+    0.035,
+    -0.0314
+   ],
+   "points": 34807,
+   "residual_identity_mm": {
+    "median": 0.1147,
+    "p95": 3.8025
+   },
+   "residual_fit_mm": {
+    "median": 0.073,
+    "p95": 3.8006,
+    "share_within_0.25mm": 0.677,
+    "share_within_1mm": 0.7781
+   },
+   "note": "the residual tail is where the assembly's shell (an earlier build) differs from the scene's (the \u00d817.8 bores, the JST bumps); the bulk of the surface agrees to the tessellation",
+   "applied": "identity (the fit's correction is below the residual)"
+  },
+  "clearance": {
+   "extra_CAM1_lead": {
+    "shell_mm": 0.05,
+    "stand_mm": 1.717,
+    "wires_shell_mm": 0.537,
+    "table_mm": 4.3,
+    "min_bend_radius_mm": 5.22
+   },
+   "extra_CAM2_lead": {
+    "shell_mm": 0.049,
+    "stand_mm": 1.717,
+    "wires_shell_mm": 0.542,
+    "table_mm": 8.7,
+    "min_bend_radius_mm": 5.22
+   },
+   "extra_CAM3_lead": {
+    "shell_mm": 0.062,
+    "stand_mm": 1.288,
+    "wires_shell_mm": 0.537,
+    "table_mm": 13.1,
+    "min_bend_radius_mm": 4.73
+   },
+   "extra_hub_usbc_lead": {
+    "shell_mm": 18.0,
+    "stand_mm": 0.3,
+    "table_mm": -0.005,
+    "min_bend_radius_mm": 8.9
+   },
+   "extra_hub_12v_lead": {
+    "shell_mm": 18.25,
+    "stand_mm": 0.3,
+    "table_mm": -0.0,
+    "min_bend_radius_mm": 8.9
+   }
+  },
+  "connectors": {
+   "extra_CAM1_lead": {
+    "wires_to_jst_mm": 0.75,
+    "jacket_to_usb_a_relief_mm": 0.0
+   },
+   "extra_CAM2_lead": {
+    "wires_to_jst_mm": 0.75,
+    "jacket_to_usb_a_relief_mm": 0.0
+   },
+   "extra_CAM3_lead": {
+    "wires_to_jst_mm": 0.75,
+    "jacket_to_usb_a_relief_mm": 0.0
+   },
+   "extra_hub_usbc_lead": {
+    "to_plug_mm": 0.0
+   },
+   "extra_hub_12v_lead": {
+    "to_plug_mm": 0.0
+   }
+  },
+  "stand_shell_gap_mm_outside_slot": {
+   "foot_points": 1457,
+   "median": 0.0,
+   "max": 0.0463,
+   "slot": "the base's cable slot under the shell's foot (the leads drop through it; no contact by design)"
+  },
+  "stand_shell_gap_mm": {
+   "foot_points": 1500,
+   "median": 0.0,
+   "p99": 1.2805,
+   "max": 2.1907,
+   "points_over_0.5mm": 29,
+   "over_0.5mm_xy_mm": [
+    [
+     182.2,
+     22.3
+    ],
+    [
+     186.8,
+     14.3
+    ],
+    [
+     186.8,
+     14.3
+    ],
+    [
+     186.6,
+     12.8
+    ],
+    [
+     181.6,
+     12.8
+    ],
+    [
+     181.3,
+     10.2
+    ],
+    [
+     181.1,
+     8.5
+    ],
+    [
+     180.9,
+     6.8
+    ],
+    [
+     180.9,
+     6.8
+    ],
+    [
+     185.9,
+     6.8
+    ],
+    [
+     185.9,
+     6.8
+    ],
+    [
+     181.6,
+     12.8
+    ]
+   ]
+  },
+  "cut_leads_inside_shell_bbox": true
+ },
+ "source": {
+  "script": "scripts/build_godview_stand_wiring.py",
+  "assembly_sha256_16": "590178be153727fc",
+  "scene_json_sha256_16": "752675f3c4435c19"
+ },
+ "meshes": [
+  {
+   "name": "extra_stand",
+   "file": "meshes/extra_stand.bin",
+   "material": "bench_white",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 12475,
+   "triangle_count": 19724,
+   "max_edge_m": 0.47335,
+   "bbox": [
+    [
+     -0.32118,
+     -0.200676,
+     -0.066264
+    ],
+    [
+     0.22482,
+     0.255324,
+     0.008736
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12475
+    ],
+    "normals": [
+     149700,
+     12475
+    ],
+    "indices": [
+     299400,
+     59172
+    ]
+   },
+   "bytes": 536088,
+   "sha256_16": "4ffb4b4429543652",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "Veridien_dome_all.step BASE_hub_bay (hub bay, slot, notch, dowel holes)",
+    "pose": "as assembled (assembly frame = D x 1e3)",
+    "underside_z_m": -0.0662643,
+    "tray_z_m": 0.0087357,
+    "god_view_change": "tray inside the inner skirt (ellipse 228 x 183 mm about the dome centre) cut from 8.74 mm to bench z 3.7357 mm: the camera simulations' floor",
+    "material_note": "bench_white: matte white like the printed base, and not removed by the cutaway (pla_matte_white is)"
+   }
+  },
+  {
+   "name": "extra_hub",
+   "file": "meshes/extra_hub.bin",
+   "material": "steel_satin",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 24,
+   "triangle_count": 12,
+   "max_edge_m": 0.15163,
+   "bbox": [
+    [
+     0.1914,
+     -0.055076,
+     -0.062264
+    ],
+    [
+     0.2143,
+     0.089724,
+     -0.017264
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     24
+    ],
+    "normals": [
+     288,
+     24
+    ],
+    "indices": [
+     576,
+     36
+    ]
+   },
+   "bytes": 720,
+   "sha256_16": "679d72fbda4e0b51",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "hub": "Rosonway RSH-H7C4 (box)",
+    "in": "the hub bay, closed by the cover plate"
+   }
+  },
+  {
+   "name": "extra_hub_plugs",
+   "file": "meshes/extra_hub_plugs.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 702,
+   "triangle_count": 924,
+   "max_edge_m": 0.029682,
+   "bbox": [
+    [
+     0.1574,
+     -0.041076,
+     -0.047764
+    ],
+    [
+     0.2145,
+     0.109724,
+     -0.031764
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     702
+    ],
+    "normals": [
+     8424,
+     702
+    ],
+    "indices": [
+     16848,
+     2772
+    ]
+   },
+   "bytes": 27936,
+   "sha256_16": "63e6a38178788229",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "plugs": "3 x USB-A overmould + relief, host USB-C, 12 V (boxes)"
+   }
+  },
+  {
+   "name": "extra_CAM1_lead",
+   "file": "meshes/extra_CAM1_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3498,
+   "triangle_count": 6784,
+   "max_edge_m": 0.0022972,
+   "bbox": [
+    [
+     0.044052,
+     0.027743,
+     0.005769
+    ],
+    [
+     0.18615,
+     0.054975,
+     0.219209
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3498
+    ],
+    "normals": [
+     41976,
+     3498
+    ],
+    "indices": [
+     83952,
+     20352
+    ]
+   },
+   "bytes": 165360,
+   "sha256_16": "8b5cdcb2b6b8f896",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM1",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 947.3,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 5.22,
+    "to_hub_bay_mm": 286.56,
+    "wires_mm": 18.66,
+    "spiral_outer_radius_mm": 22.49,
+    "spiral_turns_per_arm": 1.28,
+    "spiral_level": 1,
+    "usb_a_port": 1,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM1_lead_base",
+   "file": "meshes/extra_CAM1_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5522,
+   "triangle_count": 10976,
+   "max_edge_m": 0.0027668,
+   "bbox": [
+    [
+     0.0741,
+     -0.038974,
+     -0.061964
+    ],
+    [
+     0.186184,
+     0.091704,
+     0.005769
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5522
+    ],
+    "normals": [
+     66264,
+     5522
+    ],
+    "indices": [
+     132528,
+     32928
+    ]
+   },
+   "bytes": 264240,
+   "sha256_16": "6e30c61164986311",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM1",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_CAM2_lead",
+   "file": "meshes/extra_CAM2_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3498,
+   "triangle_count": 6784,
+   "max_edge_m": 0.0023517,
+   "bbox": [
+    [
+     0.044035,
+     -0.009672,
+     0.006312
+    ],
+    [
+     0.186174,
+     0.026925,
+     0.217165
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3498
+    ],
+    "normals": [
+     41976,
+     3498
+    ],
+    "indices": [
+     83952,
+     20352
+    ]
+   },
+   "bytes": 165360,
+   "sha256_16": "6b223431afc5a126",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM2",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 947.7,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 5.22,
+    "to_hub_bay_mm": 291.87,
+    "wires_mm": 18.34,
+    "spiral_outer_radius_mm": 23.17,
+    "spiral_turns_per_arm": 1.36,
+    "spiral_level": 2,
+    "usb_a_port": 2,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM2_lead_base",
+   "file": "meshes/extra_CAM2_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5490,
+   "triangle_count": 10912,
+   "max_edge_m": 0.002769,
+   "bbox": [
+    [
+     0.0791,
+     -0.020973,
+     -0.057564
+    ],
+    [
+     0.186184,
+     0.092384,
+     0.006312
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5490
+    ],
+    "normals": [
+     65880,
+     5490
+    ],
+    "indices": [
+     131760,
+     32736
+    ]
+   },
+   "bytes": 262704,
+   "sha256_16": "98f163bd3a9aeca2",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM2",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_CAM3_lead",
+   "file": "meshes/extra_CAM3_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3906,
+   "triangle_count": 7600,
+   "max_edge_m": 0.0026575,
+   "bbox": [
+    [
+     0.01846,
+     -0.148306,
+     0.006344
+    ],
+    [
+     0.185154,
+     0.011572,
+     0.123965
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3906
+    ],
+    "normals": [
+     46872,
+     3906
+    ],
+    "indices": [
+     93744,
+     22800
+    ]
+   },
+   "bytes": 184944,
+   "sha256_16": "3b35cb8fba79c1c0",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM3",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 949.5,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 4.73,
+    "to_hub_bay_mm": 355.46,
+    "wires_mm": 16.55,
+    "spiral_outer_radius_mm": 21.95,
+    "spiral_turns_per_arm": 1.21,
+    "spiral_level": 3,
+    "usb_a_port": 3,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM3_lead_base",
+   "file": "meshes/extra_CAM3_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 4994,
+   "triangle_count": 9920,
+   "max_edge_m": 0.0028241,
+   "bbox": [
+    [
+     0.0841,
+     -0.002972,
+     -0.053164
+    ],
+    [
+     0.18519,
+     0.091164,
+     0.006672
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4994
+    ],
+    "normals": [
+     59928,
+     4994
+    ],
+    "indices": [
+     119856,
+     29760
+    ]
+   },
+   "bytes": 238896,
+   "sha256_16": "6933130fa9e89271",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM3",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_hub_usbc_lead",
+   "file": "meshes/extra_hub_usbc_lead.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5986,
+   "triangle_count": 11904,
+   "max_edge_m": 0.0036461,
+   "bbox": [
+    [
+     0.1955,
+     0.109724,
+     -0.334264
+    ],
+    [
+     1.022,
+     0.128,
+     -0.037764
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5986
+    ],
+    "normals": [
+     71832,
+     5986
+    ],
+    "indices": [
+     143664,
+     35712
+    ]
+   },
+   "bytes": 286512,
+   "sha256_16": "2c1124a84605bc1d",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "lead": "host USB-C",
+    "diameter_mm": 4.0,
+    "route": "hub +y end -> rear notch -> table -> off the bench's +x edge",
+    "status": "assumed (the hub's host and power leads leave through the notch, dome_camera_install docstring)"
+   }
+  },
+  {
+   "name": "extra_hub_12v_lead",
+   "file": "meshes/extra_hub_12v_lead.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5970,
+   "triangle_count": 11872,
+   "max_edge_m": 0.0035565,
+   "bbox": [
+    [
+     0.20675,
+     0.109724,
+     -0.334514
+    ],
+    [
+     1.02175,
+     0.13575,
+     -0.038014
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5970
+    ],
+    "normals": [
+     71640,
+     5970
+    ],
+    "indices": [
+     143280,
+     35616
+    ]
+   },
+   "bytes": 285744,
+   "sha256_16": "589b47ba5658e936",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "lead": "12 V DC",
+    "diameter_mm": 3.5,
+    "route": "hub +y end -> rear notch -> table -> off the bench's +x edge",
+    "status": "assumed (the hub's host and power leads leave through the notch, dome_camera_install docstring)"
+   }
+  }
+ ]
+}

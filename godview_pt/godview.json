@@ -1,0 +1,99 @@
+{
+ "centre": [
+  -0.05,
+  0.027,
+  0.1
+ ],
+ "vfov_deg": 35.0,
+ "image": [
+  1280,
+  800
+ ],
+ "viewpoints": {
+  "V1_surgeon": {
+   "az_deg": 200.0,
+   "el_deg": 40.0,
+   "d": 0.75
+  },
+  "V2_left": {
+   "az_deg": 110.0,
+   "el_deg": 30.0,
+   "d": 0.75
+  },
+  "V3_top": {
+   "az_deg": 180.0,
+   "el_deg": 80.0,
+   "d": 0.8
+  },
+  "V4_far": {
+   "az_deg": 330.0,
+   "el_deg": 35.0,
+   "d": 0.75
+  }
+ },
+ "cutaway": {
+  "materials": [
+   "pla_matte_white"
+  ],
+  "offset": 0.02,
+  "default": true
+ },
+ "bench": {
+  "extent": [
+   [
+    -1.0,
+    -1.0
+   ],
+   [
+    1.0,
+    1.0
+   ]
+  ]
+ },
+ "lights": {
+  "environment": {
+   "type": "constant",
+   "radiance": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  "key": {
+   "type": "directional",
+   "irradiance": [
+    2.0,
+    2.0,
+    2.0
+   ],
+   "from_az_deg": 150.0,
+   "from_el_deg": 65.0
+  },
+  "scope": {
+   "type": "physics_emitter",
+   "gain": 0.365,
+   "note": "the physics.yaml scope emitter (L0 * p(theta)) times gain; the reference agent sets gain so the dome floor under the scope reads about 3x the key-lit exterior PLA, and writes it here"
+  }
+ },
+ "display": {
+  "tone_map": "khronos_pbr_neutral",
+  "exposure": 1.0
+ },
+ "states": [
+  "default",
+  "crossing"
+ ],
+ "materials": "physics",
+ "targets": {
+  "level": [
+   0.95,
+   1.05
+  ],
+  "median_rel_max": 0.08,
+  "p95_rel_max": 0.25,
+  "ssim_tonemapped_min": 0.92,
+  "edges_median_px_max": 0.5,
+  "gpu_ms_m4_1440x900_max": 8.0,
+  "load_s_max": 3.0
+ }
+}

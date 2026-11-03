@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dome twin</title>
+<link rel="icon" href="data:,">
+<script>
+  // docs/WEB_TWIN.md §19: the twin page is twin.html (the god's-eye view). This page stays for the judges and the dataset
+  // generator (?judge=1), and for the old one-view page with ?legacy=1.
+  (function () { var q = new URLSearchParams(location.search); if (!q.has('judge') && !q.has('legacy')) location.replace('twin.html' + location.search + location.hash); })();
+</script>
+<style>
+  :root {
+    --paper: #f3f3ef; --ink: #111211; --grey: #6b6c68; --grey2: #a9aaa4; --rule: #dcdcd6; --card: #fbfbf8;
+    --frame: rgb(12, 13, 12); --pred: #2f5bd3;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --gutter: 16px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font: 13px/1.4 var(--sans);
+    -webkit-font-smoothing: antialiased; overflow: hidden; }
+  body { display: flex; flex-direction: column; }
+  button { font: inherit; color: inherit; }
+  code { font: 12px var(--mono); white-space: nowrap; }
+
+  header { flex: none; height: 48px; display: flex; align-items: center; gap: 16px; padding: 0 var(--gutter); }
+  .title { display: flex; align-items: baseline; gap: 10px; min-width: 0; white-space: nowrap; }
+  .title .name { font-size: 14px; font-weight: 600; letter-spacing: -0.005em; }
+  .title .sub { color: var(--grey); overflow: hidden; text-overflow: ellipsis; }
+  #status { flex: 1; min-width: 0; text-align: right; color: var(--grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #status[hidden] { display: none; }
+  .actions { display: flex; gap: 8px; flex: none; margin-left: auto; }
+  #status:not([hidden]) + .actions { margin-left: 0; }
+  .btn { height: 30px; padding: 0 12px; border: 1px solid var(--rule); border-radius: 7px; background: var(--card); cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease; }
+  .btn:hover { border-color: var(--grey2); }
+  .btn:active { transform: translateY(0.5px); }
+  .btn[aria-pressed="true"], .btn[aria-expanded="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .btn.round { width: 30px; padding: 0; font-weight: 600; }
+  .btn:focus-visible, .tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  main { flex: 1; min-height: 0; position: relative; }
+  .frame { position: relative; background: var(--frame); border-radius: 8px; overflow: hidden; }
+  .frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .frame canvas.ov { pointer-events: none; }
+  #main-view { position: absolute; inset: 0 var(--gutter) var(--gutter); cursor: grab; outline: none; touch-action: none; }
+  #main-view.dragging { cursor: grabbing; }
+  #main-view[hidden], #grid[hidden] { display: none; }
+  #grid { position: absolute; inset: 0 var(--gutter) var(--gutter); display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px 12px; }
+  .tile { display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: 0; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; border-radius: 8px; }
+  .tile .label { flex: none; color: var(--grey); font-size: 12px; padding-left: 2px; transition: color 120ms ease; }
+  .tile .frame { flex: 1; min-height: 0; transition: box-shadow 120ms ease; }
+  .tile:hover .label, .tile.current .label { color: var(--ink); }
+  .tile:hover .frame { box-shadow: 0 0 0 2px var(--grey2); }
+  .tile.current .frame { box-shadow: 0 0 0 2px var(--ink); }
+  .tile.off { cursor: default; }
+  .tile.off:hover .frame { box-shadow: none; }
+  .note { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8d8f89; font-size: 13px; pointer-events: none; text-align: center; padding: 24px; }
+  .note[hidden] { display: none; }
+  .note.err { color: #e9e9e4; font-family: var(--mono); font-size: 12px; white-space: pre-wrap; pointer-events: auto; }
+
+  #help { position: absolute; top: 52px; right: var(--gutter); z-index: 5; width: min(470px, calc(100vw - 2 * var(--gutter)));
+    background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px 12px;
+    box-shadow: 0 1px 2px rgba(17, 18, 17, 0.05), 0 8px 24px rgba(17, 18, 17, 0.08); }
+  #help[hidden] { display: none; }
+  #help h2 { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+  #help dl { display: grid; grid-template-columns: max-content 1fr; column-gap: 16px; row-gap: 5px; margin: 0; }
+  #help dt { font: 12px var(--mono); color: var(--ink); white-space: nowrap; padding-top: 1px; }
+  #help dd { margin: 0; color: var(--grey); }
+  #help .more { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--grey); display: grid; gap: 5px; }
+  #help .more b { color: var(--ink); font-weight: 500; }
+  #help label.file { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  #help input[type=file] { display: none; }
+  body.drop main::after { content: "Drop the .onnx model to run it in the page"; position: absolute; inset: 0 var(--gutter) var(--gutter);
+    display: flex; align-items: center; justify-content: center; border: 2px dashed var(--grey2); border-radius: 8px;
+    background: rgba(243, 243, 239, 0.86); color: var(--ink); pointer-events: none; z-index: 4; }
+</style>
+</head>
+<body>
+<header>
+  <div class="title"><span class="name" id="view-name">Dome twin</span><span class="sub" id="view-sub"></span></div>
+  <div id="status" role="status" hidden></div>
+  <div class="actions">
+    <button class="btn" id="grid-btn" aria-pressed="false" title="Four views (V)">4 views</button>
+    <button class="btn round" id="help-btn" aria-expanded="false" aria-controls="help" title="Keys (?)" aria-label="Keys">?</button>
+  </div>
+</header>
+<main id="stage">
+  <div class="frame" id="main-view" data-slot="main" tabindex="0" aria-label="Main view; drag to move the selected tool">
+    <canvas class="img"></canvas><canvas class="ov"></canvas>
+    <div class="note" id="boot">Loading the scene</div>
+  </div>
+  <div id="grid" hidden></div>
+</main>
+<aside id="help" hidden aria-label="Keys">
+  <h2>Keys</h2>
+  <dl id="keys"></dl>
+  <div class="more">
+    <div>Autoplay runs <b id="help-script">task set</b>, seed <b id="help-seed">0</b>; choose with <code>?autoplay=</code> and <code>?seed=</code>.</div>
+    <div>In-page model: <label class="file" for="onnx">choose an .onnx file</label>, or drop one on the page.<input id="onnx" type="file" accept=".onnx"></div>
+    <div id="help-renderer"></div>
+  </div>
+</aside>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

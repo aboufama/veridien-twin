@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dome twin, god view</title>
+<style>
+  :root { --paper: #f6f4ef; --ink: #1d1d1b; --quiet: #6b6a66; }
+  html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font: 13px/1.4 system-ui, -apple-system, sans-serif; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; touch-action: none; }
+  #help { position: fixed; right: 12px; bottom: 10px; width: 22px; height: 22px; border-radius: 11px; border: 1px solid #c9c6bd;
+    background: var(--paper); color: var(--quiet); font-size: 12px; cursor: pointer; }
+  #keys { position: fixed; right: 12px; bottom: 40px; background: var(--paper); border: 1px solid #dedad0; border-radius: 6px;
+    padding: 10px 12px; color: var(--quiet); display: none; line-height: 1.7; }
+  #line { position: fixed; left: 12px; bottom: 10px; color: var(--quiet); }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "../vendor/three/three.webgpu.min.js",
+  "three/webgpu": "../vendor/three/three.webgpu.min.js",
+  "three/tsl": "../vendor/three/three.tsl.min.js",
+  "three/addons/": "../vendor/three/addons/"
+} }
+</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<button id="help" aria-label="Keys">?</button>
+<div id="keys">Drag to orbit, right-drag or Shift-drag to pan, wheel to zoom<br>C cutaway &nbsp; F reset &nbsp; 1&ndash;4 viewpoints</div>
+<div id="line"></div>
+<script type="module">
+import { GodView, S } from './godview.js';
+import { bootConfigs } from './boot.js';
+import * as K from '../control/kinematics.js';
+import { Limits } from '../control/limits.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const $ = (id) => document.getElementById(id);
+$('help').onclick = () => { const k = $('keys'); k.style.display = k.style.display === 'block' ? 'none' : 'block'; };
+try {
+  const cfg = await bootConfigs();
+  const g = await GodView.create({ canvas: $('c'), scene: cfg.bundle, physics: cfg.physics, godview: cfg.godview });
+  g.pixelRatio = Math.min(2, window.devicePixelRatio || 1);
+  const limits = new Limits(cfg.bundle.scene, cfg.bundle.meshes);
+  g.setPoses(K.posesFromState(cfg.bundle.scene, limits.clampState(K.defaultState(cfg.bundle.scene)).state));
+  const names = Object.keys(cfg.godview.viewpoints || {});
+  const ctl = new OrbitControls(g.camera, $('c'));
+  ctl.enableDamping = true;
+  ctl.screenSpacePanning = true;
+  const goto = (name) => {
+    const v = g.viewpoint(name);
+    g.setCamera(v);
+    ctl.target.set(v.target[0] * S, v.target[1] * S, v.target[2] * S);
+    ctl.update();
+  };
+  goto(names[0]);
+  addEventListener('keydown', (e) => {
+    if (e.key === 'c' || e.key === 'C') g.setCutaway(!g.cutOn);
+    else if (e.key === 'f' || e.key === 'F') goto(names[0]);
+    else if (/^[1-4]$/.test(e.key) && names[+e.key - 1]) goto(names[+e.key - 1]);
+  });
+  const loop = () => {
+    ctl.update();
+    const p = g.camera.position, t = ctl.target;
+    g.setCamera({ eye: [p.x / S, p.y / S, p.z / S], target: [t.x / S, t.y / S, t.z / S], up: [0, 0, 1], vfov_deg: g.camera.fov });
+    g.render();
+    requestAnimationFrame(loop);
+  };
+  loop();
+  window.god = g;
+} catch (e) {
+  $('line').textContent = 'The 3-D view could not start: ' + (e?.message || e);
+  console.error(e);
+}
+</script>
+</body>
+</html>

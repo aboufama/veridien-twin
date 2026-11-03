@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/godview_pt2/">
+<title>pt stale-bake probe</title>
+<style>
+  body { margin: 0; background: #f3f3ef; color: #1d1d1b; font: 13px/1.4 system-ui, sans-serif; }
+  canvas { display: block; width: 100%; max-width: 1440px; aspect-ratio: 16 / 10; background: #f3f3ef; }
+</style>
+</head>
+<body>
+<canvas id="view" width="1440" height="900"></canvas>
+<div id="msg">loading</div>
+<!-- Neutral judge probe (not renderer code). godview_pt bakes its indirect light only after 150 ms with nothing moving
+     (any setPoses / setCamera marks the bake stale), so while the camera orbits or a tool moves the raster shows the
+     LAST bake. This page reproduces that: it bakes under a different camera (?stale=az&deg=D: the eye rotated D degrees
+     in azimuth about the centre, as mid-orbit) or under the other judge state's poses (?stale=state: tools moved from
+     'crossing' to 'default' or back), then draws godview_pt's own raster at the judged view without re-baking. -->
+<script type="module">
+import { GodView } from '/godview_pt2/godview.js';
+import '/godview_pt2/judge.js';
+const Q = new URLSearchParams(location.search);
+const kind = Q.get('stale') || 'az', deg = Number(Q.get('deg') || 30);
+const P = GodView.prototype, origCap = P.captureLinear;
+P.captureLinear = async function (w, h, opts = {}) {
+  if (!this.__keepBake) return origCap.call(this, w, h, opts);
+  const sb = this._submitBake, bd = this.bakeDone;
+  this._submitBake = () => { this.bakeStale = false; };     // keep the earlier bake, as the live raster does while moving
+  this.bakeDone = () => true;
+  try { return await origCap.call(this, w, h, { ...opts, mode: 'raster' }); }
+  finally { this._submitBake = sb; this.bakeDone = bd; this.__keepBake = false; }
+};
+let G = null;
+const origCreate = GodView.create;
+GodView.create = async function (...a) { G = await origCreate.apply(this, a); return G; };
+let states = null;
+const J = window.godJudge, cap = J.capture.bind(J);
+J.capture = async (name, state, opts = {}) => {
+  await J.ready;
+  states ??= await (await fetch('/__ext/states.json')).json();
+  if (kind === 'state') {
+    const s = JSON.stringify(state);
+    const other = Object.values(states.states).map((x) => x.state).find((x) => JSON.stringify(x) !== s);
+    await cap(name, other, { mode: 'raster', size: [64, 40] });            // bake under the other state's tool poses
+  } else {
+    await cap(name, state, { mode: 'raster', size: [64, 40] });            // poses + camera as judged ...
+    const c = G.cam.target, e = G.cam.eye, a = deg * Math.PI / 180, dx = e[0] - c[0], dy = e[1] - c[1];
+    G.setCamera({ eye: [c[0] + dx * Math.cos(a) - dy * Math.sin(a), c[1] + dx * Math.sin(a) + dy * Math.cos(a), e[2]], target: c, up: G.cam.up, vfov_deg: G.cam.vfov });
+    await G.captureLinear(64, 40, { mode: 'raster' });                     // ... then bake under the rotated eye's cut
+  }
+  G.__keepBake = true;
+  return cap(name, state, { ...opts, mode: 'raster' });                    // judged view, earlier bake kept
+};
+window.__judgeWrapper = 'pt2_stale_' + kind;
+</script>
+</body>
+</html>

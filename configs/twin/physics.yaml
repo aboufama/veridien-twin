@@ -1,0 +1,409 @@
+# Optical and sensor physics of the web twin (docs/WEB_TWIN.md §8–9). Owner: physics agent.
+# Derivations, sources and uncertainty: docs/WEB_TWIN_PHYSICS.md (section numbers below refer to it).
+#
+# Schema (stable since the first pass, 2026-10-31): every leaf quantity is a mapping
+#   {value: <number | [r, g, b] | list | string | null>, unit: <SI string>,
+#    status: measured | published | assumed | unmeasured, source: <URL, repo file or "derived: ...">,
+#    note?: <text>, range?: [lo, hi]   (plausible bounds, not a 1-sigma)}
+# `note:` mappings without `status` are prose for readers and carry no value.
+# Angles: radians in code; keys ending in _deg are in degrees. Everything else is SI.
+# Colour: linear sRGB (Rec. 709 primaries, D65 white, IEC 61966-2-1 matrix).
+# Radiometric RGB convention (shared by the WebGPU tracer and the Mitsuba judge in *_rgb variants):
+#   Y = 0.2126 R + 0.7152 G + 0.0722 B = integral of L(lambda) * ybar(lambda) dlambda  (CIE 1931 2 deg),
+#   so Y = L_v / (683 lm/W). A Y of 1 W sr^-1 m^-2 is a luminance of 683 cd m^-2.
+# Status meanings: measured = on this rig; published = datasheet / paper / standard (possibly with a unit
+# conversion shown in the doc); assumed = a modelling choice or an estimate; unmeasured = a placeholder that only
+# rig footage or a bench measurement can set.
+
+schema_version: 1
+colour_space: linear_srgb_d65
+
+# ------------------------------------------------------------------------------------------------ §1 scope
+scope:
+  model: {value: "Karl Storz HOPKINS II 26003BA class: forward-oblique 30 deg, 10 mm, 31 cm, enlarged view", unit: "-", status: published, source: "Karl Storz tender listing 26003BA (https://storage.mtender.gov.md/get/e081fcb9-b8de-485f-a440-bc67b305fba0-1779354440218); https://remma.fr/en/model/laparoscope-26003ba"}
+  outer_diameter: {value: 0.010, unit: m, status: published, source: "Storz 26003BA designation (10 mm)"}
+  working_length: {value: 0.31, unit: m, status: published, source: "Storz 26003BA (31 cm); one resale listing says 30 cm", note: "only the part inside the dome is rendered"}
+  direction_of_view_deg: {value: 30.0, unit: deg, status: published, source: "Storz 26003BA (forward-oblique 30 deg)"}
+  angle_of_view_deg: {value: 80.0, unit: deg, status: assumed, range: [70, 90], source: "Storz publishes no number for 26003BA; typical rigid-laparoscope class. Labelled FOVs are often overstated (Biomed. Opt. Express 2017, PMC5480555)"}
+  frame:
+    note: >-
+      Scope frame: +z along the shaft toward the tip, origin on the shaft axis in the plane of the distal-most point of
+      the tip face. The direction of view is d = (0, sin 30 deg, cos 30 deg): the shaft axis tilted toward scope +y.
+      The tip face is the plane through the distal end with normal d: an ellipse with semi-axes r_sheath (x) and
+      r_sheath / cos 30 deg (along its slope). Its distal-most point (the toe) is at scope -y.
+  sheath_wall_thickness: {value: 2.5e-4, unit: m, status: assumed, source: "typical 10 mm telescope outer tube"}
+  optics_tube:
+    note: "Eccentric inner optical tube, touching the sheath on the +y side (crescent-cavity construction, US4615333, EP0093599)."
+    outer_radius: {value: 0.00290, unit: m, status: assumed, source: "estimate for a 10 mm rod-lens telescope; US4615333 gives no dimensions"}
+    centre_offset_y: {value: 0.00165, unit: m, status: assumed, source: "derived: r_out - r_tube - 0.1 mm clearance, toward +y"}
+  objective_window_diameter: {value: 0.0046, unit: m, status: assumed, range: [0.004, 0.0055], source: "estimate: clear aperture inside the optics tube; centred on the optics tube"}
+  light_outlet:
+    shape: {value: crescent, unit: "-", status: published, source: "fibre bundle in the crescent between sheath and eccentric lens tube: US4615333 (https://patents.google.com/patent/US4615333A/en), EP0093599"}
+    note: >-
+      Defined in the shaft cross-section (perpendicular to +z) and projected along +z onto the oblique tip face, since
+      the fibres run parallel to the shaft and are cut by that face. Region = {|p| <= outer_radius} minus
+      {|p - (0, centre_offset_y)| <= exclusion_radius}. Thick side (3.40 mm) at -y, 0.10 mm horns at +y.
+      Area on the face = cross-section area / cos(direction_of_view). The scene agent builds mesh `scope_light` from
+      this. If the tessellated area differs from area_on_face, scale L0 by area_on_face / mesh_area to keep the flux.
+    outer_radius: {value: 0.00465, unit: m, status: assumed, source: "derived: sheath OD/2 - wall - 0.1 mm"}
+    exclusion_radius: {value: 0.00290, unit: m, status: assumed, source: "= optics_tube.outer_radius"}
+    exclusion_offset_y: {value: 0.00165, unit: m, status: assumed, source: "= optics_tube.centre_offset_y"}
+    area_cross_section: {value: 4.1508e-5, unit: m^2, status: assumed, source: "derived: pi (r_out^2 - r_excl^2)"}
+    area_on_face: {value: 4.7930e-5, unit: m^2, status: assumed, source: "derived: area_cross_section / cos 30 deg; Monte-Carlo check 4.790e-5"}
+  emission_axis:
+    angle_from_shaft_deg: {value: 30.0, unit: deg, status: assumed, range: [20, 35], source: "design intent: axial light is refracted toward the viewing direction (US4615333). Emission axis = tip-face normal = direction of view"}
+    note: >-
+      Abel et al. 2021 (doi:10.1002/lio2.703) found the brightest spot of a 30 deg rigid endoscope ~20 % of the image
+      diameter off-centre at 10 mm working distance, which outlet-objective parallax (~2.5 mm baseline) explains at
+      that distance; at 80-150 mm the parallax is 1-2 deg.
+
+# ------------------------------------------------------------------------------------------------ §2 light
+light:
+  source: {value: "Karl Storz Power LED 300 (TL300) class LED light source", unit: "-", status: published, source: "FDA GUDID: TL300 'Cold Light Fountain Power LED 300' (https://accessgudid.nlm.nih.gov/devices/04048551378830)"}
+  cable:
+    model: {value: "Storz 495NCS class, 4.8 mm bundle, 250 cm (the standard pairing for a 10 mm telescope)", unit: "-", status: assumed, source: "the task named 495NL, but the Storz catalogue lists 495NL as 3.5 mm x 180 cm (https://partssource.com/parts/karl-storz/495nl)"}
+    bundle_diameter: {value: 0.0048, unit: m, status: assumed, source: "4.8 mm Storz cables (e.g. 495NCS/NCSC listings)"}
+    fibre_na: {value: 0.57, unit: "-", status: assumed, range: [0.5, 0.68], source: "typical glass light-guide NA (fibre light-guide patent family: 'typically of the order of 0.57'; 0.64-0.68 high-NA)"}
+    note: "With a 3.5 mm 495NL instead, multiply flux and L0 by ~(3.5/4.8)^2 = 0.53 (bundle area ratio, same NA)."
+  intensity_setting: {value: 1.0, unit: "fraction of full output", status: assumed, source: "front-panel level of the light source. L0 and every flux-derived number here are at 1.0; the emitted radiance is L0 x intensity_setting"}
+  flux_at_scope_tip: {value: 400.0, unit: lm, status: assumed, range: [150, 700], source: "derived in doc §2.2: etendue chain (LED luminance x cable etendue x losses) ~ 500 lm; cross-check xenon 300 W ~ 1.5 W optical (Clancy et al. 2012, Proc. SPIE 8214, 82140R, as reported by LEDinside) ~ 400 lm"}
+  spectrum:
+    model: {value: "CIE LED-B4 / LED-B5 blend (phosphor-converted white), 0.337 B4 + 0.663 B5, CCT 6000 K", unit: "-", status: assumed, source: "SPDs: CIE 015:2018 tables 12.1/12.2, https://files.cie.co.at/Publications-datasets/CIE_illum_LEDs.csv (doi:10.25039/CIE.DS.vgssnyfg). CCT 6000 K: 'daylight-like', Storz publishes no number"}
+    cct: {value: 6000.0, unit: K, status: assumed, range: [5500, 6600], source: "choice; check B4 5095 K, B5 6561 K (McCamy) vs CIE 5109 / 6598 K"}
+    wavelength_nm: {value: [380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780], unit: nm, status: published, source: "CIE 015:2018 table grid (10 nm subset)"}
+    relative_spd: {value: [0.0, 0.0002, 0.0019, 0.01, 0.0513, 0.1868, 0.5042, 1.0, 0.7106, 0.3617, 0.213, 0.1894, 0.2424, 0.3389, 0.4293, 0.4889, 0.521, 0.5341, 0.5372, 0.5292, 0.5114, 0.486, 0.4518, 0.4096, 0.3623, 0.3137, 0.2659, 0.2212, 0.181, 0.1456, 0.116, 0.0919, 0.0722, 0.0561, 0.0437, 0.0339, 0.0264, 0.0207, 0.0165, 0.0133, 0.0106], unit: "relative, peak 1", status: assumed, source: "derived: blend of the CIE LED-B4/B5 tables"}
+    integral_spd_ybar: {value: 48.4414, unit: nm, status: assumed, source: "derived: integral relative_spd x ybar dlambda (1 nm linear interpolation, CIE 1931 2 deg from Mitsuba 3.9)"}
+  luminous_efficacy_of_radiation: {value: 309.4, unit: lm/W, status: assumed, source: "derived: 683 int S ybar / int S (380-780 nm)"}
+  radiant_flux_at_scope_tip: {value: 1.293, unit: W, status: assumed, source: "derived: flux / LER"}
+  srgb_chromaticity: {value: [1.0784, 0.9824, 0.9436], unit: "linear sRGB, Y = 1", status: assumed, source: "derived: XYZ of the SPD -> IEC 61966-2-1 matrix"}
+  profile:
+    note: >-
+      Radiance profile of the outlet, theta from the emission axis: L_e(omega) = L0 * p(theta). Linear interpolation
+      in theta_deg, p = 0 beyond the last entry. Model: flat to 25 deg, raised-cosine roll-off to 0 at 55 deg
+      (half radiance at 40 deg ~ asin(0.64), a fully filled NA ~0.6 bundle softened by mode mixing and the oblique
+      cut). Intensity I(theta) = L0 p A cos(theta) is half its axial value at 37.4 deg (FWHM 75 deg); 88 % of the flux
+      leaves within 40 deg, i.e. inside the 80 deg angle of view. No published goniometry of a laparoscope outlet was found.
+    theta_deg: {value: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60], unit: deg, status: assumed, source: "doc §2.3"}
+    p: {value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.933, 0.75, 0.5, 0.25, 0.067, 0.0, 0.0], unit: "-", status: assumed, source: "doc §2.3"}
+    projected_solid_angle: {value: 1.305712, unit: sr, status: assumed, source: "derived: 2 pi int p(theta) cos sin dtheta of the tabulated, linearly interpolated p"}
+  on_axis_intensity: {value: 306.3, unit: cd, status: assumed, source: "derived: 683 Y0 A p(0)"}
+  illuminance_on_axis_5cm: {value: 1.225e+5, unit: lx, status: assumed, source: "derived: I(0) / d^2 (far field; outlet 9 mm << d)"}
+  illuminance_on_axis_10cm: {value: 3.06e+4, unit: lx, status: assumed, source: "derived: I(0) / d^2"}
+  illuminance_on_axis_15cm: {value: 1.36e+4, unit: lx, status: assumed, source: "derived: I(0) / d^2"}
+
+# ------------------------------------------------------------------------------------------------ §3 materials
+# Contract §8 BSDF: f = rho_d/pi (1-F(n.l))(1-F(n.v))/(1-F_avg) + D_GGX G2 F(v.h)/(4|n.l||n.v|), alpha = roughness^2.
+# Dielectrics: exact unpolarised Fresnel for `ior`; F_avg = cosine-weighted hemispherical average of F
+# (fresnel_avg, given per material so both renderers use the same constant). Conductors: no diffuse, Schlick with f0.
+# `albedo` (where given) is the diffuse reflectance a spectrophotometer reports with the specular excluded at near-normal
+# incidence; rho_d = albedo / (1 - F(0)).
+materials:
+  pla_matte_white:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    product: {value: "Bambu PLA Matte, Ivory White (the only white in the Matte line; #FFFFFF in Bambu's colour code)", unit: "-", status: assumed, source: "scripts/build_dome_print_plates.py (FILAMENT white = 'Bambu PLA Matte @BBL H2D'); colour name assumed"}
+    albedo: {value: [0.80, 0.78, 0.72], unit: "linear sRGB", status: assumed, range: [0.62, 0.90], source: "doc §3.1: white-dyed FDM PLA 0.65-0.75 diffuse (PROSPECT, arXiv:1902.06430 §7.3, 400-550 nm); dipole model with mu_s' 3.75/mm gives 0.71; matte fillers raise it; ivory tint lowers blue"}
+    rho_d: {value: [0.829, 0.808, 0.746], unit: "linear sRGB", status: assumed, range: [0.64, 0.93], source: "derived: albedo / (1 - F0), F0 = 0.035"}
+    roughness: {value: 0.53, unit: "-", status: assumed, range: [0.45, 0.62], source: "derived: ISO 2813 60 deg glossmeter model of this BSDF, G60 = 4 GU assumed for a matte print (3 -> 0.62, 6 -> 0.45); Bambu publishes no gloss value. Doc §3.2"}
+    ior: {value: 1.46, unit: "-", status: published, source: "PLA Cauchy fit n = 1.445 + 4892/lambda^2 (nm): 1.459 at 589 nm ('Optical Properties of Polylactides', https://agris.fao.org/search/en/records/65dfb5d14c5aef494fe47af2)"}
+    fresnel_avg: {value: 0.0859, unit: "-", status: published, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+    layer_lines:
+      height_m: {value: 2.0e-4, unit: m, status: published, source: "scripts/build_dome_print_plates.py (0.20 mm layers on the shells)"}
+      depth_m: {value: 3.0e-5, unit: m, status: assumed, range: [1.0e-5, 6.0e-5], source: "peak-to-valley of FDM side walls at 0.2 mm layers (Ra ~ 6-15 um); 'matte' grades hide lines; measure on a coupon"}
+      profile: {value: cusp, unit: "-", status: assumed, source: "periodic rounded-bead height field along build_dir; formula below (doc §3.4)"}
+      cusp_kappa: {value: 0.95, unit: "-", status: assumed, range: [0.8, 0.99], source: "bead-edge sharpness: 1 = elliptic arcs meeting in a vertical-tangent cusp; 0.95 caps the cusp slope (max g' = 4.20)"}
+      formula:
+        note: >-
+          Normal perturbation only (no displacement). b = mesh build_dir (unit), n = geometric normal, p = shading
+          point (m, frame D), h = height_m. Layer phase: s = p . b, u = 2 frac(s / h) - 1 (u = -1 and +1 at the layer
+          boundaries, 0 at the bead centre). Profile (0 at the bead crown, -1 in the cusp):
+          g(u) = (sqrt(1 - kappa^2 u^2) - 1) / (1 - sqrt(1 - kappa^2)),
+          g'(u) = -kappa^2 u / (sqrt(1 - kappa^2 u^2) (1 - sqrt(1 - kappa^2))).
+          Amplitude (peak-to-valley, along n): delta = max(depth_m, h |n . b|). depth_m is the bead relief of a vertical
+          wall; h |n . b| is the classic staircase cusp height of an inclined wall (stair-step asymmetry ignored).
+          Height field z = delta g(u). Surface gradient: grad z = delta g'(u) (2 / h) (b - (b . n) n).
+          Shaded normal: n' = normalize(n - grad z). On faces with b parallel to n the gradient vanishes (no lines).
+          Antialiasing: when the pixel footprint along b exceeds h / 2, replace g' by 0 and widen alpha to
+          sqrt(alpha^2 + var(slope)), var(slope) = mean over u of (delta g'(u) 2/h)^2 |b_t|^2, b_t = b - (b . n) n.
+    subsurface:
+      enabled: {value: false, unit: "-", status: assumed, source: "doc §3.3: off in v1 so the Mitsuba judge compares like with like; turn on only if the real edge-spread on PLA says so"}
+      mu_s_prime: {value: 3750.0, unit: 1/m, status: assumed, range: [2000.0, 30000.0], source: "white PLA mixing model at 635 nm, extrapolated to 100 % white (PMC11661369, Fig. 2); a hypothesis until a coupon is measured"}
+      mu_a: {value: 15.0, unit: 1/m, status: assumed, range: [3.0, 30.0], source: "same model; consistent with albedo 0.71 by the dipole"}
+      burley_d: {value: 4.83e-4, unit: m, status: assumed, source: "derived: Christensen-Burley normalized diffusion fitted to the dipole radial CDF (r50 0.70 mm, r90 2.98 mm)"}
+      shadow_edge_width_10_90: {value: 2.4e-3, unit: m, status: assumed, range: [0.5e-3, 3.1e-3], source: "derived: dipole edge-spread function (25-75 %: 0.76 mm). 0.48 mm if mu_s' = 30/mm"}
+    wall_transmission:
+      note: "The 10 mm wall (4 walls, 15 % gyroid) leaks room light inward only if the room is lit; the room is dark (room block), so wall transmission is not modelled."
+  bench_white:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    product: {value: "matte white laminate (HPL/melamine) or white epoxy lab top", unit: "-", status: assumed, source: "task: a bare white lab bench"}
+    albedo: {value: [0.82, 0.82, 0.80], unit: "linear sRGB", status: assumed, range: [0.70, 0.88], source: "typical LRV of solid white laminates (80-88); no manufacturer LRV found for Formica 949 / Wilsonart D354"}
+    rho_d: {value: [0.860, 0.860, 0.839], unit: "linear sRGB", status: assumed, source: "derived: albedo / (1 - F0), F0 = 0.0465"}
+    roughness: {value: 0.39, unit: "-", status: assumed, range: [0.30, 0.50], source: "derived: G60 = 10 GU (glossmeter model). Non-glare epoxy work surfaces: 5-20 GU at 60 deg (VA spec 12 36 00, NEMA LD3: https://www.wbdg.org/FFC/VA/VAASC/VA%2012%2036%2000.pdf)"}
+    ior: {value: 1.55, unit: "-", status: assumed, source: "melamine/epoxy resin surface ~1.55"}
+    fresnel_avg: {value: 0.0991, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  insulation_black:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.012, 0.012, 0.013], unit: "linear sRGB", status: measured, source: "src/veridien/twin/cad/materials.py base_color (photo-fitted to docs/rig/photos IMG_7262-7264)"}
+    roughness: {value: 0.30, unit: "-", status: assumed, source: "converted from src/veridien/twin/cad/materials.py: base lobe r 0.32 + clearcoat 0.35 x (F0 0.04, r 0.22, render.py) merged into one lobe (energy-weighted r). G60 of the result ~ 19 GU"}
+    ior: {value: 1.60, unit: "-", status: assumed, source: "converted: effective F0 = 0.04 x (1 + 0.35) = 0.054 -> n = 1.60 (the photo fit's total specular energy). Physical polyolefin is n ~ 1.51 (F0 0.041)"}
+    fresnel_avg: {value: 0.1062, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  lead_pvc_black:
+    # ADR-136: the AR0144 leads in the shell's grooves (god's-eye view only). insulation_black's numbers under a name of its
+    # own, so configs/twin/godview.yaml cutaway.materials can remove the leads with the shell they run in (else the
+    # cutaway leaves them hanging across the opening). Nothing in the camera simulations uses it.
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.012, 0.012, 0.013], unit: "linear sRGB", status: assumed, source: "= insulation_black (black PVC USB jacket)"}
+    roughness: {value: 0.30, unit: "-", status: assumed, source: "= insulation_black"}
+    ior: {value: 1.60, unit: "-", status: assumed, source: "= insulation_black"}
+    fresnel_avg: {value: 0.1062, unit: "-", status: assumed, source: "= insulation_black"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  steel_satin:
+    model: {value: conductor, unit: "-", status: published, source: "contract §8"}
+    f0: {value: [0.56, 0.57, 0.58], unit: "linear sRGB", status: published, source: "src/veridien/twin/cad/materials.py (Hoffman 2015 SIGGRAPH course F0 table, iron/steel)"}
+    roughness: {value: 0.38, unit: "-", status: assumed, source: "converted from materials.py anisotropic 0.30 / 0.48 (photo-fitted): isotropic alpha = sqrt(alpha_x alpha_y) = 0.144. Cavity 0.35 and brushed streaks are dropped (contract BSDF is isotropic)"}
+    metallic: {value: 1, unit: "-", status: published, source: "conductor"}
+  steel_jaw:
+    model: {value: conductor, unit: "-", status: published, source: "contract §8"}
+    f0: {value: [0.56, 0.57, 0.58], unit: "linear sRGB", status: published, source: "src/veridien/twin/cad/materials.py"}
+    roughness: {value: 0.33, unit: "-", status: assumed, source: "converted from materials.py 0.26 / 0.42: alpha = 0.109. Serration darkening (cavity 0.75) must come from mesh geometry, not the BSDF"}
+    metallic: {value: 1, unit: "-", status: published, source: "conductor"}
+  steel_polished:
+    model: {value: conductor, unit: "-", status: published, source: "contract §8 (optional: rivet domes)"}
+    f0: {value: [0.60, 0.61, 0.62], unit: "linear sRGB", status: published, source: "src/veridien/twin/cad/materials.py"}
+    roughness: {value: 0.19, unit: "-", status: assumed, source: "converted from materials.py 0.16 / 0.22"}
+    metallic: {value: 1, unit: "-", status: published, source: "conductor"}
+  scope_steel:
+    model: {value: conductor, unit: "-", status: published, source: "contract §8"}
+    f0: {value: [0.56, 0.57, 0.58], unit: "linear sRGB", status: assumed, source: "stainless, as steel_satin"}
+    roughness: {value: 0.18, unit: "-", status: assumed, range: [0.10, 0.30], source: "polished telescope sheath; no data"}
+    metallic: {value: 1, unit: "-", status: published, source: "conductor"}
+  scope_glass:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.005, 0.005, 0.005], unit: "linear sRGB", status: assumed, source: "dark relay optics behind the window"}
+    roughness: {value: 0.02, unit: "-", status: assumed, source: "optically polished"}
+    ior: {value: 1.77, unit: "-", status: assumed, source: "sapphire n_o 1.768 at 589 nm (Malitson 1962); that the 26003BA window is sapphire is assumed (autoclavable telescopes); an AR coating would lower F0 from 7.7 %"}
+    fresnel_avg: {value: 0.1300, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  petg_cap:
+    note: "Not on the user's rig (2026-10-31: no caps, slit silicone + trocars). Kept for the CAD variant that has caps."
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    product: {value: "Bambu PETG HF, white", unit: "-", status: assumed, source: "scripts/build_dome_print_plates.py gives 'Bambu PETG HF' with no colour; docs/DOME_PORTS.md asks for 'shell colour', so white is chosen. FLAG: confirm"}
+    albedo: {value: [0.80, 0.80, 0.78], unit: "linear sRGB", status: assumed, range: [0.65, 0.88], source: "white PETG, as PLA"}
+    rho_d: {value: [0.841, 0.841, 0.820], unit: "linear sRGB", status: assumed, source: "derived: albedo / (1 - F0), F0 = 0.049"}
+    roughness: {value: 0.27, unit: "-", status: assumed, range: [0.21, 0.34], source: "derived: G60 = 25 GU assumed (PETG prints glossier than matte PLA; 15 -> 0.34, 40 -> 0.21)"}
+    ior: {value: 1.57, unit: "-", status: assumed, source: "typical PETG n_D ~ 1.57 (not fetched)"}
+    fresnel_avg: {value: 0.1020, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  uterus_pva:
+    model: {value: dielectric, unit: "-", status: assumed, source: "contract §8"}
+    product: {value: "the kit's cast PVA myomectomy uterus and R27 pad (practice module, god view only)", unit: "-", status: assumed, source: "kit_d03_anatomy.npz; user's real-camera screenshot 2026-11-01 shows magenta-red tissue"}
+    rho_d: {value: [0.50, 0.10, 0.16], unit: "linear sRGB", status: assumed, range: [0.30, 0.65], source: "magenta-red pigmented PVA hydrogel as seen in CAM2/CAM3 (2026-11-01); display only"}
+    roughness: {value: 0.30, unit: "-", status: assumed, range: [0.15, 0.45], source: "wet hydrogel surface, satin"}
+    ior: {value: 1.36, unit: "-", status: assumed, source: "water-rich PVA hydrogel n ~1.34-1.38"}
+    fresnel_avg: {value: 0.0706, unit: "-", status: assumed, source: "derived from ior (exact cosine-weighted average)"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  silicone_membrane:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    product: {value: "slit silicone piece in each port (no caps), colour slightly grey-white", unit: "-", status: measured, source: "user description to the coordinator, 2026-10-31 (supersedes the cast Dragon Skin membrane of docs/DOME_PORTS.md)"}
+    rho_d: {value: [0.52, 0.52, 0.50], unit: "linear sRGB", status: assumed, range: [0.35, 0.70], source: "'slightly grey-white': a lightly pigmented silicone, mostly opaque at a few mm; ~0.5 albedo (sRGB ~190) with a faint warm cast. The dark room behind adds nothing"}
+    roughness: {value: 0.40, unit: "-", status: assumed, range: [0.30, 0.55], source: "moulded silicone, satin; slits are geometry"}
+    ior: {value: 1.41, unit: "-", status: assumed, source: "typical PDMS / platinum silicone n_D 1.40-1.43"}
+    fresnel_avg: {value: 0.0783, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  cannula_sheath:
+    model: {value: coated_conductor, unit: "-", status: assumed, source: "the user: a metal inner tube inside a plastic outer sheath; the product photo reads silver with a ribbed section, so the sheath is taken as clear (a white or black sheath would not read silver). If it turns out opaque, switch to `dielectric` with that colour"}
+    product: {value: "generic disposable trocar set (AliExpress 'Laparoscopic Trocar Set Disposable 5/10/12/15 mm'): 5 mm in L/R, 10 mm in C, pushed in until the housing rests on the silicone", unit: "-", status: measured, source: "user, via the coordinator, 2026-10-31"}
+    formula:
+      note: >-
+        coated_conductor = a smooth-ish dielectric coat over a conductor, shared word for word by the WebGPU tracer and
+        the Mitsuba plugin. With F_c(cos) the exact unpolarised dielectric Fresnel for coat_ior, and the contract's GGX
+        D and height-correlated G2:
+        f(l, v) = D(h; a_c) G2(l, v; a_c) F_c(v.h) / (4 |n.l| |n.v|)
+                + (1 - F_c(n.l)) (1 - F_c(n.v)) tau^(1/|n.l| + 1/|n.v|) D(h; a_m) G2(l, v; a_m) F_s(v.h; f0) / (4 |n.l| |n.v|),
+        a_c = coat_roughness^2, a_m = roughness^2, F_s = f0 + (1 - f0)(1 - v.h)^5 (Schlick, RGB), tau = coat_transmittance
+        per normal pass (1 = clear). Thin-coat approximation: directions are not refracted, and inter-reflections and
+        total internal reflection between coat and metal are dropped (this slightly brightens grazing views).
+        At normal incidence R = F_c(1) + (1 - F_c)^2 tau^2 f0 = 0.05 + 0.85 x 0.57 = 0.53: it reads silver. Sampling: pick the coat lobe with probability P = F_c(n.v) / (F_c(n.v) + (1 - F_c(n.v)) avg(f0)), else the metal
+        lobe; pdf = P pdf_c + (1 - P) pdf_m (one-sample MIS).
+    coat_ior: {value: 1.585, unit: "-", status: assumed, source: "polycarbonate n_D 1.584-1.586 (the usual clear trocar-cannula polymer); PET/PETG would be 1.57"}
+    coat_roughness: {value: 0.08, unit: "-", status: assumed, range: [0.03, 0.20], source: "injection-moulded clear plastic, glossy; the ribs are mesh geometry"}
+    coat_transmittance: {value: [0.97, 0.97, 0.97], unit: "per normal pass", status: assumed, source: "~1 mm clear PC"}
+    f0: {value: [0.56, 0.57, 0.58], unit: "linear sRGB", status: assumed, source: "stainless tube under the sheath, as steel_satin"}
+    roughness: {value: 0.30, unit: "-", status: assumed, range: [0.2, 0.4], source: "drawn stainless tubing"}
+    metallic: {value: 1, unit: "-", status: assumed, source: "base layer is a conductor"}
+  cannula_metal:
+    model: {value: conductor, unit: "-", status: published, source: "contract §8"}
+    f0: {value: [0.56, 0.57, 0.58], unit: "linear sRGB", status: assumed, source: "stainless inner tube (bare at the distal end, where the tracking cameras see it below the silicone)"}
+    roughness: {value: 0.25, unit: "-", status: assumed, range: [0.15, 0.40], source: "drawn tubing; no data"}
+    metallic: {value: 1, unit: "-", status: published, source: "conductor"}
+  trocar_housing:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.74, 0.74, 0.72], unit: "linear sRGB", status: assumed, range: [0.60, 0.85], source: "white moulded plastic (ABS/PC) per the product photo"}
+    roughness: {value: 0.35, unit: "-", status: assumed, source: "semi-gloss moulding"}
+    ior: {value: 1.55, unit: "-", status: assumed, source: "ABS/PC"}
+    fresnel_avg: {value: 0.0991, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  trocar_valve:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.20, 0.17, 0.42], unit: "linear sRGB", status: assumed, source: "blue-violet translucent valve body as an OPAQUE approximation (it is outside the dome; only the overview sees it)"}
+    roughness: {value: 0.20, unit: "-", status: assumed, source: "glossy moulding"}
+    ior: {value: 1.50, unit: "-", status: assumed, source: "typical"}
+    fresnel_avg: {value: 0.0918, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  charuco_print:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8; rho_d = mix(rho_d_ink, rho_d_paper, m), roughness likewise, m = textures/charuco_b.png (1 = paper)"}
+    rho_d_paper: {value: [0.86, 0.86, 0.85], unit: "linear sRGB", status: assumed, range: [0.80, 0.90], source: "uncoated office paper, diffuse reflectance ~0.85-0.90 under visible light; the LED has almost no UV, so optical brighteners add nothing"}
+    rho_d_ink: {value: [0.045, 0.045, 0.045], unit: "linear sRGB", status: assumed, range: [0.025, 0.08], source: "laser toner or pigment inkjet black, optical density 1.1-1.6 (R = 10^-OD). The footage shows ink at 16-18 % of paper in linear output (doc §8.7): read as veiling glare in the real lens, not as grey ink"}
+    roughness_paper: {value: 0.60, unit: "-", status: assumed, range: [0.5, 0.8], source: "matte uncoated paper, G60 ~ 3 GU by the §3.2 glossmeter model"}
+    roughness_ink: {value: 0.40, unit: "-", status: assumed, range: [0.3, 0.6], source: "fused toner is semi-gloss (glossier than the paper); pigment inkjet on plain paper is matte (use 0.6)"}
+    ior: {value: 1.50, unit: "-", status: assumed, source: "cellulose / toner resin ~1.5"}
+    fresnel_avg: {value: 0.0918, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  lens_glass_black:
+    model: {value: dielectric, unit: "-", status: published, source: "contract §8"}
+    rho_d: {value: [0.01, 0.01, 0.01], unit: "linear sRGB", status: assumed, source: "dark lens barrel behind the front element"}
+    roughness: {value: 0.02, unit: "-", status: assumed, source: "polished"}
+    ior: {value: 1.22, unit: "-", status: assumed, source: "EFFECTIVE index giving F0 = 1.0 % for an AR-coated front element (bare crown glass n 1.52, F0 4.3 %). Whether the M12 lens is coated is unmeasured"}
+    fresnel_avg: {value: 0.0478, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+  emitter:
+    model: {value: emitter, unit: "-", status: published, source: "contract §8: L_e(omega) = L0 p(theta) on mesh scope_light, one-sided, emitting into the tip-face normal hemisphere"}
+    L0: {value: [10091.9, 9193.2, 8830.7], unit: "W sr^-1 m^-2 per linear-sRGB channel", status: assumed, source: "derived (doc §2.4): Y0 = flux / (683 A_face int p cos dw) = 9358.1, times srgb_chromaticity. Scales linearly with flux_at_scope_tip"}
+    luminance_axial: {value: 6.392e+6, unit: cd/m^2, status: assumed, source: "derived: 683 Y0"}
+    profile: {value: light.profile, unit: "-", status: assumed, source: "reference to light.profile"}
+    spectral_scale_physical: {value: 193.18, unit: "W sr^-1 m^-2 nm^-1 per unit relative_spd", status: assumed, source: "derived: L(lambda) = (Y0 / integral_spd_ybar) relative_spd(lambda); its ybar integral is Y0"}
+    spectral_scale_mitsuba: {value: 20622.0, unit: "Mitsuba spectrum units per unit relative_spd", status: assumed, source: "derived: Mitsuba 3.9 divides the ybar integral by 106.75026 (MI_CIE_Y_NORMALIZATION, include/mitsuba/core/spectrum.h), so scale = Y0 x 106.75026 / 48.4414. Use with relative_spd for *_spectral runs"}
+    rho_d: {value: [0.02, 0.02, 0.02], unit: "linear sRGB", status: assumed, source: "polished fibre ends: light entering them is mostly guided away"}
+    roughness: {value: 0.05, unit: "-", status: assumed, source: "polished"}
+    ior: {value: 1.56, unit: "-", status: assumed, source: "glass fibre core"}
+    fresnel_avg: {value: 0.1005, unit: "-", status: assumed, source: "derived from ior"}
+    metallic: {value: 0, unit: "-", status: published, source: "dielectric"}
+
+# ------------------------------------------------------------------------------------------------ §4 sensor
+sensor:
+  part: {value: "onsemi AR0144CS (colour, 1/4 inch, global shutter) on ELP USBGS720P02 (Amazon B0C3M52K6X), VID 0x32e4 PID 0x0144", unit: "-", status: measured, source: "docs/DECISIONS.md ADR-082, ADR-112 (enumeration on the Mac)"}
+  pixel_pitch: {value: 3.0e-6, unit: m, status: published, source: "onsemi AR0144 (https://www.datasheets.com/onsemi/ar0144); Commonlands sensor page (https://commonlands.com/pages/image-sensors/ar0144)"}
+  active_array: {value: [1280, 800], unit: px, status: published, source: "onsemi AR0144/D"}
+  active_area: {value: [3.84e-3, 2.40e-3], unit: m, status: published, source: "Commonlands (diagonal 4.53 mm)"}
+  mode_720p:
+    size: {value: [1280, 720], unit: px, status: measured, source: "docs/DECISIONS.md ADR-112 (firmware modes 640x480, 800x600, 1280x720; no 1280x800)"}
+    window: {value: crop, unit: "-", status: measured, source: "configs/multicam/dome_v1.yaml: fy/fx = 1.002-1.006 on all three cameras, so rows are not rescaled (ADR-112)"}
+    row_offset: {value: 40, unit: px, status: unmeasured, source: "centre crop assumed. cy = 380 / 409 / 387 px (centre 360) cannot decide it: M12 lens-to-sensor centring tolerance is of the same size"}
+    focal_length: {value: 2.236e-3, unit: m, status: measured, source: "derived: f = 745.4 px (CAM1 KB4, configs/multicam/dome_v1.yaml) x 3.0 um"}
+    hfov_deg: {value: [99.9, 100.3, 98.8], unit: deg, status: measured, source: "derived: KB4 inverse at the left and right image edges, CAM1-3. The ELP listing says HFOV 100 deg for its '170 deg' fisheye option"}
+    vfov_deg: {value: [55.4, 55.5, 54.7], unit: deg, status: measured, source: "derived: KB4, 720 rows; 61.6 deg on all 800 rows (CAM1)"}
+    corner_angle_deg: {value: [59.6, 61.5, 65.5], unit: deg, status: measured, source: "derived: largest field angle at a 720p corner (CAM3 largest: cx 535)"}
+    note: >-
+      '170 deg' is the lens's rated field over its own image circle. With the measured f = 2.24 mm and r ~ f theta,
+      170 deg needs a ~6.6 mm image circle (a 1/2.7-1/2.5 inch lens); the AR0144's 4.53 mm diagonal sees ~116 deg,
+      and the 720p crop 100 x 55 deg (~120 deg diagonal).
+  lens:
+    f_number: {value: 2.0, unit: "-", status: unmeasured, range: [1.8, 2.8], source: "not published for the L170 option; M12 fisheyes are f/2.0-2.8"}
+    transmission: {value: 0.90, unit: "-", status: assumed, source: "multi-element AR-coated M12 glass lens"}
+    ir_cut_filter_nm: {value: 650, unit: nm, status: unmeasured, source: "not stated by ELP. Footage evidence (doc §8.6): under room light + lamps the auto-white-balanced whites keep a magenta cast (linear R/G 1.13-1.15, B/G 1.17-1.19), the signature of NIR reaching all three raw channels and being multiplied by the R and B white-balance gains, i.e. probably NO IR-cut. Settle it with an 850 nm LED or a TV remote in view. It matters even under the LED: ~9 % of its power is at 650-780 nm"}
+    relative_illumination:
+      model: {value: kb4_mapping, unit: "-", status: assumed, source: "doc §4.3: RI(theta) = cos^q(theta) sin(theta) / (theta_d dtheta_d/dtheta) x V(theta). cos^4 is the rectilinear special case and is wrong for this lens (corner 0.09 vs 0.57)"}
+      pupil_obliquity_exponent: {value: 1.0, unit: "-", status: assumed, range: [0.0, 2.0], source: "planar entrance pupil; fisheye pupils grow off-axis (q -> 0)"}
+      vignetting_theta_deg: {value: [0, 20, 40, 60], unit: deg, status: unmeasured, source: "needs a flat-field capture (doc §6, item 3)"}
+      vignetting: {value: [1.0, 1.0, 1.0, 1.0], unit: "-", status: unmeasured, source: "needs a flat-field capture"}
+    esf_sigma_px: {value: 0.30, unit: px, status: measured, range: [0.2, 0.4], source: "optics + pixel-aperture Gaussian sigma that reproduces the measured system ESF (isp.system_esf_sigma_px, 0.46 px) through an edge-aware demosaic and the JPEG chain (simulated, doc §8.4); with a bilinear demosaic no optics blur is small enough"}
+    veiling_glare:
+      fraction: {value: 0.10, unit: '-', status: measured, source: 'indirect, from hahnyu footage 20261031_instruments_05 (CAM1+CAM2): black ink reads 0.16-0.18 of paper in linear terms where toner gives ~0.05 (WEB_TWIN_PHYSICS.md 8.7); range 0.06-0.13', range: [0.06, 0.13]}
+      psf: {value: gaussian, unit: '-', status: assumed, source: 'coordinator, docs/WEB_TWIN.md 9 step 1: E = (1-k)E + k(E conv G), G Gaussian with sigma = 0.25 x image diagonal; shape unmeasured until the black-hole target (WEB_TWIN_PHYSICS.md 6 item 8b)'}
+      sigma_frac_diag: {value: 0.25, unit: '-', status: assumed, source: 'coordinator; see psf'}
+  responsivity_colour: {value: 22.3e+3, unit: e-/(lx s), status: published, source: "onsemi AR0144/D Rev. 14 (https://www.avnet.com/fsp/opasdata/d120001/medias/docus/205/AR0144-D.PDF), colour; mono 56 ke-/(lx s). Illuminant not stated; consistent with CIE A + ~680 nm IR-cut (doc §4.4)"}
+  sensitivity_module: {value: 3.1, unit: V/(lx s), status: published, source: "ELP listing, '@ 550 nm' (https://ibspot.com/products/elp-camera-global-shutter-usb-webcam-1mp-high-speed-60fps-monochrome-usb-webcam-ultra-mini-usb-camera-module-hd-720p-mini-camera-windows-android-mac-os-linux-compatible-industrial-camera-free-driver)"}
+  qe_peak: {value: [0.494, 0.623, 0.514], unit: "-", status: assumed, source: "derived: peak of the qe.R/G/B tables (at 620 / 540 / 460 nm); kept for the first-pass schema"}
+  qe:
+    note: >-
+      Effective QE (silicon x Bayer CFA x 650 nm IR-cut), per raw channel. Shape is an assumed generic 3 um
+      global-shutter curve (mono peak 0.68 at 550 nm); the onsemi QE plot was not readable here. Cross-check: under
+      CIE A with a 680 nm cut it gives mono 62 / green 19 ke-/(lx s) against the published 56 / 22.3 (+-13 %).
+    wavelength_nm: {value: [380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730, 740, 750, 760, 770, 780], unit: nm, status: assumed, source: "grid"}
+    R: {value: [0.004, 0.006, 0.007, 0.008, 0.009, 0.009, 0.01, 0.011, 0.011, 0.012, 0.012, 0.013, 0.013, 0.014, 0.015, 0.017, 0.021, 0.032, 0.052, 0.095, 0.169, 0.273, 0.381, 0.457, 0.494, 0.493, 0.429, 0.251, 0.078, 0.017, 0.003, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "-", status: assumed, source: "doc §4.4"}
+    G: {value: [0.006, 0.009, 0.012, 0.016, 0.022, 0.033, 0.051, 0.08, 0.121, 0.178, 0.251, 0.338, 0.433, 0.514, 0.579, 0.617, 0.623, 0.595, 0.524, 0.437, 0.346, 0.26, 0.187, 0.129, 0.086, 0.056, 0.033, 0.014, 0.003, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "-", status: assumed, source: "doc §4.4"}
+    B: {value: [0.031, 0.064, 0.119, 0.182, 0.26, 0.347, 0.43, 0.496, 0.514, 0.498, 0.451, 0.382, 0.303, 0.222, 0.155, 0.104, 0.069, 0.047, 0.033, 0.026, 0.022, 0.02, 0.019, 0.018, 0.018, 0.017, 0.014, 0.008, 0.003, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "-", status: assumed, source: "doc §4.4"}
+  response_matrix:
+    note: >-
+      Raw photo-electron rate per pixel, e_raw[R,G,B] (e-/s) = M @ E_rgb, with E_rgb the sensor-plane irradiance in
+      the radiometric sRGB convention (W/m^2) = K_opt(theta) L_rgb, K_opt = pi tau RI(theta) / (4 N^2). Fitted by least
+      squares over the 6000 K LED times 27 smooth reflectance spectra (median error 1.1 %; exact for neutrals).
+      A white Lambertian surface gives R/G/B = 10.4 / 21.1 / 12.4 ke- per lux at the pixel per second.
+    M: {value: [[5.0689e+6, 1.0448e+6, 6.524e+5], [1.2283e+6, 1.11507e+7, 2.2941e+6], [-3.72e+4, 2.6137e+6, 6.2962e+6]], unit: "e- s^-1 / (W m^-2)", status: assumed, source: "derived from the assumed qe tables, the LED SPD and a 9 um^2 pixel"}
+  full_well: {value: 6310.0, unit: e-, status: published, source: "derived from onsemi SNR_max = 38 dB (shot-noise limit: FW = 10^(38/10))"}
+  read_noise: {value: 1.7, unit: e-, status: published, range: [1.7, 4.8], source: "derived: FW / 10^(DR/20) with onsemi DR 71.4 dB; the ELP listing DR 63.9 dB gives 4.0 e-. Footage photon-transfer fits land at 2.8-4.8 e-, but the read term is not identified (least-squares SE >> value; doc §8.3), so the published value stands"}
+  electrons_at_white_G: {value: 4000.0, unit: e-, status: measured, range: [2400.0, 5000.0], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: photon-transfer fit of the chain-de-biased luma noise (sRGB + S-curve tone model, shot + read noise, bounded by the full well). CAM1 3640, CAM2 4330 (temporal-block bootstrap p16-p84 3610-3700 / 4250-4440); spread over tone-model families 2720-4430; white-balance gains behind the luma noise +-13 %. G-site photo-electrons at an output white of 255"}
+  ae_total_gain_room_light: {value: 1.6, unit: "x", status: measured, range: [1.3, 2.6], source: "derived: full_well / electrons_at_white_G, assuming output white = raw saturation at 1x. The gain the auto-exposure chose under bright room light + lamps (doc §8.3); not a scope-light number"}
+  output_noise_luma_dn2:
+    note: "Observed temporal luma variance of the recorded frames (second-generation JPEG) on neutral, static, flat pixels. The target for the twin's full chain; the sensor-realism judge compares CAM3 against the same statistic."
+    level_dn: {value: [10, 17, 23, 29, 89, 150, 173, 192, 203, 215, 227, 233], unit: DN, status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light"}
+    variance_cam1: {value: [1.13, 2.82, 3.19, 3.64, 4.41, 1.15, 0.88, 0.76, 0.77, 0.75, 0.72, 0.60], unit: DN^2, status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light"}
+    variance_cam2: {value: [1.08, 2.69, 3.15, 3.56, null, 1.33, 1.01, 0.81, 0.78, 0.74, 0.67, 0.51], unit: DN^2, status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light (no neutral flat pixels near 89 DN in CAM2)"}
+    per_channel_white_rgb: {value: [[1.26, 1.09, 2.08], [1.44, 1.09, 2.09]], unit: "DN^2, [CAM1, CAM2] x [R, G, B]", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: white PLA at output RGB ~[215, 204, 222]"}
+    per_channel_dark_rgb: {value: [[3.20, 2.58, 4.22], [2.41, 1.81, 2.39]], unit: "DN^2, [CAM1, CAM2] x [R, G, B]", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: dark neutral pixels at output ~[10, 15, 8]"}
+  adc_bits: {value: 12, unit: bit, status: published, source: "onsemi AR0144 (12-bit parallel / MIPI output)"}
+  conversion_gain_base: {value: 0.62, unit: DN/e-, status: assumed, source: "derived: (4095 - black_level) / full_well, assuming 1x analogue gain fills the ADC at full well"}
+  black_level: {value: 168, unit: "DN (12-bit)", status: assumed, source: "onsemi AR-series data pedestal default (0xA8), not confirmed for the AR0144; the module's ISP subtracts it before MJPG"}
+  dark_current: {value: 25.0, unit: e-/s, status: assumed, range: [1.0, 200.0], source: "no number found; at the <= 1 ms exposures expected under the scope light it adds < 0.2 e-"}
+  analog_gain_range: {value: [1.0, 16.0], unit: "x", status: unmeasured, source: "sensor capability not read; the UVC gain control maps to it in an unknown way"}
+  bayer_order: {value: RGGB, unit: "-", status: unmeasured, source: "placeholder. UVC delivers demosaiced YUV, so it matters only for demosaic-artefact simulation; the AR0144CS native phase and the module's readout offset are unknown"}
+  shutter: {value: global, unit: "-", status: published, source: "onsemi AR0144CS"}
+  exposure_expectation:
+    note: >-
+      Under the scope light (400 lm), a white PLA wall lit directly at 10 cm has luminance ~7800 cd/m^2 before
+      inter-reflection. At f/2 a green pixel collects 29 Me-/s, so the full well (6310 e-) is reached in 0.22 ms
+      (0.42 ms at f/2.8). The auto-exposure will sit near the UVC minimum (1 unit = 100 us) at minimum gain: bright
+      surfaces may clip, motion blur is negligible, and noise is shot-limited. NOT testable from the 2026-10-31
+      footage: it is room-lit, the exposure was not saved, and photon transfer gives the gain (~1.6x), not the time.
+  uvc:
+    exposure_unit: {value: 1.0e-4, unit: s, status: published, source: "USB Video Class 1.5, CT_EXPOSURE_TIME_ABSOLUTE in 100 us units"}
+    exposure_range: {value: [1, 5000], unit: "x 100 us", status: unmeasured, source: "placeholder of ELP-class UVC modules; camera settings pending (hahnyu)"}
+    exposure_default: {value: 157, unit: "x 100 us", status: unmeasured, source: "placeholder; pending"}
+    gain_range: {value: [0, 100], unit: "UVC units", status: unmeasured, source: "placeholder; pending"}
+    auto_exposure_mode_default: {value: aperture_priority, unit: "-", status: unmeasured, source: "UVC AE mode 8 (aperture priority) is the usual default; pending"}
+    white_balance_auto_default: {value: true, unit: "-", status: unmeasured, source: "pending"}
+    white_balance_temperature_range: {value: [2800, 6500], unit: K, status: unmeasured, source: "placeholder; pending"}
+    gamma_range: {value: [72, 500], unit: "UVC units (100 = 1.0)", status: unmeasured, source: "placeholder; pending"}
+    sharpness_range: {value: [0, 6], unit: "UVC units", status: unmeasured, source: "placeholder; pending"}
+    frame_rate: {value: 20.0, unit: Hz, status: measured, source: "configs/multicam/dome_v1.yaml; 30 fps fails the 3-camera USB 2 probe (ADR-112)"}
+  auto_exposure:
+    target_mean: {value: 0.45, unit: "fraction of 8-bit full scale", status: unmeasured, source: "needs footage with the scope light"}
+    damping: {value: 0.3, unit: "per frame", status: unmeasured, source: "needs a step-response capture (scope light switched)"}
+    max_step: {value: 2.0, unit: "x per frame", status: unmeasured, source: "needs footage"}
+    stability_room_light: {value: 0.2, unit: "DN, std of frame means over 3 s", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: frame-mean drift std 0.11-0.21 DN per channel, so AE/AWB were settled and room-light flicker is invisible"}
+    dim_light_fps_drop: {value: true, unit: "-", status: measured, source: "ADR-112: in dim room light the cameras auto-exposed down to 23 fps at a 30 fps setting. Under the scope light exposures are sub-ms, so no drop is expected"}
+
+isp:
+  white_balance_gains: {value: [1.0, 1.0, 1.0], unit: "-", status: unmeasured, source: "the gains are not observable in 8-bit output; auto white balance was on. For the scope light, model AWB as neutralising the white PLA (see white_residual_cast_room_light)"}
+  white_residual_cast_room_light: {value: [1.14, 1.0, 1.18], unit: "linear R/G, 1, B/G", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: PLA/paper white cluster linearised with the fitted tone curve; CAM1 [1.126, 1, 1.170], CAM2 [1.152, 1, 1.189]. Specific to that light (probable NIR, doc §8.6)"}
+  ccm: {value: [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], unit: "-", status: unmeasured, source: "not identifiable: the footage has only near-neutral references (PLA, paper, ink) and one saturated red of unknown reflectance; a 3x3 CCM needs a colour chart under the scope light (doc §6, item 9)"}
+  tone_curve: {value: srgb, unit: "-", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: photon-transfer fit of the de-biased luma noise. out = 255 S_c(OETF_sRGB((x - b)/(1 - b))), S_c(u) = u^c / (u^c + (1 - u)^c). sRGB + S-curve beats pure gamma by dAIC 12-20 (doc §8.3)"}
+  s_curve_c: {value: 1.39, unit: "-", status: measured, range: [1.30, 1.46], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: CAM1 1.339 (bootstrap 1.335-1.342), CAM2 1.437 (1.431-1.458). A contrast S-curve on top of the gamma"}
+  black_offset_linear: {value: 0.014, unit: "fraction of white", status: measured, range: [-0.002, 0.016], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: b of the tone model (CAM1 0.015, CAM2 0.014); a power-law base gives -0.002, so its sign depends on the model"}
+  gamma: {value: 2.2, unit: "-", status: measured, range: [2.0, 3.1], source: "the sRGB base (effective ~2.2) of tone_curve. A free power-law base + S-curve gives 2.54 +- 0.81 (CAM1) and 2.52 +- 0.54 (CAM2)"}
+  sharpening:
+    amount: {value: 0.0, unit: "-", status: measured, range: [0.0, 0.05], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: linear ESF overshoot 1.9-2.8 %, at the noise level, with no halo; ISP unsharp masks give 10-30 %"}
+    radius_px: {value: 1.0, unit: px, status: unmeasured, source: "irrelevant at amount 0"}
+  system_esf_sigma_px: {value: 0.46, unit: px, status: measured, range: [0.41, 0.51], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: slanted-edge ESF on the rim-cut ArUco edges, per frame, KB4-straightened without resampling, linearised; erf sigma CAM1 0.425, CAM2 0.501 (CAM2 vertical edges 0.59). Positive control on synthetic edges in the same ROIs: 0.45 -> 0.46, 0.70 -> 0.70"}
+  system_mtf50_cyc_per_px: {value: 0.41, unit: cycles/px, status: measured, range: [0.38, 0.44], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: CAM1 0.433, CAM2 0.384. The whole chain (optics, demosaic, NR, both JPEGs) as recorded"}
+  demosaic: {value: edge_aware, unit: "-", status: measured, source: "inferred by simulation: bilinear demosaic + this JPEG chain gives system sigma 0.49 px even with perfect optics (MTF50 0.34), softer than measured; OpenCV's edge-aware (EA) demosaic with optics sigma 0.30 px gives 0.475 px / MTF50 0.38 (doc §8.4)"}
+  noise_reduction: {value: edge_preserving, unit: "-", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: flat-region noise is more correlated (lag-1 0.63-0.65, lag-2 0.26-0.31) than bilinear demosaic + JPEG gives (0.61 / 0.18); an extra Gaussian low-pass of sigma 0.4 px on the noise matches it while edges stay sharp, so the smoothing preserves edges"}
+  noise_reduction_sigma_px: {value: 0.4, unit: px, status: measured, range: [0.3, 0.5], source: "the Gaussian-equivalent flat-region low-pass above (0.4 on both cameras)"}
+  chroma_subsampling: {value: "4:2:0", unit: "-", status: measured, source: "of the RECORDING (SOF0 2x2,1x1,1x1 in every frame). The camera's own MJPG subsampling is unmeasured: after the 420v stage 4:2:0 and 4:2:2 primaries fit equally (L1 0.0875 vs 0.0878, doc §8.5)"}
+
+jpeg:
+  quality: {value: 91, unit: "IJG-equivalent quality", status: measured, range: [90, 92], source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: double-compression forensics on luma DCT histograms. Lukas-Fridrich calibration by cropping, simulated through 420v + q95: best IJG q91 (L1 0.0875; q90 0.092-0.094, q92 0.127, q95 0.185). Per-coefficient lattices: primary step 3 at (2,0) (1,2) (0,3) (2,2) (3,1) and 4 at (3,0) (1,3), as IJG q90-91 except (3,0); steps <= 2 do not survive the chain (positive control)"}
+  quant_tables:
+    luma: {value: [[3, 2, 2, 3, 4, 7, 9, 11], [2, 2, 3, 3, 5, 10, 11, 10], [3, 2, 3, 4, 7, 10, 12, 10], [3, 3, 4, 5, 9, 16, 14, 11], [3, 4, 7, 10, 12, 20, 19, 14], [4, 6, 10, 12, 15, 19, 20, 17], [9, 12, 14, 16, 19, 22, 22, 18], [13, 17, 17, 18, 20, 18, 19, 18]], unit: "steps, row-major (u = row)", status: measured, source: "the IJG standard luma table at quality 91, the best IJG equivalent of the camera's primary table; the (3,0) entry measured 4, so the camera's table may be custom"}
+    chroma: {value: null, unit: "-", status: unmeasured, source: "the 420v stage resamples chroma, so the primary chroma lattice does not survive"}
+  huffman_tables_in_stream: {value: null, unit: "-", status: unmeasured, source: "of the camera's own MJPG: not observable in the re-encoded recording, which carries OpenCV's 4 standard DHT segments"}
+  recording_stage:
+    encoder: {value: "OpenCV built-in MJPEG writer (CAP_OPENCV_MJPEG), quality 95, 4:2:0", unit: "-", status: measured, source: "scripts/fit_twin_sensor.py on runs/webtwin/footage/.../20261031_instruments_05_t58-61, CAM1 + CAM2 (CAM3 held out), room light: the DQT of all 120 frames equals a frame written by that writer at q95, all 128 entries; NOT cv2.imencode q95 (different tables). The twin's §10 recording must use the same writer"}
+    chain: {value: "camera MJPG (IJG ~q91) -> AVFoundation 420v (BT.601 video range) -> BGR -> OpenCV MJPEG q95 4:2:0", unit: "-", status: measured, source: "footage README + the forensics above"}
+    noise_variance_transfer: {value: 0.72, unit: "out/in luma variance", status: measured, range: [0.65, 0.98], source: "simulated chain on demosaic-correlated noise of known sigma: 0.70-0.77 at sigma_in 1-3 DN, ~0.95 at 0.6 DN; used to de-bias the photon transfer"}
+
+# ------------------------------------------------------------------------------------------------ §5 room
+room:
+  ambient_radiance: {value: [0.0, 0.0, 0.0], unit: "W sr^-1 m^-2 per linear-sRGB channel", status: assumed, source: "the user's specification, 2026-10-31: 'in real laparoscopic surgery there are no extra lights'. A specification, not a measurement: a dark frame with the scope off checks stray light (doc §6)"}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lite PT2 load bench</title>
+<style>
+  :root { --paper: #f3f3ef; --ink: #1d1d1b; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #f3f3ef; --ink: #1d1d1b; } }
+  :root[data-theme="dark"] { --paper: #f3f3ef; --ink: #1d1d1b; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 13px/1.4 system-ui, sans-serif; }
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 480px)); gap: 4px; padding: 8px 16px; }
+  canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: #050505; }
+  #msg { padding: 8px 16px; }
+</style>
+</head>
+<body>
+<div class="tiles"><canvas id="SCOPE" width="480" height="270"></canvas><canvas id="CAM1" width="480" height="270"></canvas><canvas id="CAM2" width="480" height="270"></canvas><canvas id="CAM3" width="480" height="270"></canvas></div>
+<div id="msg">loading</div>
+<script type="module" src="./loadbench.js"></script>
+</body>
+</html>

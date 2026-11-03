@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>God view judge (three)</title>
+<style>
+  html, body { margin: 0; background: #f6f4ef; color: #1d1d1b; font: 13px/1.4 system-ui, sans-serif; }
+  canvas { display: block; width: 1280px; height: 800px; }
+  #status { position: fixed; left: 8px; bottom: 6px; color: #555; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "../vendor/three/three.webgpu.min.js",
+  "three/webgpu": "../vendor/three/three.webgpu.min.js",
+  "three/tsl": "../vendor/three/three.tsl.min.js",
+  "three/addons/": "../vendor/three/addons/"
+} }
+</script>
+</head>
+<body>
+<canvas id="c" width="1280" height="800"></canvas>
+<div id="status">Loading</div>
+<script type="module">
+import { GodView } from './godview.js';
+import { bootConfigs } from './boot.js';
+import * as K from '../control/kinematics.js';
+import { Limits } from '../control/limits.js';
+
+const $ = (id) => document.getElementById(id);
+const b64 = (ta) => {
+  const u8 = new Uint8Array(ta.buffer, ta.byteOffset, ta.byteLength);
+  let s = '';
+  for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+const page = {};
+const ready = (async () => {
+  const t0 = performance.now();
+  const cfg = await bootConfigs();
+  const Q = new URLSearchParams(location.search);
+  const g = await GodView.create({ canvas: $('c'), scene: cfg.bundle, physics: cfg.physics, godview: cfg.godview, log: console.log,
+    flipV: Q.get('flipv'), backFaceGain: Q.get('bfg') ?? undefined, mbInside: Q.get('mbin') ?? undefined, cavW: Q.get('cavw') ?? undefined, debug: Object.fromEntries((Q.get('debug') || '').split(',').filter(Boolean).map((k) => [k, true])) });
+  page.g = g; page.cfg = cfg; page.scene = cfg.bundle.scene;
+  page.limits = new Limits(cfg.bundle.scene, cfg.bundle.meshes);
+  const st = page.limits.clampState(K.defaultState(page.scene)).state;
+  g.setPoses(K.posesFromState(page.scene, st));
+  g.render();
+  page.loadMs = performance.now() - t0;
+  $('status').textContent = `ready in ${(page.loadMs / 1000).toFixed(2)} s (${g.backendName}); godview from ${cfg.sources.godview}`;
+  return true;
+})();
+
+function poseFor(state) {
+  const sc = page.scene;
+  const st = page.limits.clampState({ ...K.defaultState(sc), ...(state || {}) }).state;
+  return K.posesFromState(sc, st);
+}
+
+window.godJudge = {
+  ready,
+  info() { return { loadMs: page.loadMs, timings: page.g.timings(), sources: page.cfg.sources, exposure: page.g.r.toneMappingExposure,
+    gain: page.g.scopeGain(), backend: page.g.backendName, adapter: page.g.r.backend?.adapter?.info ?? null }; },
+  /** -> base64 of a Float32Array (w*h*3, top row first) at godview.yaml image size: that viewpoint, cutaway on, all lights. */
+  async capture(viewpointName, stateObject, opts = {}) {
+    await ready;
+    const g = page.g;
+    g.setPoses(poseFor(stateObject));
+    g.setCamera(g.viewpoint(viewpointName));
+    g.setCutaway(opts.cutaway ?? true);
+    const [w, h] = opts.size || page.cfg.godview.image || [1280, 800];
+    const lin = await g.captureLinear(w, h, { ss: opts.ss ?? 2 });
+    g.render();
+    return b64(lin);
+  },
+  /** Display frame (tone-mapped canvas) of a viewpoint/state, for screenshots. */
+  async show(viewpointName, stateObject, size = [1280, 800]) {
+    await ready;
+    const g = page.g, cv = $('c');
+    cv.style.width = size[0] + 'px'; cv.style.height = size[1] + 'px';
+    g.setPoses(poseFor(stateObject));
+    g.setCamera(g.viewpoint(viewpointName));
+    g.setCutaway(true);
+    g.render();
+    await g.r.backend?.device?.queue?.onSubmittedWorkDone?.();
+    return true;
+  },
+  /** GPU ms per display frame at a size: n frames, median of the timestamp queries. */
+  async bench(viewpointName = 'V1_surgeon', size = [1440, 900], n = 120, orbit = false) {
+    await ready;
+    const g = page.g, cv = $('c');
+    cv.style.width = size[0] + 'px'; cv.style.height = size[1] + 'px';
+    g._times.length = 0;
+    g.setCamera(g.viewpoint(viewpointName));
+    const wall = [], gpu = [];
+    g._pending = true;                       // the bench resolves the timestamps itself, one frame at a time
+    const v0 = g.gv.viewpoints[viewpointName];
+    for (let i = 0; i < n; i++) {
+      if (orbit) {   // the eye moves every frame: the cut moves, so the sky maps refresh progressively (8 tiles/frame)
+        const c = g.centre, az = (v0.az_deg + i * 0.5) * Math.PI / 180, el = v0.el_deg * Math.PI / 180;
+        g.setCamera({ eye: [c[0] + v0.d * Math.cos(el) * Math.cos(az), c[1] + v0.d * Math.cos(el) * Math.sin(az), c[2] + v0.d * Math.sin(el)],
+          target: c, up: [0, 0, 1], vfov_deg: g.camera.fov });
+      }
+      const t = performance.now();
+      g.render();
+      await g.r.backend?.device?.queue?.onSubmittedWorkDone?.();
+      wall.push(performance.now() - t);
+      try { const ms = await g.r.resolveTimestampsAsync('render'); if (typeof ms === 'number' && ms > 0) gpu.push(ms); } catch { /* no timestamps */ }
+      if (i % 30 === 29) await new Promise((r) => setTimeout(r, 50));    // section 12: idle gaps
+    }
+    await new Promise((r) => setTimeout(r, 200));
+    g._pending = false;
+    wall.sort((a, b) => a - b); gpu.sort((a, b) => a - b);
+    return { ...g.timings(), gpu_ms_median_bench: gpu.length ? gpu[gpu.length >> 1] : null,
+      gpu_ms_p95_bench: gpu.length ? gpu[Math.floor(gpu.length * 0.95)] : null, gpu_n: gpu.length, wall_ms_median: wall[wall.length >> 1], wall_ms_p95: wall[Math.floor(wall.length * 0.95)], size };
+  },
+};
+</script>
+</body>
+</html>

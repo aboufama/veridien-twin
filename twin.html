@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="veridien-tracker" content="auto">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dome twin</title>
+<link rel="icon" href="data:,">
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/three.webgpu.min.js",
+  "three/webgpu": "./vendor/three/three.webgpu.min.js",
+  "three/tsl": "./vendor/three/three.tsl.min.js",
+  "three/addons/": "./vendor/three/addons/"
+} }
+</script>
+<style>
+  :root {
+    --paper: #f3f3ef; --ink: #111211; --grey: #6b6c68; --grey2: #a9aaa4; --rule: #dcdcd6; --card: #fbfbf8;
+    --frame: rgb(12, 13, 12); --ghost: #2f5bd3;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    /* the camera column: a third of the page so its views balance the 3-D view (twinpage/tiles.js columnWidthPx) */
+    --col: clamp(360px, 32vw, 560px);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--paper); color: var(--ink);
+    font: 13px/1.4 var(--sans); -webkit-font-smoothing: antialiased; }
+  body { display: flex; }
+  button { font: inherit; color: inherit; }
+
+  #stage { position: relative; flex: 1; min-width: 0; height: 100%; }
+  #god, #large { position: absolute; inset: 0; width: 100%; height: 100%; display: block; outline: none; touch-action: none; }
+  #god { cursor: grab; background: #e9e9e5; }
+  #god.dragging { cursor: grabbing; }
+  #god.tool { cursor: move; }
+  #ghosts { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #large { background: var(--frame); cursor: zoom-out; }
+  #large[hidden], #god[hidden], #ghosts[hidden] { display: none; }
+  .large-label { position: absolute; left: 16px; top: 14px; color: #c9cac4; font-size: 12px; pointer-events: none; }
+  .large-label[hidden] { display: none; }
+  #boot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--grey); pointer-events: none; }
+  #boot.err { color: #8a2a22; font-family: var(--mono); font-size: 12px; white-space: pre-wrap; padding: 32px; pointer-events: auto; }
+  #boot[hidden] { display: none; }
+
+  #line { position: absolute; left: 16px; bottom: 14px; max-width: calc(100% - 96px); padding: 4px 10px; border-radius: 6px;
+    background: rgba(251, 251, 248, 0.88); color: var(--grey); font-size: 12px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; box-shadow: 0 0 0 1px rgba(17, 18, 17, 0.06); pointer-events: none;
+    transition: opacity 160ms ease; }
+  #line[hidden] { display: none; }
+  #line.problem { color: var(--ink); }
+
+  #help-btn { position: absolute; right: 14px; top: 14px; width: 28px; height: 28px; padding: 0; border-radius: 50%;
+    border: 1px solid var(--rule); background: var(--card); color: var(--grey); font-weight: 600; cursor: pointer;
+    transition: color 120ms ease, border-color 120ms ease; z-index: 3; }
+  /* with the camera column shown, "?" sits in the column's first label row (over paper, not over the 3-D canvas) */
+  body:not(.collapsed) #help-btn { position: fixed; top: 9px; right: 14px; width: 24px; height: 24px; font-size: 12px; }
+  #help-btn:hover, #help-btn[aria-expanded="true"] { color: var(--ink); border-color: var(--grey2); }
+  #help-btn:focus-visible, .tile:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  #help { position: absolute; right: 14px; top: 50px; z-index: 4; width: min(400px, calc(100% - 28px)); max-height: calc(100% - 64px); overflow-y: auto;
+    background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 12px 14px 10px;
+    box-shadow: 0 1px 2px rgba(17, 18, 17, 0.05), 0 8px 24px rgba(17, 18, 17, 0.08); }
+  #help[hidden] { display: none; }
+  #help h2 { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
+  #help dl { display: grid; grid-template-columns: max-content 1fr; column-gap: 14px; row-gap: 4px; margin: 0; }
+  #help dt { font: 12px var(--mono); white-space: nowrap; padding-top: 1px; }
+  #help dt.group { grid-column: 1 / -1; font: 600 11.5px var(--sans); color: var(--grey); margin-top: 6px; }
+  #help dt.group:first-child { margin-top: 0; }
+  #help dd { margin: 0; color: var(--grey); }
+  #help .info { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--rule); color: var(--grey); font-size: 12px; }
+
+  #side { flex: none; width: var(--col); height: 100%; padding: 9px 14px 14px 12px; display: flex; flex-direction: column;
+    gap: 12px; overflow-y: auto; background: var(--paper); border-left: 1px solid var(--rule); }
+  /* the column's header: the Real / Sim switch (T), quiet; "?" sits at its right */
+  .col-head { flex: none; display: flex; align-items: center; min-height: 24px; padding-right: 34px; }
+  .seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 7px; background: rgba(17, 18, 17, 0.05); }
+  .seg button { border: 0; background: none; padding: 1px 10px; border-radius: 5px; font-size: 11.5px; line-height: 18px; color: var(--grey);
+    cursor: pointer; transition: color 120ms ease, background-color 120ms ease, box-shadow 120ms ease; }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 0 0 1px rgba(17, 18, 17, 0.08), 0 1px 1px rgba(17, 18, 17, 0.04); }
+  .seg button.unavailable { color: var(--grey2); }
+  .seg button:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .sim-cams { display: flex; flex-direction: column; gap: 12px; }
+  #side[data-mode="sim"] .real-cams, #side:not([data-mode="sim"]) .sim-cams { display: none; }
+  body.collapsed #side { display: none; }
+  .tile { display: flex; flex-direction: column; gap: 5px; padding: 0; border: 0; background: none; text-align: left;
+    cursor: zoom-in; border-radius: 6px; }
+  .tile .label { color: var(--grey); font-size: 11.5px; padding-left: 1px; transition: color 120ms ease; }
+  .tile .frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--frame); border-radius: 6px; overflow: hidden;
+    transition: box-shadow 120ms ease; }
+  .tile canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .tile:hover .label, .tile.current .label { color: var(--ink); }
+  .tile:hover .frame { box-shadow: 0 0 0 2px var(--grey2); }
+  .tile.current .frame { box-shadow: 0 0 0 2px var(--ink); }
+  .tile.off { cursor: default; }
+  .tile.off:hover .frame { box-shadow: none; }
+  .tile .note { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #8d8f89;
+    font-size: 11.5px; text-align: center; padding: 8px; pointer-events: none; }
+  .tile .note[hidden] { display: none; }
+  .tile.warming canvas { visibility: hidden; }        /* the first frames, while the camera's auto-exposure settles */
+  /* the real cameras (twinpage/real_cams.js): the image letterboxed in the 16:9 frame, keypoints on a canvas above it */
+  .real-cams { display: flex; flex-direction: column; gap: 12px; }
+  .tile .frame img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: contain; }
+  .tile .frame canvas.ov, #real-large canvas.ov { pointer-events: none; }
+  #real-large { position: absolute; inset: 0; background: var(--frame); cursor: zoom-out; outline: none; }
+  #real-large[hidden] { display: none; }
+  #real-large canvas, #real-large img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: contain; }
+  .real-large-label { position: absolute; left: 16px; top: 14px; color: #c9cac4; font-size: 12px; pointer-events: none; }
+</style>
+</head>
+<body>
+<main id="stage" aria-label="God's-eye view of the dome">
+  <canvas id="god" tabindex="0" aria-label="3-D view: drag to orbit, right-drag to pan, wheel to zoom"></canvas>
+  <canvas id="ghosts" hidden></canvas>
+  <canvas id="large" hidden tabindex="0" aria-label="Camera view; click or Esc returns"></canvas>
+  <div class="large-label" id="large-label" hidden></div>
+  <div id="boot">Loading the scene</div>
+  <div id="line" role="status" hidden></div>
+  <button id="help-btn" type="button" aria-expanded="false" aria-controls="help" title="Keys (?)" aria-label="Keys">?</button>
+  <aside id="help" hidden aria-label="Keys">
+    
+    <dl id="keys"></dl>
+    <div class="info" id="help-info"></div>
+  </aside>
+</main>
+<aside id="side" aria-label="Camera views"></aside>
+<script type="module" src="./twinpage/main.js"></script>
+<script type="module" src="./twinpage/calib_embed.js"></script>
+<script type="module" src="./twinpage/coach.js"></script>
+</body>
+</html>

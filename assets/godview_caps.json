@@ -1,0 +1,96 @@
+{
+ "note": "fixed-section cap meshes of the god's-eye view (scripts/build_godview_caps.py); static, drawn only in the fixed cutaway mode. Same mesh format as scene.json.",
+ "mesh_format": {
+  "endianness": "little",
+  "positions": "float32 xyz, count = vertices",
+  "normals": "float32 xyz unit (B-rep), count = vertices",
+  "uvs": "float32 uv, count = vertices (board only)",
+  "indices": "uint32, count = 3 x triangles, CCW seen from outside (normals point out of the solid)",
+  "layout": "[byteOffset, count]"
+ },
+ "godview_sha": "db7d812aa66b5606",
+ "scene_sha": "752675f3c4435c19",
+ "modes": {
+  "fixed": {
+   "n": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "offset": 0.055,
+   "d": 0.10500000000000001,
+   "report": {
+    "meshes": [
+     "moved_shell_centre",
+     "moved_shell_left",
+     "moved_shell_right"
+    ],
+    "crossing_triangles": 835,
+    "edge_points": 835,
+    "degree_counts": {
+     "2": 835
+    },
+    "open_ends": 0,
+    "open_ends_joined_pairs": 0,
+    "open_ends_unjoined": 0,
+    "joined_gaps_m": [],
+    "loops": 1,
+    "open_chains_dropped": 0,
+    "loop_sizes": [
+     835
+    ],
+    "closed": true,
+    "loop_nesting_depths": [
+     0
+    ],
+    "cap_triangles": 833,
+    "cap_area_m2": 0.006558871274574045
+   }
+  }
+ },
+ "meshes": [
+  {
+   "name": "cap_fixed_pla",
+   "file": "meshes/cap_fixed_pla.bin",
+   "material": "pla_matte_white",
+   "group": "cap",
+   "dynamic": false,
+   "cap_mode": "fixed",
+   "of": [
+    "moved_shell_centre",
+    "moved_shell_left",
+    "moved_shell_right"
+   ],
+   "vertex_count": 835,
+   "triangle_count": 833,
+   "bbox": [
+    [
+     -0.10500000000000001,
+     -0.16010549431290175,
+     0.0037356610409915447
+    ],
+    [
+     -0.10500000000000001,
+     0.214753487830897,
+     0.22615265726782072
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     835
+    ],
+    "normals": [
+     10020,
+     835
+    ],
+    "indices": [
+     20040,
+     2499
+    ]
+   },
+   "bytes": 30036,
+   "sha256_16": "b908b79c491c1ee8"
+  }
+ ]
+}

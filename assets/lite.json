@@ -1,0 +1,735 @@
+{
+ "version": 1,
+ "generator": "scripts/build_lite_twin.mjs",
+ "scene_sha": "29a1a7baa677bb80",
+ "seed": 1,
+ "params": {
+  "edge_m": 0.003,
+  "dyn_edge_m": 0.005,
+  "node_m": 0.007,
+  "K": 256,
+  "vox_m": 0.002,
+  "weight_sigma_m": 0.0038500000000000006
+ },
+ "meshTable": [
+  {
+   "name": "static_shell_centre_band",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "static_shell_centre_cap",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "static_shell_left",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "static_shell_right",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "moved_shell_centre",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "moved_shell_left",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "moved_shell_right",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "hatch_apex",
+   "material": "pla_matte_white",
+   "group": "hatch",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "hatch_side",
+   "material": "pla_matte_white",
+   "group": "hatch",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lid_spine_1_crest",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lid_spine_2_back",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lid_side_1_drop",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lid_side_2_foot",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lid_side_3_foot",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "membrane_L",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "trocar_L_sheath",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_L_metal",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_L_housing",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/cannula",
+   "overview_only": true
+  },
+  {
+   "name": "membrane_R",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "trocar_R_sheath",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_R_metal",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_R_housing",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/cannula",
+   "overview_only": true
+  },
+  {
+   "name": "membrane_C",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "trocar_C_sheath",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "C/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_C_metal",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "C/cannula",
+   "overview_only": false
+  },
+  {
+   "name": "trocar_C_housing",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "owner": null,
+   "dynamic": true,
+   "body": "C/cannula",
+   "overview_only": true
+  },
+  {
+   "name": "lens_front_CAM1",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "owner": "CAM1",
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lens_front_CAM2",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "owner": "CAM2",
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "lens_front_CAM3",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "owner": "CAM3",
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  },
+  {
+   "name": "scope_shaft",
+   "material": "scope_steel",
+   "group": "scope",
+   "owner": null,
+   "dynamic": true,
+   "body": "scope",
+   "overview_only": false
+  },
+  {
+   "name": "scope_tip_face",
+   "material": "scope_steel",
+   "group": "scope",
+   "owner": null,
+   "dynamic": true,
+   "body": "scope",
+   "overview_only": false
+  },
+  {
+   "name": "scope_window",
+   "material": "scope_glass",
+   "group": "scope",
+   "owner": null,
+   "dynamic": true,
+   "body": "scope",
+   "overview_only": false
+  },
+  {
+   "name": "scope_light",
+   "material": "emitter",
+   "group": "scope",
+   "owner": null,
+   "dynamic": true,
+   "body": "scope",
+   "overview_only": false
+  },
+  {
+   "name": "L_shaft",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "L_collar",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "L_pin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "L_jaw_a",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/jaw_a",
+   "overview_only": false
+  },
+  {
+   "name": "L_jaw_b",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "L/jaw_b",
+   "overview_only": false
+  },
+  {
+   "name": "R_shaft",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "R_collar",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "R_pin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/shaft",
+   "overview_only": false
+  },
+  {
+   "name": "R_jaw_a",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/jaw_a",
+   "overview_only": false
+  },
+  {
+   "name": "R_jaw_b",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "owner": null,
+   "dynamic": true,
+   "body": "R/jaw_b",
+   "overview_only": false
+  },
+  {
+   "name": "board_charuco_b",
+   "material": "charuco_print",
+   "group": "board",
+   "owner": null,
+   "dynamic": true,
+   "body": "board/charuco_b",
+   "overview_only": false
+  },
+  {
+   "name": "bench",
+   "material": "bench_white",
+   "group": "bench",
+   "owner": null,
+   "dynamic": false,
+   "body": null,
+   "overview_only": false
+  }
+ ],
+ "files": {
+  "static": {
+   "file": "lite_static.bin",
+   "sha": "8ecb3f0273b7d915",
+   "layout": {
+    "pos": [
+     0,
+     758988,
+     "Uint16Array"
+    ],
+    "nrm": [
+     1517976,
+     758988,
+     "Int8Array"
+    ],
+    "nodes": [
+     2276964,
+     758988,
+     "Uint16Array"
+    ],
+    "w": [
+     3794940,
+     758988,
+     "Uint8Array"
+    ],
+    "index": [
+     4553928,
+     1096287,
+     "Uint16Array"
+    ]
+   },
+   "vertexCount": 189747,
+   "bmin": [
+    -0.2762794924736023,
+    -0.1568133069038391,
+    0.003635661040991545
+   ],
+   "bmax": [
+    0.18087391386032103,
+    0.21146128902435302,
+    0.22895456681251525
+   ],
+   "groups": [
+    {
+     "key": "main",
+     "owner": null,
+     "chunks": [
+      {
+       "vertexBase": 0,
+       "vertexCount": 65535,
+       "firstIndex": 0,
+       "indexCount": 380748
+      },
+      {
+       "vertexBase": 65535,
+       "vertexCount": 65535,
+       "firstIndex": 380748,
+       "indexCount": 381234
+      },
+      {
+       "vertexBase": 131070,
+       "vertexCount": 54528,
+       "firstIndex": 761982,
+       "indexCount": 312693
+      }
+     ]
+    },
+    {
+     "key": "lens_CAM1",
+     "owner": "CAM1",
+     "chunks": [
+      {
+       "vertexBase": 185598,
+       "vertexCount": 1429,
+       "firstIndex": 1074675,
+       "indexCount": 7260
+      }
+     ]
+    },
+    {
+     "key": "lens_CAM2",
+     "owner": "CAM2",
+     "chunks": [
+      {
+       "vertexBase": 187027,
+       "vertexCount": 1396,
+       "firstIndex": 1081935,
+       "indexCount": 7182
+      }
+     ]
+    },
+    {
+     "key": "lens_CAM3",
+     "owner": "CAM3",
+     "chunks": [
+      {
+       "vertexBase": 188423,
+       "vertexCount": 1324,
+       "firstIndex": 1089117,
+       "indexCount": 7170
+      }
+     ]
+    }
+   ]
+  },
+  "dynamic": {
+   "file": "lite_dynamic.bin",
+   "sha": "66c9b29cfdeb5671",
+   "layout": {
+    "pos": [
+     0,
+     797656,
+     "Uint16Array"
+    ],
+    "nrm": [
+     1595312,
+     797656,
+     "Int16Array"
+    ],
+    "uv": [
+     3190624,
+     398828,
+     "Uint16Array"
+    ],
+    "index": [
+     3988280,
+     1127922,
+     "Uint16Array"
+    ]
+   },
+   "vertexCount": 199414,
+   "bmin": [
+    -0.006799999794363976,
+    -0.006799999794363976,
+    -0.31059999594688414
+   ],
+   "bmax": [
+    0.09010000357627869,
+    0.06609999964237213,
+    0.0990999994635582
+   ],
+   "bodies": [
+    "L/cannula",
+    "R/cannula",
+    "C/cannula",
+    "scope",
+    "L/shaft",
+    "L/jaw_a",
+    "L/jaw_b",
+    "R/shaft",
+    "R/jaw_a",
+    "R/jaw_b",
+    "board/charuco_b"
+   ],
+   "groups": [
+    {
+     "key": "L/cannula",
+     "chunks": [
+      {
+       "vertexBase": 0,
+       "vertexCount": 27032,
+       "firstIndex": 0,
+       "indexCount": 158700
+      }
+     ]
+    },
+    {
+     "key": "R/cannula",
+     "chunks": [
+      {
+       "vertexBase": 27032,
+       "vertexCount": 27032,
+       "firstIndex": 158700,
+       "indexCount": 158700
+      }
+     ]
+    },
+    {
+     "key": "C/cannula",
+     "chunks": [
+      {
+       "vertexBase": 54064,
+       "vertexCount": 31390,
+       "firstIndex": 317400,
+       "indexCount": 184560
+      }
+     ]
+    },
+    {
+     "key": "scope",
+     "chunks": [
+      {
+       "vertexBase": 85454,
+       "vertexCount": 34412,
+       "firstIndex": 501960,
+       "indexCount": 198720
+      }
+     ]
+    },
+    {
+     "key": "L/shaft",
+     "chunks": [
+      {
+       "vertexBase": 119866,
+       "vertexCount": 30743,
+       "firstIndex": 700680,
+       "indexCount": 174261
+      }
+     ]
+    },
+    {
+     "key": "L/jaw_a",
+     "chunks": [
+      {
+       "vertexBase": 150609,
+       "vertexCount": 4148,
+       "firstIndex": 874941,
+       "indexCount": 17634
+      }
+     ]
+    },
+    {
+     "key": "L/jaw_b",
+     "chunks": [
+      {
+       "vertexBase": 154757,
+       "vertexCount": 4129,
+       "firstIndex": 892575,
+       "indexCount": 17652
+      }
+     ]
+    },
+    {
+     "key": "R/shaft",
+     "chunks": [
+      {
+       "vertexBase": 158886,
+       "vertexCount": 30743,
+       "firstIndex": 910227,
+       "indexCount": 174261
+      }
+     ]
+    },
+    {
+     "key": "R/jaw_a",
+     "chunks": [
+      {
+       "vertexBase": 189629,
+       "vertexCount": 4066,
+       "firstIndex": 1084488,
+       "indexCount": 17232
+      }
+     ]
+    },
+    {
+     "key": "R/jaw_b",
+     "chunks": [
+      {
+       "vertexBase": 193695,
+       "vertexCount": 4045,
+       "firstIndex": 1101720,
+       "indexCount": 17106
+      }
+     ]
+    },
+    {
+     "key": "board/charuco_b",
+     "chunks": [
+      {
+       "vertexBase": 197740,
+       "vertexCount": 1674,
+       "firstIndex": 1118826,
+       "indexCount": 9096
+      }
+     ]
+    }
+   ]
+  },
+  "nodes": {
+   "file": "lite_nodes.bin",
+   "sha": "b5cff4db2f181c21",
+   "layout": {
+    "nodes": [
+     0,
+     103808,
+     "Float32Array"
+    ],
+    "gather": [
+     415232,
+     3321856,
+     "Uint16Array"
+    ],
+    "env": [
+     7058944,
+     69666,
+     "Uint16Array"
+    ]
+   },
+   "count": 12976,
+   "K": 256,
+   "envTriangles": 23222
+  }
+ },
+ "probe": [
+  -0.04739939843058162,
+  0.02716380842178552,
+  0.08070133357872773
+ ],
+ "stats": {
+  "staticTrianglesAll": 876038,
+  "staticTrianglesKept": 365429,
+  "gatherMissFrac": 0.04316984240135635,
+  "seconds": 24.695
+ }
+}

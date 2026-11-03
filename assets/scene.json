@@ -1,0 +1,3643 @@
+{
+ "version": 1,
+ "units": "m",
+ "frame": "D",
+ "frame_note": "dome CAD frame x 1e-3: x from the surgeon's end to the far end, +y the surgeon's left, z up",
+ "provenance": {
+  "git_commit": "7dd49f02f95f6c44ee8c54d56a12a0d462e5b288",
+  "sources_dirty": true,
+  "sources": {
+   "assets/design/dome_cameras/STATIC_SHELL_cameras.step": "f992a2b5a9882ced",
+   "assets/design/dome_cameras/print/MOVEDSHELL_finished.step": "a5f51f10fdc3b631",
+   "assets/design/dome_cameras/print/dome_print_parts.step": "f7f8dc863962beb7",
+   "assets/design/dome_cameras/print/print_plan.json": "bac3cac2f213c618",
+   "assets/design/dome_cameras/dome_cameras.json": "c447344d5805a2dc",
+   "assets/dome/port_layout.json": "46e9c551e97ea8c1",
+   "configs/multicam/dome_v1.yaml": "35300646f1a68dbc",
+   "configs/twin/physics.yaml": "134d38c7edf809bf",
+   "assets/design/build_3cam_placement.json": "1f6d120b492405ed",
+   "assets/dome/source/BASE_COMPONENTS.step": "846c4128d12e0f97",
+   "assets/dome/source/kit_d03_anatomy.npz": "1e1a5674c293d237",
+   "src/veridien/webtwin/scene_export.py": "e40d302b0cce2373",
+   "scripts/build_web_twin.py": "b9c85d9d9dbdf3a0",
+   "src/veridien/design/dome_camera_install.py": "7d9a7dc6f3a4dc7e",
+   "src/veridien/design/dome_print.py": "c9825abbf12f8ea8",
+   "src/veridien/design/port_cad.py": "1845c0310c8f1d40",
+   "src/veridien/design/ports.py": "7a5b40a2adc3752b",
+   "src/veridien/design/dome.py": "efc3bdf234216591",
+   "src/veridien/design/tracking_camera_cad.py": "db9bcac4a0fe2fea",
+   "src/veridien/multicam/synthetic.py": "7415f865e33e3892",
+   "src/veridien/multicam/coverage.py": "b719a7a9fa7f555e",
+   "src/veridien/multicam/lens.py": "f239b369c1dbd964",
+   "src/veridien/twin/instrument.py": "4e0fb512d8ab7068",
+   "src/veridien/twin/cad/params.py": "bfb7489f7f8d6833",
+   "src/veridien/twin/cad/brep.py": "4578cde8bfd80e5a",
+   "src/veridien/twin/cad/kinematics.py": "175af9653724671e",
+   "src/veridien/twin/cad/__init__.py": "2756c8432897ff03",
+   "src/veridien/calib/targets.py": "6a7379eada8d9a7a"
+  },
+  "built": "2026-10-31T12:44:53-04:00",
+  "built_note": "commit time of git_commit (or SOURCE_DATE_EPOCH), so two builds are byte-identical",
+  "seed": 20261031
+ },
+ "mesh_format": {
+  "endianness": "little",
+  "positions": "float32 xyz, count = vertices",
+  "normals": "float32 xyz unit (B-rep), count = vertices",
+  "uvs": "float32 uv, count = vertices (board only)",
+  "indices": "uint32, count = 3 x triangles, CCW seen from outside (normals point out of the solid)",
+  "layout": "[byteOffset, count]"
+ },
+ "bench": {
+  "z": 0.003735660994053,
+  "material": "bench_white",
+  "extent": [
+   [
+    -0.346191,
+    -0.225647
+   ],
+   [
+    0.249301,
+    0.280295
+   ]
+  ],
+  "normal": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "note": "a ground plane (no base in v1): z = the lowest point of the shell rim (its foot face); extent = the outer skirt's footprint + 60 mm"
+ },
+ "meshes": [
+  {
+   "name": "static_shell_centre_band",
+   "file": "meshes/static_shell_centre_band.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "vertex_count": 40099,
+   "triangle_count": 70039,
+   "max_chord_error_m": 2.2952281112375697e-05,
+   "max_chord_error_all_faces_m": 2.3949777721839647e-05,
+   "bbox": [
+    [
+     -0.04817950353026,
+     -0.084676,
+     0.060875097007938854
+    ],
+    [
+     0.13,
+     0.139324,
+     0.23173544667907
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     40099
+    ],
+    "normals": [
+     481188,
+     40099
+    ],
+    "indices": [
+     962376,
+     210117
+    ]
+   },
+   "bytes": 1802844,
+   "sha256_16": "20e1b46137357e47",
+   "print_orientation": "split_down_pos",
+   "source": "assets/design/dome_cameras/STATIC_SHELL_cameras.step",
+   "f32_slivers_dropped": 6
+  },
+  {
+   "name": "static_shell_centre_cap",
+   "file": "meshes/static_shell_centre_cap.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 20948,
+   "triangle_count": 38645,
+   "max_chord_error_m": 2.0435843300793962e-05,
+   "max_chord_error_all_faces_m": 0.00018984278110480696,
+   "bbox": [
+    [
+     0.13,
+     -0.084676,
+     0.003735660994053
+    ],
+    [
+     0.1897407913886,
+     0.139324,
+     0.16659075285950484
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     20948
+    ],
+    "normals": [
+     251376,
+     20948
+    ],
+    "indices": [
+     502752,
+     115935
+    ]
+   },
+   "bytes": 966492,
+   "sha256_16": "beff501e94455282",
+   "print_orientation": "rim_down",
+   "source": "assets/design/dome_cameras/STATIC_SHELL_cameras.step"
+  },
+  {
+   "name": "static_shell_left",
+   "file": "meshes/static_shell_left.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 13314,
+   "triangle_count": 24601,
+   "max_chord_error_m": 2.5262576129344413e-05,
+   "max_chord_error_all_faces_m": 0.00018984278110480696,
+   "bbox": [
+    [
+     -0.04817950353026,
+     0.139324,
+     0.003735660994053
+    ],
+    [
+     0.14571444673119083,
+     0.22032367006872,
+     0.19591056112349084
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     13314
+    ],
+    "normals": [
+     159768,
+     13314
+    ],
+    "indices": [
+     319536,
+     73803
+    ]
+   },
+   "bytes": 614748,
+   "sha256_16": "a54704211ae965d3",
+   "print_orientation": "rim_down",
+   "source": "assets/design/dome_cameras/STATIC_SHELL_cameras.step"
+  },
+  {
+   "name": "static_shell_right",
+   "file": "meshes/static_shell_right.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 28723,
+   "triangle_count": 49995,
+   "max_chord_error_m": 2.5040261094549163e-05,
+   "max_chord_error_all_faces_m": 7.890968714835506e-05,
+   "bbox": [
+    [
+     -0.05065479478527,
+     -0.16567568046220002,
+     0.003735660994053
+    ],
+    [
+     0.14571953286883843,
+     -0.084676,
+     0.19591056853307712
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     28723
+    ],
+    "normals": [
+     344676,
+     28723
+    ],
+    "indices": [
+     689352,
+     149985
+    ]
+   },
+   "bytes": 1289292,
+   "sha256_16": "91ac66b226051a7c",
+   "print_orientation": "rim_down",
+   "source": "assets/design/dome_cameras/STATIC_SHELL_cameras.step"
+  },
+  {
+   "name": "moved_shell_centre",
+   "file": "meshes/moved_shell_centre.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "vertex_count": 43194,
+   "triangle_count": 81372,
+   "max_chord_error_m": 2.534469881745932e-05,
+   "max_chord_error_all_faces_m": 2.534469881745932e-05,
+   "bbox": [
+    [
+     -0.2861795035302,
+     -0.084676,
+     0.003735660994053
+    ],
+    [
+     -0.04817950353026,
+     0.139324,
+     0.23173544668748
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     43194
+    ],
+    "normals": [
+     518328,
+     43194
+    ],
+    "indices": [
+     1036656,
+     244116
+    ]
+   },
+   "bytes": 2013120,
+   "sha256_16": "11df374cb6a1338b",
+   "print_orientation": "split_down_neg",
+   "source": "assets/design/dome_cameras/print/MOVEDSHELL_finished.step",
+   "f32_slivers_dropped": 6
+  },
+  {
+   "name": "moved_shell_left",
+   "file": "meshes/moved_shell_left.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 13071,
+   "triangle_count": 24342,
+   "max_chord_error_m": 2.534469881745932e-05,
+   "max_chord_error_all_faces_m": 2.534469881745932e-05,
+   "bbox": [
+    [
+     -0.24206899831496012,
+     0.139324,
+     0.003735660994053
+    ],
+    [
+     -0.04817950353026,
+     0.22032367007917,
+     0.1959105611342447
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     13071
+    ],
+    "normals": [
+     156852,
+     13071
+    ],
+    "indices": [
+     313704,
+     73026
+    ]
+   },
+   "bytes": 605808,
+   "sha256_16": "e56bf60a200b9103",
+   "print_orientation": "rim_down",
+   "source": "assets/design/dome_cameras/print/MOVEDSHELL_finished.step"
+  },
+  {
+   "name": "moved_shell_right",
+   "file": "meshes/moved_shell_right.bin",
+   "material": "pla_matte_white",
+   "group": "shell",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 13040,
+   "triangle_count": 24270,
+   "max_chord_error_m": 2.2328321600946015e-05,
+   "max_chord_error_all_faces_m": 2.4731141436194788e-05,
+   "bbox": [
+    [
+     -0.24206900757187047,
+     -0.1656756804726,
+     0.003735660994053
+    ],
+    [
+     -0.04817950353026,
+     -0.084676,
+     0.1959105685438049
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     13040
+    ],
+    "normals": [
+     156480,
+     13040
+    ],
+    "indices": [
+     312960,
+     72810
+    ]
+   },
+   "bytes": 604200,
+   "sha256_16": "278f59fbfc64ba8a",
+   "print_orientation": "rim_down",
+   "source": "assets/design/dome_cameras/print/MOVEDSHELL_finished.step"
+  },
+  {
+   "name": "hatch_apex",
+   "file": "meshes/hatch_apex.bin",
+   "material": "pla_matte_white",
+   "group": "hatch",
+   "dynamic": false,
+   "build_dir": [
+    0.40766747833626216,
+    -0.01717870755612262,
+    0.9129688489284037
+   ],
+   "vertex_count": 16377,
+   "triangle_count": 30298,
+   "max_chord_error_m": 2.8391199348516755e-05,
+   "max_chord_error_all_faces_m": 2.8391199348516755e-05,
+   "bbox": [
+    [
+     0.017359866521657497,
+     -0.02252574256528,
+     0.18725647128058273
+    ],
+    [
+     0.09192537187752643,
+     0.07146464989034,
+     0.22787271215374932
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     16377
+    ],
+    "normals": [
+     196524,
+     16377
+    ],
+    "indices": [
+     393048,
+     90894
+    ]
+   },
+   "bytes": 756624,
+   "sha256_16": "c5a9bd28a76be3f7",
+   "print_orientation": "lay_flat_n",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 2.407032621832949e-05,
+   "mesh_volume_m3": 2.407627774754751e-05
+  },
+  {
+   "name": "hatch_side",
+   "file": "meshes/hatch_side.bin",
+   "material": "pla_matte_white",
+   "group": "hatch",
+   "dynamic": false,
+   "build_dir": [
+    -0.20643189508355853,
+    0.8641964182007845,
+    -0.45885773771523725
+   ],
+   "vertex_count": 8431,
+   "triangle_count": 15334,
+   "max_chord_error_m": 3.627358317289455e-05,
+   "max_chord_error_all_faces_m": 3.627358317289455e-05,
+   "bbox": [
+    [
+     -0.014059439006992398,
+     -0.1503739960797194,
+     0.10282139147394982
+    ],
+    [
+     0.04721330438597103,
+     -0.1179957503370156,
+     0.14243245601219937
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     8431
+    ],
+    "normals": [
+     101172,
+     8431
+    ],
+    "indices": [
+     202344,
+     46002
+    ]
+   },
+   "bytes": 386352,
+   "sha256_16": "6e62ca3e9e580597",
+   "print_orientation": "lay_flat_n",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 8.474960063360028e-06,
+   "mesh_volume_m3": 8.474871091154978e-06
+  },
+  {
+   "name": "lid_spine_1_crest",
+   "file": "meshes/lid_spine_1_crest.bin",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    -1.0,
+    6.123233995736766e-17
+   ],
+   "vertex_count": 1320,
+   "triangle_count": 2330,
+   "max_chord_error_m": 2.818051848996482e-05,
+   "max_chord_error_all_faces_m": 2.818051848996482e-05,
+   "bbox": [
+    [
+     0.09162904997096101,
+     0.020974,
+     0.17384355990815
+    ],
+    [
+     0.11943157342096673,
+     0.033674,
+     0.19405947233550905
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1320
+    ],
+    "normals": [
+     15840,
+     1320
+    ],
+    "indices": [
+     31680,
+     6990
+    ]
+   },
+   "bytes": 59640,
+   "sha256_16": "bb60583b7a0785e9",
+   "print_orientation": "lay_flat_y",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 8.249216534785678e-07,
+   "mesh_volume_m3": 8.248653291066234e-07
+  },
+  {
+   "name": "lid_spine_2_back",
+   "file": "meshes/lid_spine_2_back.bin",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    -1.0,
+    6.123233995736766e-17
+   ],
+   "vertex_count": 4151,
+   "triangle_count": 7524,
+   "max_chord_error_m": 2.90670415983e-05,
+   "max_chord_error_all_faces_m": 2.90670415983e-05,
+   "bbox": [
+    [
+     0.11799600475264001,
+     0.020973999999999653,
+     0.008935700000000001
+    ],
+    [
+     0.1893004702831083,
+     0.03367400000000043,
+     0.17508411640497987
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4151
+    ],
+    "normals": [
+     49812,
+     4151
+    ],
+    "indices": [
+     99624,
+     22572
+    ]
+   },
+   "bytes": 189912,
+   "sha256_16": "17cfce9f911e057b",
+   "print_orientation": "lay_flat_y",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 4.740304022205306e-06,
+   "mesh_volume_m3": 4.7418906462041235e-06
+  },
+  {
+   "name": "lid_side_1_drop",
+   "file": "meshes/lid_side_1_drop.bin",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "dynamic": false,
+   "build_dir": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "vertex_count": 3372,
+   "triangle_count": 5828,
+   "max_chord_error_m": 2.511238864268588e-05,
+   "max_chord_error_all_faces_m": 2.511238864268588e-05,
+   "bbox": [
+    [
+     0.03601077073293118,
+     -0.15291824759219122,
+     0.0103857
+    ],
+    [
+     0.060710770732936,
+     -0.1350004963431,
+     0.10603142974460703
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3372
+    ],
+    "normals": [
+     40464,
+     3372
+    ],
+    "indices": [
+     80928,
+     17484
+    ]
+   },
+   "bytes": 150864,
+   "sha256_16": "f592fa13a1283794",
+   "print_orientation": "lay_flat_x",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 2.069531649594068e-06,
+   "mesh_volume_m3": 2.0696832936629398e-06
+  },
+  {
+   "name": "lid_side_2_foot",
+   "file": "meshes/lid_side_2_foot.bin",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 1700,
+   "triangle_count": 3028,
+   "max_chord_error_m": 2.185999085900941e-05,
+   "max_chord_error_all_faces_m": 2.185999085900941e-05,
+   "bbox": [
+    [
+     0.060710770732936,
+     -0.14390336425850955,
+     0.0103857
+    ],
+    [
+     0.12534650278338705,
+     -0.1027128109472,
+     0.0190857
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1700
+    ],
+    "normals": [
+     20400,
+     1700
+    ],
+    "indices": [
+     40800,
+     9084
+    ]
+   },
+   "bytes": 77136,
+   "sha256_16": "0f6341ec65bcdcbe",
+   "print_orientation": "as_is",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 1.304507324974558e-06,
+   "mesh_volume_m3": 1.3042518492803398e-06
+  },
+  {
+   "name": "lid_side_3_foot",
+   "file": "meshes/lid_side_3_foot.bin",
+   "material": "pla_matte_white",
+   "group": "lid",
+   "dynamic": false,
+   "build_dir": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "vertex_count": 3443,
+   "triangle_count": 6180,
+   "max_chord_error_m": 2.545459704482697e-05,
+   "max_chord_error_all_faces_m": 2.545459704482697e-05,
+   "bbox": [
+    [
+     0.12420446157134,
+     -0.10404787170198439,
+     0.008935700000000001
+    ],
+    [
+     0.1887125653387914,
+     0.014173999999999999,
+     0.019085700000000646
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3443
+    ],
+    "normals": [
+     41316,
+     3443
+    ],
+    "indices": [
+     82632,
+     18540
+    ]
+   },
+   "bytes": 156792,
+   "sha256_16": "3add5e4107b16458",
+   "print_orientation": "as_is",
+   "source": "assets/design/dome_cameras/print/dome_print_parts.step",
+   "brep_volume_m3": 2.39285159258115e-06,
+   "mesh_volume_m3": 2.3924833093160575e-06
+  },
+  {
+   "name": "membrane_L",
+   "file": "meshes/membrane_L.bin",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 398,
+   "triangle_count": 388,
+   "max_chord_error_m": 9.961322928192547e-06,
+   "max_chord_error_all_faces_m": 9.961322928192547e-06,
+   "bbox": [
+    [
+     -0.08831011295091393,
+     0.09151458175222256,
+     0.2012014576150625
+    ],
+    [
+     -0.0533463170246811,
+     0.12397800682728637,
+     0.21806984840100685
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     398
+    ],
+    "normals": [
+     4776,
+     398
+    ],
+    "indices": [
+     9552,
+     1164
+    ]
+   },
+   "bytes": 14208,
+   "sha256_16": "4c35040a6db26c6e",
+   "piece": "silicone with a through-slit along the station e1 (no pilot hole, no cap)",
+   "slit_length_m": 0.013351768777756621,
+   "slit_width_m": 0.0003,
+   "brep_volume_m3": 1.907518242279014e-06,
+   "mesh_volume_m3": 1.906061333797002e-06
+  },
+  {
+   "name": "trocar_L_sheath",
+   "file": "meshes/trocar_L_sheath.bin",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 18816,
+   "triangle_count": 37056,
+   "max_chord_error_m": 1.983993755020558e-05,
+   "max_chord_error_all_faces_m": 1.983993755020558e-05,
+   "bbox": [
+    [
+     -0.00455,
+     -0.00455,
+     -0.004
+    ],
+    [
+     0.00455,
+     0.00455,
+     0.099
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18816
+    ],
+    "normals": [
+     225792,
+     18816
+    ],
+    "indices": [
+     451584,
+     111168
+    ]
+   },
+   "bytes": 896256,
+   "sha256_16": "b38b1b5c89dbcb29",
+   "body": "L/cannula",
+   "port": "L",
+   "trocar": "5mm",
+   "closed": false,
+   "note": "sheath + metal form one closed solid"
+  },
+  {
+   "name": "trocar_L_metal",
+   "file": "meshes/trocar_L_metal.bin",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 576,
+   "triangle_count": 576,
+   "max_chord_error_m": 1.983993755020558e-05,
+   "max_chord_error_all_faces_m": 1.983993755020558e-05,
+   "bbox": [
+    [
+     -0.0034,
+     -0.0034,
+     -0.004
+    ],
+    [
+     0.0034,
+     0.0034,
+     0.09850925227118883
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     576
+    ],
+    "normals": [
+     6912,
+     576
+    ],
+    "indices": [
+     13824,
+     1728
+    ]
+   },
+   "bytes": 20736,
+   "sha256_16": "924921364efd13cd",
+   "body": "L/cannula",
+   "port": "L",
+   "trocar": "5mm",
+   "closed": false
+  },
+  {
+   "name": "trocar_L_housing",
+   "file": "meshes/trocar_L_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 258,
+   "triangle_count": 256,
+   "max_chord_error_m": 1.5659069332758736e-05,
+   "max_chord_error_all_faces_m": 1.5659069332758736e-05,
+   "bbox": [
+    [
+     -0.013,
+     -0.013,
+     -0.046
+    ],
+    [
+     0.013,
+     0.013,
+     -0.0010000000000000009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     258
+    ],
+    "normals": [
+     3096,
+     258
+    ],
+    "indices": [
+     6192,
+     768
+    ]
+   },
+   "bytes": 9264,
+   "sha256_16": "285e4aae6b19211d",
+   "body": "L/cannula",
+   "port": "L",
+   "trocar": "5mm",
+   "closed": true,
+   "overview_only": true,
+   "note": "coarse housing outside the dome; the valve body (translucent blue-violet) is not modelled separately"
+  },
+  {
+   "name": "membrane_R",
+   "file": "meshes/membrane_R.bin",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 398,
+   "triangle_count": 388,
+   "max_chord_error_m": 9.961322928183707e-06,
+   "max_chord_error_all_faces_m": 9.961322928183707e-06,
+   "bbox": [
+    [
+     -0.08831658850165046,
+     -0.069328263359501,
+     0.2012014576150625
+    ],
+    [
+     -0.05335279257541765,
+     -0.03686483828443718,
+     0.21806984840100685
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     398
+    ],
+    "normals": [
+     4776,
+     398
+    ],
+    "indices": [
+     9552,
+     1164
+    ]
+   },
+   "bytes": 14208,
+   "sha256_16": "53f880717db32aff",
+   "piece": "silicone with a through-slit along the station e1 (no pilot hole, no cap)",
+   "slit_length_m": 0.013351768777756621,
+   "slit_width_m": 0.0003,
+   "brep_volume_m3": 1.907518242279014e-06,
+   "mesh_volume_m3": 1.9060613337966157e-06
+  },
+  {
+   "name": "trocar_R_sheath",
+   "file": "meshes/trocar_R_sheath.bin",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 18816,
+   "triangle_count": 37056,
+   "max_chord_error_m": 1.983993755020558e-05,
+   "max_chord_error_all_faces_m": 1.983993755020558e-05,
+   "bbox": [
+    [
+     -0.00455,
+     -0.00455,
+     -0.004
+    ],
+    [
+     0.00455,
+     0.00455,
+     0.099
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18816
+    ],
+    "normals": [
+     225792,
+     18816
+    ],
+    "indices": [
+     451584,
+     111168
+    ]
+   },
+   "bytes": 896256,
+   "sha256_16": "b38b1b5c89dbcb29",
+   "body": "R/cannula",
+   "port": "R",
+   "trocar": "5mm",
+   "closed": false,
+   "note": "sheath + metal form one closed solid"
+  },
+  {
+   "name": "trocar_R_metal",
+   "file": "meshes/trocar_R_metal.bin",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 576,
+   "triangle_count": 576,
+   "max_chord_error_m": 1.983993755020558e-05,
+   "max_chord_error_all_faces_m": 1.983993755020558e-05,
+   "bbox": [
+    [
+     -0.0034,
+     -0.0034,
+     -0.004
+    ],
+    [
+     0.0034,
+     0.0034,
+     0.09850925227118883
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     576
+    ],
+    "normals": [
+     6912,
+     576
+    ],
+    "indices": [
+     13824,
+     1728
+    ]
+   },
+   "bytes": 20736,
+   "sha256_16": "924921364efd13cd",
+   "body": "R/cannula",
+   "port": "R",
+   "trocar": "5mm",
+   "closed": false
+  },
+  {
+   "name": "trocar_R_housing",
+   "file": "meshes/trocar_R_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 258,
+   "triangle_count": 256,
+   "max_chord_error_m": 1.5659069332758736e-05,
+   "max_chord_error_all_faces_m": 1.5659069332758736e-05,
+   "bbox": [
+    [
+     -0.013,
+     -0.013,
+     -0.046
+    ],
+    [
+     0.013,
+     0.013,
+     -0.0010000000000000009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     258
+    ],
+    "normals": [
+     3096,
+     258
+    ],
+    "indices": [
+     6192,
+     768
+    ]
+   },
+   "bytes": 9264,
+   "sha256_16": "285e4aae6b19211d",
+   "body": "R/cannula",
+   "port": "R",
+   "trocar": "5mm",
+   "closed": true,
+   "overview_only": true,
+   "note": "coarse housing outside the dome; the valve body (translucent blue-violet) is not modelled separately"
+  },
+  {
+   "name": "membrane_C",
+   "file": "meshes/membrane_C.bin",
+   "material": "silicone_membrane",
+   "group": "membrane",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 330,
+   "triangle_count": 320,
+   "max_chord_error_m": 9.969911789538098e-06,
+   "max_chord_error_all_faces_m": 9.969911789538098e-06,
+   "bbox": [
+    [
+     -0.03837374526280794,
+     0.01565293218813453,
+     0.2263244668031154
+    ],
+    [
+     -0.014947314138516916,
+     0.03899506781186548,
+     0.2300731117637325
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     330
+    ],
+    "normals": [
+     3960,
+     330
+    ],
+    "indices": [
+     7920,
+     960
+    ]
+   },
+   "bytes": 11760,
+   "sha256_16": "f5f5c86324ff8461",
+   "piece": "silicone with a through-slit along the station e1 (no pilot hole, no cap)",
+   "slit_length_m": 0.020106192982974676,
+   "slit_width_m": 0.0003,
+   "brep_volume_m3": 8.43792980979684e-07,
+   "mesh_volume_m3": 8.428183640844293e-07
+  },
+  {
+   "name": "trocar_C_sheath",
+   "file": "meshes/trocar_C_sheath.bin",
+   "material": "cannula_sheath",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 18816,
+   "triangle_count": 37056,
+   "max_chord_error_m": 2.0991074476020226e-05,
+   "max_chord_error_all_faces_m": 2.0991074476020226e-05,
+   "bbox": [
+    [
+     -0.0067,
+     -0.0067,
+     -0.004
+    ],
+    [
+     0.0067,
+     0.0067,
+     0.099
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18816
+    ],
+    "normals": [
+     225792,
+     18816
+    ],
+    "indices": [
+     451584,
+     111168
+    ]
+   },
+   "bytes": 896256,
+   "sha256_16": "9d582d8119cc7314",
+   "body": "C/cannula",
+   "port": "C",
+   "trocar": "10mm",
+   "closed": false,
+   "note": "sheath + metal form one closed solid"
+  },
+  {
+   "name": "trocar_C_metal",
+   "file": "meshes/trocar_C_metal.bin",
+   "material": "cannula_metal",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 576,
+   "triangle_count": 576,
+   "max_chord_error_m": 2.0991074476020226e-05,
+   "max_chord_error_all_faces_m": 2.0991074476020226e-05,
+   "bbox": [
+    [
+     -0.00575,
+     -0.00575,
+     -0.004
+    ],
+    [
+     0.00575,
+     0.00575,
+     0.09862472232502675
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     576
+    ],
+    "normals": [
+     6912,
+     576
+    ],
+    "indices": [
+     13824,
+     1728
+    ]
+   },
+   "bytes": 20736,
+   "sha256_16": "10e68d1817da1f25",
+   "body": "C/cannula",
+   "port": "C",
+   "trocar": "10mm",
+   "closed": false
+  },
+  {
+   "name": "trocar_C_housing",
+   "file": "meshes/trocar_C_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 258,
+   "triangle_count": 256,
+   "max_chord_error_m": 2.0477244512069118e-05,
+   "max_chord_error_all_faces_m": 2.0477244512069118e-05,
+   "bbox": [
+    [
+     -0.017,
+     -0.017,
+     -0.056
+    ],
+    [
+     0.017,
+     0.017,
+     -0.0010000000000000009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     258
+    ],
+    "normals": [
+     3096,
+     258
+    ],
+    "indices": [
+     6192,
+     768
+    ]
+   },
+   "bytes": 9264,
+   "sha256_16": "72e69c6eb6edaefa",
+   "body": "C/cannula",
+   "port": "C",
+   "trocar": "10mm",
+   "closed": true,
+   "overview_only": true,
+   "note": "coarse housing outside the dome; the valve body (translucent blue-violet) is not modelled separately"
+  },
+  {
+   "name": "lens_front_CAM1",
+   "file": "meshes/lens_front_CAM1.bin",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 1026,
+   "triangle_count": 1024,
+   "max_chord_error_m": 6.400343672717246e-07,
+   "max_chord_error_all_faces_m": 6.400343672717246e-07,
+   "bbox": [
+    [
+     0.0242171350487766,
+     0.0414331432484538,
+     0.18636201780407202
+    ],
+    [
+     0.04149507035982267,
+     0.059341148998210975,
+     0.19607625558872416
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1026
+    ],
+    "normals": [
+     12312,
+     1026
+    ],
+    "indices": [
+     24624,
+     3072
+    ]
+   },
+   "bytes": 36912,
+   "sha256_16": "a99b7ae6e6a0e105",
+   "owner_camera": "CAM1",
+   "note": "the camera's own lens (its centre is 2 mm behind this front): skip this mesh for rays from owner_camera's centre. Only this mesh: the lens bore, its rim and the swell around it (static shell) still occlude that camera's rays"
+  },
+  {
+   "name": "lens_front_CAM2",
+   "file": "meshes/lens_front_CAM2.bin",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 1026,
+   "triangle_count": 1024,
+   "max_chord_error_m": 6.400343672717246e-07,
+   "max_chord_error_all_faces_m": 6.400343672717246e-07,
+   "bbox": [
+    [
+     0.0242553157753944,
+     -0.0049826695848623325,
+     0.18640975143760605
+    ],
+    [
+     0.041546917678580576,
+     0.012890879297975156,
+     0.19590407204950191
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1026
+    ],
+    "normals": [
+     12312,
+     1026
+    ],
+    "indices": [
+     24624,
+     3072
+    ]
+   },
+   "bytes": 36912,
+   "sha256_16": "4a2ea467d36248f8",
+   "owner_camera": "CAM2",
+   "note": "the camera's own lens (its centre is 2 mm behind this front): skip this mesh for rays from owner_camera's centre. Only this mesh: the lens bore, its rim and the swell around it (static shell) still occlude that camera's rays"
+  },
+  {
+   "name": "lens_front_CAM3",
+   "file": "meshes/lens_front_CAM3.bin",
+   "material": "lens_glass_black",
+   "group": "lens_front",
+   "dynamic": false,
+   "build_dir": null,
+   "vertex_count": 1026,
+   "triangle_count": 1024,
+   "max_chord_error_m": 6.400343672717246e-07,
+   "max_chord_error_all_faces_m": 6.400343672717246e-07,
+   "bbox": [
+    [
+     0.0012463774488297667,
+     -0.11487632430414431,
+     0.10934836377429759
+    ],
+    [
+     0.01899999037468489,
+     -0.10413446413073195,
+     0.12729971311443394
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1026
+    ],
+    "normals": [
+     12312,
+     1026
+    ],
+    "indices": [
+     24624,
+     3072
+    ]
+   },
+   "bytes": 36912,
+   "sha256_16": "517717e03c9f04d5",
+   "owner_camera": "CAM3",
+   "note": "the camera's own lens (its centre is 2 mm behind this front): skip this mesh for rays from owner_camera's centre. Only this mesh: the lens bore, its rim and the swell around it (static shell) still occlude that camera's rays"
+  },
+  {
+   "name": "scope_shaft",
+   "file": "meshes/scope_shaft.bin",
+   "material": "scope_steel",
+   "group": "scope",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 769,
+   "triangle_count": 768,
+   "max_chord_error_m": 3.7649080427748504e-07,
+   "max_chord_error_all_faces_m": 3.7649080427748504e-07,
+   "bbox": [
+    [
+     -0.005,
+     -0.005,
+     -0.31000000000000005
+    ],
+    [
+     0.005,
+     0.005,
+     -0.0
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     769
+    ],
+    "normals": [
+     9228,
+     769
+    ],
+    "indices": [
+     18456,
+     2304
+    ]
+   },
+   "bytes": 27672,
+   "sha256_16": "35905a4f532362d1",
+   "body": "scope",
+   "closed": false
+  },
+  {
+   "name": "scope_tip_face",
+   "file": "meshes/scope_tip_face.bin",
+   "material": "scope_steel",
+   "group": "scope",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 1024,
+   "triangle_count": 1024,
+   "max_chord_error_m": 3.7649080427748504e-07,
+   "max_chord_error_all_faces_m": 3.7649080427748504e-07,
+   "bbox": [
+    [
+     -0.005,
+     -0.005,
+     -0.005773502691896256
+    ],
+    [
+     0.005,
+     0.005,
+     -0.0
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1024
+    ],
+    "normals": [
+     12288,
+     1024
+    ],
+    "indices": [
+     24576,
+     3072
+    ]
+   },
+   "bytes": 36864,
+   "sha256_16": "e14f0fe07f1cbe70",
+   "body": "scope",
+   "closed": false
+  },
+  {
+   "name": "scope_window",
+   "file": "meshes/scope_window.bin",
+   "material": "scope_glass",
+   "group": "scope",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 257,
+   "triangle_count": 256,
+   "max_chord_error_m": 3.7649080427748504e-07,
+   "max_chord_error_all_faces_m": 3.7649080427748504e-07,
+   "bbox": [
+    [
+     -0.0023,
+     -0.00065,
+     -0.005167284909247149
+    ],
+    [
+     0.0023,
+     0.00395,
+     -0.0025114736709748713
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     257
+    ],
+    "normals": [
+     3084,
+     257
+    ],
+    "indices": [
+     6168,
+     768
+    ]
+   },
+   "bytes": 9240,
+   "sha256_16": "09f1128cbb5a7ed8",
+   "body": "scope",
+   "closed": false
+  },
+  {
+   "name": "scope_light",
+   "file": "meshes/scope_light.bin",
+   "material": "emitter",
+   "group": "scope",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 512,
+   "triangle_count": 512,
+   "max_chord_error_m": 3.7649080427748504e-07,
+   "max_chord_error_all_faces_m": 3.7649080427748504e-07,
+   "bbox": [
+    [
+     -0.00465,
+     -0.00465,
+     -0.005571430097679886
+    ],
+    [
+     0.00465,
+     0.00465,
+     -0.00020207259421636925
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     512
+    ],
+    "normals": [
+     6144,
+     512
+    ],
+    "indices": [
+     12288,
+     1536
+    ]
+   },
+   "bytes": 18432,
+   "sha256_16": "e897329af52da093",
+   "body": "scope",
+   "emitter": true,
+   "closed": false
+  },
+  {
+   "name": "L_shaft",
+   "file": "meshes/L_shaft.bin",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 1228,
+   "triangle_count": 1934,
+   "max_chord_error_m": 2.1627458734654434e-05,
+   "max_chord_error_all_faces_m": 2.1627458734654434e-05,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002497494741076823,
+     -0.31018100000000004
+    ],
+    [
+     0.0025,
+     0.002495066821070679,
+     -0.0056159999999999995
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1228
+    ],
+    "normals": [
+     14736,
+     1228
+    ],
+    "indices": [
+     29472,
+     5802
+    ]
+   },
+   "bytes": 52680,
+   "sha256_16": "5020fe684ad22125",
+   "body": "L/shaft",
+   "instrument": "L",
+   "closed": true
+  },
+  {
+   "name": "L_collar",
+   "file": "meshes/L_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 1063,
+   "triangle_count": 1017,
+   "max_chord_error_m": 4.995101146513549e-06,
+   "max_chord_error_all_faces_m": 4.995101146513549e-06,
+   "bbox": [
+    [
+     -0.0025,
+     -0.00223227596860245,
+     -0.31018100000000004
+    ],
+    [
+     0.0025,
+     0.0022322759686024493,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1063
+    ],
+    "normals": [
+     12756,
+     1063
+    ],
+    "indices": [
+     25512,
+     3051
+    ]
+   },
+   "bytes": 37716,
+   "sha256_16": "0fb112ae8e275ea3",
+   "body": "L/shaft",
+   "instrument": "L",
+   "closed": false
+  },
+  {
+   "name": "L_pin",
+   "file": "meshes/L_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.530003774237346e-06,
+   "max_chord_error_all_faces_m": 5.530003774237346e-06,
+   "bbox": [
+    [
+     -0.002596440553532548,
+     -0.0009000000000000001,
+     -0.0009000000000000001
+    ],
+    [
+     0.002596440553532548,
+     0.0009000000000000001,
+     0.0009000000000000001
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "body": "L/shaft",
+   "instrument": "L",
+   "closed": true
+  },
+  {
+   "name": "L_jaw_a",
+   "file": "meshes/L_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 3822,
+   "triangle_count": 5286,
+   "max_chord_error_m": 1.1725124570487369e-05,
+   "max_chord_error_all_faces_m": 1.1725124570487369e-05,
+   "bbox": [
+    [
+     -0.0022238036995533388,
+     -0.001975307461885459,
+     -0.004217155279221805
+    ],
+    [
+     0.0022238036995533388,
+     0.002447,
+     0.019818037507971214
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3822
+    ],
+    "normals": [
+     45864,
+     3822
+    ],
+    "indices": [
+     91728,
+     15858
+    ]
+   },
+   "bytes": 155160,
+   "sha256_16": "78d2baad3a08e79d",
+   "body": "L/jaw_a",
+   "instrument": "L",
+   "closed": true
+  },
+  {
+   "name": "L_jaw_b",
+   "file": "meshes/L_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 3799,
+   "triangle_count": 5284,
+   "max_chord_error_m": 1.1725124570487369e-05,
+   "max_chord_error_all_faces_m": 1.1725124570487369e-05,
+   "bbox": [
+    [
+     -0.0022238036995533383,
+     -0.002447,
+     -0.004217155279221805
+    ],
+    [
+     0.0022238036995533388,
+     0.001975307461885459,
+     0.019818037507971214
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3799
+    ],
+    "normals": [
+     45588,
+     3799
+    ],
+    "indices": [
+     91176,
+     15852
+    ]
+   },
+   "bytes": 154584,
+   "sha256_16": "0ebd16f19d88cf49",
+   "body": "L/jaw_b",
+   "instrument": "L",
+   "closed": true
+  },
+  {
+   "name": "R_shaft",
+   "file": "meshes/R_shaft.bin",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 1228,
+   "triangle_count": 1934,
+   "max_chord_error_m": 2.1627458734654434e-05,
+   "max_chord_error_all_faces_m": 2.1627458734654434e-05,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002497494741076823,
+     -0.3105
+    ],
+    [
+     0.0025,
+     0.002495066821070679,
+     -0.0056159999999999995
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1228
+    ],
+    "normals": [
+     14736,
+     1228
+    ],
+    "indices": [
+     29472,
+     5802
+    ]
+   },
+   "bytes": 52680,
+   "sha256_16": "49bb062e60c956b7",
+   "body": "R/shaft",
+   "instrument": "R",
+   "closed": true
+  },
+  {
+   "name": "R_collar",
+   "file": "meshes/R_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 1063,
+   "triangle_count": 1017,
+   "max_chord_error_m": 4.995101146513549e-06,
+   "max_chord_error_all_faces_m": 4.995101146513549e-06,
+   "bbox": [
+    [
+     -0.0025,
+     -0.00223227596860245,
+     -0.3105
+    ],
+    [
+     0.0025,
+     0.0022322759686024493,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1063
+    ],
+    "normals": [
+     12756,
+     1063
+    ],
+    "indices": [
+     25512,
+     3051
+    ]
+   },
+   "bytes": 37716,
+   "sha256_16": "87882b1766f782bf",
+   "body": "R/shaft",
+   "instrument": "R",
+   "closed": false
+  },
+  {
+   "name": "R_pin",
+   "file": "meshes/R_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.530003774237346e-06,
+   "max_chord_error_all_faces_m": 5.530003774237346e-06,
+   "bbox": [
+    [
+     -0.002596440553532548,
+     -0.0009000000000000001,
+     -0.0009000000000000001
+    ],
+    [
+     0.002596440553532548,
+     0.0009000000000000001,
+     0.0009000000000000001
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "body": "R/shaft",
+   "instrument": "R",
+   "closed": true
+  },
+  {
+   "name": "R_jaw_a",
+   "file": "meshes/R_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 3414,
+   "triangle_count": 4668,
+   "max_chord_error_m": 1.3307584616177945e-05,
+   "max_chord_error_all_faces_m": 1.3307584616177945e-05,
+   "bbox": [
+    [
+     -0.002199047904939893,
+     -0.001975307461885459,
+     -0.004217155279221805
+    ],
+    [
+     0.004015508228969028,
+     0.002250000000000001,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3414
+    ],
+    "normals": [
+     40968,
+     3414
+    ],
+    "indices": [
+     81936,
+     14004
+    ]
+   },
+   "bytes": 137952,
+   "sha256_16": "2ef043f55c4a882b",
+   "body": "R/jaw_a",
+   "instrument": "R",
+   "closed": true
+  },
+  {
+   "name": "R_jaw_b",
+   "file": "meshes/R_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 3406,
+   "triangle_count": 4650,
+   "max_chord_error_m": 1.3307584616177945e-05,
+   "max_chord_error_all_faces_m": 1.3307584616177945e-05,
+   "bbox": [
+    [
+     -0.002199047904939893,
+     -0.002250000000000001,
+     -0.004217155279221805
+    ],
+    [
+     0.004015508228969036,
+     0.001975307461885459,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3406
+    ],
+    "normals": [
+     40872,
+     3406
+    ],
+    "indices": [
+     81744,
+     13950
+    ]
+   },
+   "bytes": 137544,
+   "sha256_16": "0d61d71a79ea29f4",
+   "body": "R/jaw_b",
+   "instrument": "R",
+   "closed": true
+  },
+  {
+   "name": "board_charuco_b",
+   "file": "meshes/board_charuco_b.bin",
+   "material": "charuco_print",
+   "group": "board",
+   "dynamic": true,
+   "build_dir": null,
+   "vertex_count": 24,
+   "triangle_count": 12,
+   "max_chord_error_m": 0.0,
+   "max_chord_error_all_faces_m": 0.0,
+   "bbox": [
+    [
+     -0.006,
+     -0.006,
+     0.0
+    ],
+    [
+     0.09000000000000001,
+     0.066,
+     0.003
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     24
+    ],
+    "normals": [
+     288,
+     24
+    ],
+    "uvs": [
+     576,
+     24
+    ],
+    "indices": [
+     768,
+     36
+    ]
+   },
+   "bytes": 912,
+   "sha256_16": "84abf9047562f06f",
+   "body": "board/charuco_b",
+   "texture": "textures/charuco_b.png"
+  }
+ ],
+ "totals": {
+  "static_triangles": 387954,
+  "dynamic_triangles": 143602,
+  "max_chord_error_visible_m": 3.627358317289455e-05,
+  "max_chord_error_all_faces_m": 0.00018984278110480696
+ },
+ "cameras": [
+  {
+   "name": "CAM1",
+   "tag": "CAM 1",
+   "role": "APEX-L",
+   "unique_id": "0x113100032e40144",
+   "size": [
+    1280,
+    720
+   ],
+   "fps": 20.0,
+   "phase_s": 0.0,
+   "lens": {
+    "model": "kb4",
+    "K": [
+     [
+      745.386252,
+      0.0,
+      633.927484
+     ],
+     [
+      0.0,
+      747.207117,
+      380.042876
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D": [
+     -0.012300643,
+     -0.016677738,
+     0.035329677,
+     -0.033581606
+    ],
+    "size": [
+     1280,
+     720
+    ]
+   },
+   "T_D_C": [
+    [
+     -0.0,
+     0.9987543678729054,
+     0.04989702050015665,
+     0.03290599972479979
+    ],
+    [
+     0.9749314974256171,
+     0.011102347792855015,
+     -0.22222806573637488,
+     0.050164918057596014
+    ],
+    [
+     -0.2225052253935715,
+     0.04864617691329444,
+     -0.9737170914307074,
+     0.1902454196049674
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "lens_front_D": [
+    0.0330057937658001,
+    0.04972046192612326,
+    0.18829798542210596
+   ],
+   "optical_axis_D": [
+    0.04989702050015665,
+    -0.22222806573637488,
+    -0.9737170914307074
+   ],
+   "image_up_D": [
+    -0.9987543678729054,
+    -0.011102347792855015,
+    -0.04864617691329444
+   ],
+   "theta_fold_rad": 1.2338112833626855,
+   "theta_corner_rad": 1.040217537433318,
+   "lens_mesh": "lens_front_CAM1",
+   "source": {
+    "pose": "multicam.coverage.design_cameras() = multicam.synthetic.dome_cameras(): dci.mounts() (aimed, ADR-123), C = [-x_m, -y_m, n], centre 2 mm behind the lens front",
+    "lens": "configs/multicam/dome_v1.yaml (measured 2026-10-30)",
+    "phase": "staggered by 1/3 frame: free-running clocks, deterministic"
+   },
+   "checks": {
+    "aim_target_px": [
+     609.5121909467351,
+     508.6228356564792
+    ],
+    "aim_target_off_principal_px": 130.87747155312343,
+    "aim_target_off_axis_deg": 10.04046840389058,
+    "det_R": 1.0,
+    "x_cross_y_dot_z": 1.0,
+    "image_up_vs_json_deg": 0.002774421900549805,
+    "axis_vs_json_deg": 0.0013703495232662705,
+    "lens_front_vs_json_mm": 0.021361569860648324,
+    "centre_behind_lens_front_mm": 2.0000000000000315
+   }
+  },
+  {
+   "name": "CAM2",
+   "tag": "CAM 2",
+   "role": "APEX-R",
+   "unique_id": "0x113200032e40144",
+   "size": [
+    1280,
+    720
+   ],
+   "fps": 20.0,
+   "phase_s": 0.016666666667,
+   "lens": {
+    "model": "kb4",
+    "K": [
+     [
+      742.233415,
+      0.0,
+      624.055587
+     ],
+     [
+      0.0,
+      746.5229,
+      408.659744
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D": [
+     -0.02167181,
+     0.005458033,
+     0.006324293,
+     -0.013590434
+    ],
+    "size": [
+     1280,
+     720
+    ]
+   },
+   "T_D_C": [
+    [
+     -1.734723475976807e-18,
+     0.9986198401243659,
+     0.052520614143267585,
+     0.03295363734113075
+    ],
+    [
+     0.9782491317372993,
+     -0.01089453219751832,
+     0.20714715885914867,
+     0.004161252015415561
+    ],
+    [
+     0.20743345018395692,
+     0.05137824518396124,
+     -0.9768989915373015,
+     0.19018001275201668
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "lens_front_D": [
+    0.03305867856941729,
+    0.004575546333133858,
+    0.18822621476894208
+   ],
+   "optical_axis_D": [
+    0.052520614143267585,
+    0.20714715885914867,
+    -0.9768989915373015
+   ],
+   "image_up_D": [
+    -0.9986198401243659,
+    0.01089453219751832,
+    -0.05137824518396124
+   ],
+   "theta_fold_rad": 1.3329536355099794,
+   "theta_corner_rad": 1.0737491174658769,
+   "lens_mesh": "lens_front_CAM2",
+   "source": {
+    "pose": "multicam.coverage.design_cameras() = multicam.synthetic.dome_cameras(): dci.mounts() (aimed, ADR-123), C = [-x_m, -y_m, n], centre 2 mm behind the lens front",
+    "lens": "configs/multicam/dome_v1.yaml (measured 2026-10-30)",
+    "phase": "staggered by 1/3 frame: free-running clocks, deterministic"
+   },
+   "checks": {
+    "aim_target_px": [
+     642.3328216287218,
+     535.8246341157596
+    ],
+    "aim_target_off_principal_px": 128.47165673340783,
+    "aim_target_off_axis_deg": 9.86767563712439,
+    "det_R": 1.0000000000000002,
+    "x_cross_y_dot_z": 1.0000000000000002,
+    "image_up_vs_json_deg": 0.0013431427963002654,
+    "axis_vs_json_deg": 0.0028947830986564838,
+    "lens_front_vs_json_mm": 0.054705178541788725,
+    "centre_behind_lens_front_mm": 1.9999999999999982
+   }
+  },
+  {
+   "name": "CAM3",
+   "tag": "CAM 3",
+   "role": "SIDE-R",
+   "unique_id": "0x14000032e40144",
+   "size": [
+    1280,
+    720
+   ],
+   "fps": 20.0,
+   "phase_s": 0.033333333333,
+   "lens": {
+    "model": "kb4",
+    "K": [
+     [
+      753.707994,
+      0.0,
+      539.674967
+     ],
+     [
+      0.0,
+      756.773813,
+      387.364381
+     ],
+     [
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "D": [
+     -0.011875441,
+     -0.003513882,
+     -0.006539589,
+     0.001768382
+    ],
+    "size": [
+     1280,
+     720
+    ]
+   },
+   "T_D_C": [
+    [
+     -6.938893903907228e-18,
+     0.9864493186374798,
+     0.16406627246223313,
+     0.010287250184219561
+    ],
+    [
+     0.24804305997864493,
+     -0.15893903868519246,
+     0.9556217988191025,
+     -0.10854977241861903
+    ],
+    [
+     0.9687490079460367,
+     0.040695500260822394,
+     -0.24468190750868987,
+     0.11807935653685708
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "lens_front_D": [
+    0.010615382729144028,
+    -0.10663852882098082,
+    0.11758999272183969
+   ],
+   "optical_axis_D": [
+    0.16406627246223313,
+    0.9556217988191025,
+    -0.24468190750868987
+   ],
+   "image_up_D": [
+    -0.9864493186374798,
+    0.15893903868519246,
+    -0.040695500260822394
+   ],
+   "theta_fold_rad": 1.5707963267948966,
+   "theta_corner_rad": 1.1426521214535896,
+   "lens_mesh": "lens_front_CAM3",
+   "source": {
+    "pose": "multicam.coverage.design_cameras() = multicam.synthetic.dome_cameras(): dci.mounts() (aimed, ADR-123), C = [-x_m, -y_m, n], centre 2 mm behind the lens front",
+    "lens": "configs/multicam/dome_v1.yaml (measured 2026-10-30)",
+    "phase": "staggered by 1/3 frame: free-running clocks, deterministic"
+   },
+   "checks": {
+    "aim_target_px": [
+     616.5612655961171,
+     500.4117039399256
+    ],
+    "aim_target_off_principal_px": 136.7157640350779,
+    "aim_target_off_axis_deg": 10.36823699996094,
+    "det_R": 0.9999999999999998,
+    "x_cross_y_dot_z": 0.9999999999999998,
+    "image_up_vs_json_deg": 0.0018006529476922678,
+    "axis_vs_json_deg": 0.0024456207130992666,
+    "lens_front_vs_json_mm": 0.04267603564377755,
+    "centre_behind_lens_front_mm": 2.000000000000008
+   }
+  }
+ ],
+ "ports": [
+  {
+   "id": "L",
+   "role": "working",
+   "station": "FP-12",
+   "pivot": [
+    -0.07083145276316578,
+    0.10774542255586177,
+    0.2096356530080347
+   ],
+   "axis_out": [
+    -0.07738754237221203,
+    0.4244432504758868,
+    0.9021413943562576
+   ],
+   "surface_point": [
+    -0.0710815209523534,
+    0.10911695797106995,
+    0.21255081038301382
+   ],
+   "R_D_P": [
+    [
+     -0.9837816593259622,
+     -0.16181722732591106,
+     0.07738754237221203
+    ],
+    [
+     -0.17937013902502413,
+     0.8875101578864363,
+     -0.4244432504758868
+    ],
+    [
+     0.0,
+     -0.43144049947698154,
+     -0.9021413943562576
+    ]
+   ],
+   "trocar": "5mm",
+   "trocar_d": 0.005,
+   "cannula_body": "L/cannula",
+   "cannula_meshes": [
+    "trocar_L_sheath",
+    "trocar_L_metal",
+    "trocar_L_housing"
+   ],
+   "cannula_toe_insertion": 0.099,
+   "cannula_heel_insertion": 0.09409252271188819,
+   "cannula_bore_radius": 0.0029,
+   "cannula_outer_radius": 0.00425,
+   "housing_bottom_insertion": -0.001,
+   "housing_fits_counterbore": true,
+   "counterbore_r": 0.01991041114340292,
+   "silicone_r": 0.01746041114340292,
+   "layout_trocar": "5mm",
+   "cone_half_deg": 59.80000000000001,
+   "cone": {
+    "azimuth_rad": [
+     0.0,
+     0.08726646259971647,
+     0.17453292519943295,
+     0.2617993877991494,
+     0.3490658503988659,
+     0.4363323129985824,
+     0.5235987755982988,
+     0.6108652381980153,
+     0.6981317007977318,
+     0.7853981633974483,
+     0.8726646259971648,
+     0.9599310885968813,
+     1.0471975511965976,
+     1.1344640137963142,
+     1.2217304763960306,
+     1.3089969389957472,
+     1.3962634015954636,
+     1.48352986419518,
+     1.5707963267948966,
+     1.658062789394613,
+     1.7453292519943295,
+     1.832595714594046,
+     1.9198621771937625,
+     2.007128639793479,
+     2.0943951023931953,
+     2.1816615649929116,
+     2.2689280275926285,
+     2.356194490192345,
+     2.443460952792061,
+     2.5307274153917776,
+     2.6179938779914944,
+     2.705260340591211,
+     2.792526803190927,
+     2.8797932657906435,
+     2.96705972839036,
+     3.0543261909900767,
+     3.141592653589793,
+     3.2288591161895095,
+     3.316125578789226,
+     3.4033920413889427,
+     3.490658503988659,
+     3.5779249665883754,
+     3.665191429188092,
+     3.752457891787808,
+     3.839724354387525,
+     3.9269908169872414,
+     4.014257279586958,
+     4.101523742186674,
+     4.1887902047863905,
+     4.276056667386107,
+     4.363323129985823,
+     4.4505895925855405,
+     4.537856055185257,
+     4.625122517784973,
+     4.71238898038469,
+     4.799655442984406,
+     4.886921905584122,
+     4.974188368183839,
+     5.061454830783555,
+     5.148721293383272,
+     5.235987755982989,
+     5.323254218582705,
+     5.410520681182422,
+     5.497787143782138,
+     5.585053606381854,
+     5.672320068981571,
+     5.759586531581287,
+     5.8468529941810035,
+     5.93411945678072,
+     6.021385919380437,
+     6.1086523819801535,
+     6.19591884457987
+    ],
+    "max_tilt_rad": [
+     1.048942880448592,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592
+    ],
+    "azimuth_ref": "angle in the station plane from e1 = R_D_P[:,0] toward a x e1 (a = axis_out)",
+    "e1": [
+     -0.9837816593259622,
+     -0.17937013902502413,
+     0.0
+    ],
+    "rule": "this trocar's cannula against the floor bore and funnel (no cap)"
+   },
+   "pivot_depth": 0.0032313752513920563,
+   "source": "assets/dome/port_layout.json"
+  },
+  {
+   "id": "R",
+   "role": "working",
+   "station": "FP-12",
+   "pivot": [
+    -0.07083145276316578,
+    -0.053097422555861765,
+    0.2096356530080347
+   ],
+   "axis_out": [
+    -0.07738754237221203,
+    -0.4244432504758868,
+    0.9021413943562576
+   ],
+   "surface_point": [
+    -0.0710815209523534,
+    -0.054468957971069945,
+    0.21255081038301382
+   ],
+   "R_D_P": [
+    [
+     0.9837816593259622,
+     -0.16181722732591106,
+     0.07738754237221203
+    ],
+    [
+     -0.17937013902502413,
+     -0.8875101578864363,
+     0.4244432504758868
+    ],
+    [
+     0.0,
+     -0.43144049947698154,
+     -0.9021413943562576
+    ]
+   ],
+   "trocar": "5mm",
+   "trocar_d": 0.005,
+   "cannula_body": "R/cannula",
+   "cannula_meshes": [
+    "trocar_R_sheath",
+    "trocar_R_metal",
+    "trocar_R_housing"
+   ],
+   "cannula_toe_insertion": 0.099,
+   "cannula_heel_insertion": 0.09409252271188819,
+   "cannula_bore_radius": 0.0029,
+   "cannula_outer_radius": 0.00425,
+   "housing_bottom_insertion": -0.001,
+   "housing_fits_counterbore": true,
+   "counterbore_r": 0.01991041114340292,
+   "silicone_r": 0.01746041114340292,
+   "layout_trocar": "12mm",
+   "cone_half_deg": 59.80000000000001,
+   "cone": {
+    "azimuth_rad": [
+     0.0,
+     0.08726646259971647,
+     0.17453292519943295,
+     0.2617993877991494,
+     0.3490658503988659,
+     0.4363323129985824,
+     0.5235987755982988,
+     0.6108652381980153,
+     0.6981317007977318,
+     0.7853981633974483,
+     0.8726646259971648,
+     0.9599310885968813,
+     1.0471975511965976,
+     1.1344640137963142,
+     1.2217304763960306,
+     1.3089969389957472,
+     1.3962634015954636,
+     1.48352986419518,
+     1.5707963267948966,
+     1.658062789394613,
+     1.7453292519943295,
+     1.832595714594046,
+     1.9198621771937625,
+     2.007128639793479,
+     2.0943951023931953,
+     2.1816615649929116,
+     2.2689280275926285,
+     2.356194490192345,
+     2.443460952792061,
+     2.5307274153917776,
+     2.6179938779914944,
+     2.705260340591211,
+     2.792526803190927,
+     2.8797932657906435,
+     2.96705972839036,
+     3.0543261909900767,
+     3.141592653589793,
+     3.2288591161895095,
+     3.316125578789226,
+     3.4033920413889427,
+     3.490658503988659,
+     3.5779249665883754,
+     3.665191429188092,
+     3.752457891787808,
+     3.839724354387525,
+     3.9269908169872414,
+     4.014257279586958,
+     4.101523742186674,
+     4.1887902047863905,
+     4.276056667386107,
+     4.363323129985823,
+     4.4505895925855405,
+     4.537856055185257,
+     4.625122517784973,
+     4.71238898038469,
+     4.799655442984406,
+     4.886921905584122,
+     4.974188368183839,
+     5.061454830783555,
+     5.148721293383272,
+     5.235987755982989,
+     5.323254218582705,
+     5.410520681182422,
+     5.497787143782138,
+     5.585053606381854,
+     5.672320068981571,
+     5.759586531581287,
+     5.8468529941810035,
+     5.93411945678072,
+     6.021385919380437,
+     6.1086523819801535,
+     6.19591884457987
+    ],
+    "max_tilt_rad": [
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.048942880448592,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0437068926926092,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0454522219446034,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.0471975511965979,
+     1.048942880448592,
+     1.048942880448592
+    ],
+    "azimuth_ref": "angle in the station plane from e1 = R_D_P[:,0] toward a x e1 (a = axis_out)",
+    "e1": [
+     0.9837816593259622,
+     -0.17937013902502413,
+     0.0
+    ],
+    "rule": "this trocar's cannula against the floor bore and funnel (no cap)"
+   },
+   "pivot_depth": 0.0032313752513920563,
+   "source": "assets/dome/port_layout.json"
+  },
+  {
+   "id": "C",
+   "role": "camera",
+   "station": "FP-10",
+   "pivot": [
+    -0.026660529700662423,
+    0.027324,
+    0.22819878928342394
+   ],
+   "axis_out": [
+    0.07515599304899961,
+    0.0,
+    0.9971717889655818
+   ],
+   "surface_point": [
+    -0.02645843218813452,
+    0.027324,
+    0.23088022465454006
+   ],
+   "R_D_P": [
+    [
+     0.0,
+     0.9971717889655818,
+     -0.07515599304899961
+    ],
+    [
+     1.0,
+     0.0,
+     -0.0
+    ],
+    [
+     0.0,
+     -0.07515599304899961,
+     -0.9971717889655818
+    ]
+   ],
+   "trocar": "10mm",
+   "trocar_d": 0.01,
+   "cannula_body": "C/cannula",
+   "cannula_meshes": [
+    "trocar_C_sheath",
+    "trocar_C_metal",
+    "trocar_C_housing"
+   ],
+   "cannula_toe_insertion": 0.099,
+   "cannula_heel_insertion": 0.0916099165543728,
+   "cannula_bore_radius": 0.00525,
+   "cannula_outer_radius": 0.0064,
+   "housing_bottom_insertion": -0.001,
+   "housing_fits_counterbore": false,
+   "counterbore_r": 0.013721067811865472,
+   "silicone_r": 0.011671067811865473,
+   "layout_trocar": "scope",
+   "cone_half_deg": 33.7,
+   "cone": {
+    "azimuth_rad": [
+     0.0,
+     0.08726646259971647,
+     0.17453292519943295,
+     0.2617993877991494,
+     0.3490658503988659,
+     0.4363323129985824,
+     0.5235987755982988,
+     0.6108652381980153,
+     0.6981317007977318,
+     0.7853981633974483,
+     0.8726646259971648,
+     0.9599310885968813,
+     1.0471975511965976,
+     1.1344640137963142,
+     1.2217304763960306,
+     1.3089969389957472,
+     1.3962634015954636,
+     1.48352986419518,
+     1.5707963267948966,
+     1.658062789394613,
+     1.7453292519943295,
+     1.832595714594046,
+     1.9198621771937625,
+     2.007128639793479,
+     2.0943951023931953,
+     2.1816615649929116,
+     2.2689280275926285,
+     2.356194490192345,
+     2.443460952792061,
+     2.5307274153917776,
+     2.6179938779914944,
+     2.705260340591211,
+     2.792526803190927,
+     2.8797932657906435,
+     2.96705972839036,
+     3.0543261909900767,
+     3.141592653589793,
+     3.2288591161895095,
+     3.316125578789226,
+     3.4033920413889427,
+     3.490658503988659,
+     3.5779249665883754,
+     3.665191429188092,
+     3.752457891787808,
+     3.839724354387525,
+     3.9269908169872414,
+     4.014257279586958,
+     4.101523742186674,
+     4.1887902047863905,
+     4.276056667386107,
+     4.363323129985823,
+     4.4505895925855405,
+     4.537856055185257,
+     4.625122517784973,
+     4.71238898038469,
+     4.799655442984406,
+     4.886921905584122,
+     4.974188368183839,
+     5.061454830783555,
+     5.148721293383272,
+     5.235987755982989,
+     5.323254218582705,
+     5.410520681182422,
+     5.497787143782138,
+     5.585053606381854,
+     5.672320068981571,
+     5.759586531581287,
+     5.8468529941810035,
+     5.93411945678072,
+     6.021385919380437,
+     6.1086523819801535,
+     6.19591884457987
+    ],
+    "max_tilt_rad": [
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891,
+     0.5881759579220891
+    ],
+    "azimuth_ref": "angle in the station plane from e1 = R_D_P[:,0] toward a x e1 (a = axis_out)",
+    "e1": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "rule": "this trocar's cannula against the floor bore and funnel (no cap)"
+   },
+   "pivot_depth": 0.0026890405452582172,
+   "source": "assets/dome/port_layout.json"
+  }
+ ],
+ "scope": {
+  "port": "C",
+  "pivot": [
+   -0.026660529700662423,
+   0.027324,
+   0.22819878928342394
+  ],
+  "default": {
+   "dir_D": [
+    0.17293351624530412,
+    -5.411488073613043e-17,
+    -0.9849334997648498
+   ],
+   "insertion": 0.10677350269189627,
+   "yaw": -5.583741416055318e-17,
+   "pitch": -0.24903421096921258,
+   "roll": -7.996758267443831e-17,
+   "min_insertion": 0.10527350269189627,
+   "layout_insertion": 0.016393914085526096,
+   "origin_D": [
+    -0.008195812438325355,
+    0.027323999999999994,
+    0.12303398959494294
+   ],
+   "view_dir_D": [
+    0.6422315681166271,
+    0.0,
+    -0.7665106737120224
+   ],
+   "rule": "insertion = cannula toe + 2 r tan(dov) + 0.5 mm (+ 1.5 mm): the scope's whole tip face past the cannula; same aim as the layout",
+   "checks": {
+    "lens_vs_layout_json_mm": 90.378525907136,
+    "view_vs_layout_deg": 0.0,
+    "moved_along_aim_mm": 90.37958860637018,
+    "origin_to_fundus_target_mm": 55.21635354658996,
+    "layout_lens_to_fundus_target_mm": 110.0,
+    "shaft_vs_layout_deg": 0.0,
+    "layout_view_D": [
+     0.6422315681166271,
+     0.0,
+     -0.7665106737120223
+    ]
+   }
+  },
+  "mesh_parts": [
+   "scope_shaft",
+   "scope_tip_face",
+   "scope_window"
+  ],
+  "emitter_mesh": "scope_light",
+  "body": "scope",
+  "frame": "K (configs/twin/physics.yaml scope.frame): +z along the shaft toward the tip; origin on the shaft axis in the plane, normal to the shaft, of the tip face's distal-most point (the toe, at -y); tip-face normal = direction of view = +z turned dov about x toward +y; face: z = -(y + r) tan(dov)",
+  "outer_diameter": 0.01,
+  "working_length": 0.31,
+  "direction_of_view_deg": 30.0,
+  "view_dir_K": [
+   0.0,
+   0.49999999999999994,
+   0.8660254037844387
+  ],
+  "emission_axis_K": [
+   0.0,
+   0.49999999999999994,
+   0.8660254037844387
+  ],
+  "objective_centre_K": [
+   0.0,
+   0.00165,
+   -0.0038393792901110103
+  ],
+  "emitter_area_m2": 4.7924836265288114e-05,
+  "emitter_area_physics_m2": 4.793e-05,
+  "emitter_L0_scale": 1.000107746527986,
+  "emitter_note": "scale physics L0 by emitter_L0_scale to keep the flux (physics.yaml light_outlet note)",
+  "closed": "scope_shaft + scope_tip_face + scope_window + scope_light together form a closed solid",
+  "geometry_source": "configs/twin/physics.yaml scope.*",
+  "defaulted_keys": []
+ },
+ "instruments": [
+  {
+   "id": "L",
+   "port": "L",
+   "kind": "fenestrated",
+   "spec": {
+    "shaft_radius": 0.0025,
+    "housing_length": 0.0056159999999999995,
+    "jaw_length": 0.019819,
+    "jaw_radius": 0.0020862029940485645,
+    "jaw_max": 1.2740903539558606,
+    "max_insertion": 0.306949624748608
+   },
+   "min_insertion": 0.10381998825549894,
+   "min_insertion_rule": "cannula toe + the jaws' largest radius about the hinge axis behind the hinge (4.32 mm) + 0.5 mm: the jaws are past the cannula's tip at any opening",
+   "parts": [
+    {
+     "mesh": "L_shaft",
+     "body": "shaft"
+    },
+    {
+     "mesh": "L_collar",
+     "body": "shaft"
+    },
+    {
+     "mesh": "L_pin",
+     "body": "shaft"
+    },
+    {
+     "mesh": "L_jaw_a",
+     "body": "jaw_a"
+    },
+    {
+     "mesh": "L_jaw_b",
+     "body": "jaw_b"
+    }
+   ],
+   "hinge_in_S": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tip_in_jaw_frame": [
+    0.0,
+    0.0,
+    0.019819
+   ],
+   "collar": {
+    "from_S_z": -0.0056159999999999995,
+    "to_S_z": 0.001896,
+    "length": 0.007512
+   },
+   "shaft_from_S_z": -0.31018100000000004,
+   "omitted_parts": [
+    "link_A",
+    "link_B",
+    "rod (inside the clevis slot; they move with the jaw)"
+   ],
+   "source": "veridien.twin.cad.params.fenestrated()",
+   "default": {
+    "yaw": -0.6659389880417966,
+    "pitch": 0.19918477539661095,
+    "roll": 0.0,
+    "insertion": 0.16702802632358632,
+    "jaw": 0.4
+   }
+  },
+  {
+   "id": "R",
+   "port": "R",
+   "kind": "maryland",
+   "spec": {
+    "shaft_radius": 0.0025,
+    "housing_length": 0.0056159999999999995,
+    "jaw_length": 0.0195,
+    "jaw_radius": 0.001599507178073548,
+    "jaw_max": 1.2217304763960306,
+    "max_insertion": 0.30726862474860794
+   },
+   "min_insertion": 0.10381998825549894,
+   "min_insertion_rule": "cannula toe + the jaws' largest radius about the hinge axis behind the hinge (4.32 mm) + 0.5 mm: the jaws are past the cannula's tip at any opening",
+   "parts": [
+    {
+     "mesh": "R_shaft",
+     "body": "shaft"
+    },
+    {
+     "mesh": "R_collar",
+     "body": "shaft"
+    },
+    {
+     "mesh": "R_pin",
+     "body": "shaft"
+    },
+    {
+     "mesh": "R_jaw_a",
+     "body": "jaw_a"
+    },
+    {
+     "mesh": "R_jaw_b",
+     "body": "jaw_b"
+    }
+   ],
+   "hinge_in_S": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "tip_in_jaw_frame": [
+    0.0031670243221048025,
+    0.0,
+    0.0195
+   ],
+   "collar": {
+    "from_S_z": -0.0056159999999999995,
+    "to_S_z": 0.001896,
+    "length": 0.007512
+   },
+   "shaft_from_S_z": -0.3105,
+   "omitted_parts": [
+    "link_A",
+    "link_B",
+    "rod (inside the clevis slot; they move with the jaw)"
+   ],
+   "source": "veridien.twin.cad.params.maryland()",
+   "default": {
+    "yaw": 0.6719434987958716,
+    "pitch": 0.18709898715273113,
+    "roll": 0.0,
+    "insertion": 0.16600069202465606,
+    "jaw": 0.4
+   }
+  }
+ ],
+ "kinematics": {
+  "R_D_S": "R_D_P @ Ry(yaw) @ Rx(pitch) @ Rz(roll)",
+  "origin": "pivot + insertion * R_D_S[:, 2]",
+  "Rx": "[[1,0,0],[0,c,-s],[0,s,c]]",
+  "Ry": "[[c,0,s],[0,1,0],[-s,0,c]]",
+  "Rz": "[[c,-s,0],[s,c,0],[0,0,1]]",
+  "instrument": "S origin = jaw hinge; jaw_a body = S @ Rx(-jaw/2) (blade toward +y_S), jaw_b body = S @ Rx(+jaw/2) (toward -y_S); shaft and collar meshes are in S; jaw meshes in their own jaw frame (= S with the jaws closed, origin on the hinge axis)",
+  "jaw_tips": "forward(): hinge + jaw_length * R_D_S @ [0, +-sin(jaw/2), cos(jaw/2)] (straight jaws). The CAD tip in each jaw frame is tip_in_jaw_frame (the Maryland's has a lateral x offset that forward() does not model)",
+  "cannula": "body '<port>/cannula' (frame Q): R_D_Q = R_D_P @ Ry(yaw) @ Rx(pitch) of the tool in that port (no roll: the tool rolls inside it), origin = the port pivot (no insertion); the housing rests on the silicone",
+  "scope": "K uses the same RCM kinematics through port C (R_D_K = R_D_P(C) @ Ry @ Rx @ Rz, origin = pivot + insertion * R_D_K[:, 2]); K's origin is on the shaft axis in the plane of the tip face's toe (scope.frame), so insertion = pivot -> that point",
+  "source": "veridien.twin.instrument.forward"
+ },
+ "boards": [
+  {
+   "name": "charuco_b",
+   "mesh": "board_charuco_b",
+   "texture": "textures/charuco_b.png",
+   "size_m": [
+    0.084,
+    0.06
+   ],
+   "squares": [
+    7,
+    5
+   ],
+   "square_m": 0.012,
+   "marker_m": 0.009,
+   "dictionary": "DICT_4X4_250",
+   "first_id": 40,
+   "margin_m": 0.006,
+   "thickness_m": 0.003,
+   "texture_px": [
+    1920,
+    1440
+   ],
+   "px_per_m": 20000.0,
+   "frame": "B = OpenCV CharucoBoard object frame: origin at the squares' top-left corner, x along the squares_x side, y along squares_y (down the printed image), z = x cross y INTO the board. The printed face is z = 0 and faces -z; the board is a 3 mm plate behind it (z 0..thickness).",
+   "uv": "u = (x + margin)/(W + 2 margin), v = (y + margin)/(H + 2 margin); (0, 0) = top-left of the PNG (first row), texel (i, j) centre at ((i + 0.5)/w, (j + 0.5)/h). Unprinted faces sample the margin",
+   "object_points": "CHARUCO_B.board().getChessboardCorners(): corner id k at (x_k, y_k, 0) in B",
+   "corners_B": [
+    [
+     0.012000000104308128,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.024000000208616257,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.035999998450279236,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.04800000041723251,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.06000000238418579,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.07199999690055847,
+     0.012000000104308128,
+     0.0
+    ],
+    [
+     0.012000000104308128,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.024000000208616257,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.035999998450279236,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.04800000041723251,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.06000000238418579,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.07199999690055847,
+     0.024000000208616257,
+     0.0
+    ],
+    [
+     0.012000000104308128,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.024000000208616257,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.035999998450279236,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.04800000041723251,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.06000000238418579,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.07199999690055847,
+     0.035999998450279236,
+     0.0
+    ],
+    [
+     0.012000000104308128,
+     0.04800000041723251,
+     0.0
+    ],
+    [
+     0.024000000208616257,
+     0.04800000041723251,
+     0.0
+    ],
+    [
+     0.035999998450279236,
+     0.04800000041723251,
+     0.0
+    ],
+    [
+     0.04800000041723251,
+     0.04800000041723251,
+     0.0
+    ],
+    [
+     0.06000000238418579,
+     0.04800000041723251,
+     0.0
+    ],
+    [
+     0.07199999690055847,
+     0.04800000041723251,
+     0.0
+    ]
+   ],
+   "pose_state": "state.boards[].T_D_B maps B into D; T_D_B is the renderer's 'board/charuco_b' body pose",
+   "source": "veridien.calib.targets.CHARUCO_B (12.0 mm squares = dome_v1.yaml extrinsics.square_mm)",
+   "readback": {
+    "detected": 24,
+    "expected": 24,
+    "max_px": 6.930561949610058e-05,
+    "median_px": 3.127398400865771e-05
+   }
+  }
+ ],
+ "trocars": {
+  "params": {
+   "5mm": {
+    "cannula_od": {
+     "value": 0.0085,
+     "status": "assumed",
+     "source": "design.ports.TROCARS['5mm'] (Medtronic VersaOne 8.46 mm datum); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "cannula_len": {
+     "value": 0.1,
+     "status": "assumed",
+     "source": "design.ports.TROCARS['5mm'] (100 mm class), housing bottom to bevel toe; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "bore_d": {
+     "value": 0.0058,
+     "status": "assumed",
+     "source": "5 mm instrument + 0.8 mm; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "metal_od": {
+     "value": 0.0068,
+     "status": "assumed",
+     "source": "0.5 mm metal wall inside the sheath; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "bevel_deg": {
+     "value": 30.0,
+     "status": "assumed",
+     "source": "tip cut plane tilted 30 deg from the cross-section (product photo: oblique tip); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "ribs_from": {
+     "value": 0.045,
+     "status": "assumed",
+     "source": "ribbed retention section, from the housing bottom (product photo); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "ribs_to": {
+     "value": 0.085,
+     "status": "assumed",
+     "source": "end of the ribbed section, from the housing bottom (product photo); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_pitch": {
+     "value": 0.0015,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_width": {
+     "value": 0.0008,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_height": {
+     "value": 0.0003,
+     "status": "assumed",
+     "source": "rings of a few tenths of a mm (coordinator brief); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "housing_d": {
+     "value": 0.026,
+     "status": "assumed",
+     "source": "design.ports.TROCARS['5mm'].head_d; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "housing_len": {
+     "value": 0.045,
+     "status": "assumed",
+     "source": "design.ports.TROCARS['5mm'].head_len; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "slit_length": {
+     "value": 0.013351768777756621,
+     "status": "assumed",
+     "source": "pi/2 x cannula OD: the opened slit's perimeter equals the cannula's"
+    },
+    "slit_width": {
+     "value": 0.0003,
+     "status": "assumed",
+     "source": "thin cut (coordinator brief)"
+    }
+   },
+   "10mm": {
+    "cannula_od": {
+     "value": 0.0128,
+     "status": "assumed",
+     "source": "typical 10 mm trocar cannula OD 12.5-13 mm (coordinator brief); generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "cannula_len": {
+     "value": 0.1,
+     "status": "assumed",
+     "source": "100 mm class, housing bottom to bevel toe; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "bore_d": {
+     "value": 0.0105,
+     "status": "assumed",
+     "source": "10 mm scope + 0.5 mm; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "metal_od": {
+     "value": 0.0115,
+     "status": "assumed",
+     "source": "0.5 mm metal wall inside the sheath; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "bevel_deg": {
+     "value": 30.0,
+     "status": "assumed",
+     "source": "as the 5 mm; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "ribs_from": {
+     "value": 0.045,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "ribs_to": {
+     "value": 0.085,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_pitch": {
+     "value": 0.0015,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_width": {
+     "value": 0.0008,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "rib_height": {
+     "value": 0.0003,
+     "status": "assumed",
+     "source": "generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "housing_d": {
+     "value": 0.034,
+     "status": "assumed",
+     "source": "between design.ports.TROCARS 5 mm (26) and 12 mm (36) head_d; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "housing_len": {
+     "value": 0.055,
+     "status": "assumed",
+     "source": "between TROCARS 5 mm (45) and 12 mm (60) head_len; generic disposable trocar set (user, 2026-10-31); not measured"
+    },
+    "slit_length": {
+     "value": 0.020106192982974676,
+     "status": "assumed",
+     "source": "pi/2 x cannula OD"
+    },
+    "slit_width": {
+     "value": 0.0003,
+     "status": "assumed",
+     "source": "thin cut (coordinator brief)"
+    }
+   }
+  },
+  "by_port": {
+   "L": "5mm",
+   "R": "5mm",
+   "C": "10mm"
+  },
+  "note": "every dimension assumed until calipered; the port caps are gone (user, 2026-10-31): each port is a silicone piece with a slit, a disposable trocar pushed in until its housing rests on it"
+ },
+ "checks": {
+  "dome": {
+   "static_shell": {
+    "brep_volume_m3": 0.001546386591565574,
+    "mesh_volume_m3": 0.0015461621064228187,
+    "triangles": 179166,
+    "chord_visible_m": 2.5262576129344413e-05,
+    "chord_all_m": 0.00018984278110480696,
+    "faces": 282,
+    "outer_faces": 8,
+    "stray_triangles_dropped": 0,
+    "sliver_faces_dropped": 0,
+    "normals_from_facets": 0
+   },
+   "moved_shell": {
+    "brep_volume_m3": 0.0015021578985202877,
+    "mesh_volume_m3": 0.001502108974090979,
+    "triangles": 127462,
+    "chord_visible_m": 2.534469881745932e-05,
+    "chord_all_m": 2.534469881745932e-05,
+    "faces": 53,
+    "outer_faces": 5,
+    "stray_triangles_dropped": 0,
+    "sliver_faces_dropped": 0,
+    "normals_from_facets": 0
+   }
+  },
+  "ports_vs_layout": {
+   "L": {
+    "pivot_vs_layout_json_mm": 0.0065,
+    "axis_vs_layout_json_deg": 0.0002
+   },
+   "R": {
+    "pivot_vs_layout_json_mm": 0.0053,
+    "axis_vs_layout_json_deg": 0.0002
+   },
+   "C": {
+    "pivot_vs_layout_json_mm": 0.0042,
+    "axis_vs_layout_json_deg": 0.0002
+   }
+  },
+  "ports_in_cad": {
+   "L": {
+    "half": "moving",
+    "axis_clear_pct": 100.0,
+    "wall_around_pct": 100.0
+   },
+   "R": {
+    "half": "moving",
+    "axis_clear_pct": 100.0,
+    "wall_around_pct": 100.0
+   },
+   "C": {
+    "half": "static",
+    "axis_clear_pct": 100.0,
+    "wall_around_pct": 100.0
+   }
+  },
+  "scope_clearance": {
+   "scope_far_mm": 38.34204429219413,
+   "scope_station_mm": 74.8652361366716,
+   "cannula_far_mm": 7.704491349398843,
+   "cannula_station_mm": -0.001596943286968043,
+   "tip_above_bench_mm": 117.68978078147794,
+   "rule": "min clearance over the cone at the default insertion (negative = intersects); 'station' = within 25 mm of the pivot, where the cone's limit is a touch by construction"
+  }
+ },
+ "default_state": {
+  "t": 0.0,
+  "instruments": [
+   {
+    "id": "L",
+    "yaw": -0.6659389880417966,
+    "pitch": 0.19918477539661095,
+    "roll": 0.0,
+    "insertion": 0.16702802632358632,
+    "jaw": 0.4
+   },
+   {
+    "id": "R",
+    "yaw": 0.6719434987958716,
+    "pitch": 0.18709898715273113,
+    "roll": 0.0,
+    "insertion": 0.16600069202465606,
+    "jaw": 0.4
+   }
+  ],
+  "scope": {
+   "yaw": -5.583741416055318e-17,
+   "pitch": -0.24903421096921258,
+   "roll": -7.996758267443831e-17,
+   "insertion": 0.10677350269189627
+  },
+  "boards": []
+ }
+}

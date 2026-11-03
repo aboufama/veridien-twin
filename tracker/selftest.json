@@ -1,0 +1,59 @@
+{
+ "schema": "veridien.tracker.selftest/1",
+ "generated_by": "scripts/make_tracker_selftest.py",
+ "model_sha256": "baa38948b1ea72c4b3fbec7ac757b287895d50d4d8edd5c1ed795ceba4046038",
+ "backend": "cv2.dnn (OpenCV 5.0.0)",
+ "frames": {
+  "size": [
+   1280,
+   720
+  ],
+  "shifts": [
+   0,
+   97,
+   211
+  ],
+  "grey_slot": 2,
+  "rule": "tracker_make_fixtures.formula_frame on x + shift; slot 2: G copied to B and R"
+ },
+ "resize_sha256": [
+  "cfc80c93d7bd3bc4004dcf40a9cee9586778b727b6ec431e9bccc16119e9cca7",
+  "199651d158e6c40e5c34df4b85264f518daea66fcad7a3b49b022b7d2b689b06",
+  "07cb42b5439016c77e3575c51b31555da8c8beffd98e8f98c7ff3a67fde7cd15"
+ ],
+ "small_sha256": [
+  "bcf2e44e5cd6436a9bd662e4ab966e70ba542058db00a578dc884d1d0d4f21f2",
+  "41081e796abaa56737cfa13150634d923b5d43ac6834465713f971c32224381b",
+  "07cb42b5439016c77e3575c51b31555da8c8beffd98e8f98c7ff3a67fde7cd15"
+ ],
+ "gray_sha256": [
+  "d070a83b9bee030656a657e1ad375cee773de3d993927eef6b8e263211106288",
+  "c47a9093c7f91e7f5ce39a61a3a2fabcc388c5e5cdcc38947617c379155525ac",
+  "e120023b0af807be2ca83c0bfc51963e9db64e35013584c4772b8740be51fba7"
+ ],
+ "wb_gains": [
+  [
+   1.0526316165924072,
+   1.0256410837173462,
+   1.0
+  ],
+  [
+   1.0526316165924072,
+   1.021276593208313,
+   1.0
+  ],
+  [
+   1.0,
+   1.0,
+   1.0
+  ]
+ ],
+ "x_sha256": "997e244283bbd82561370fbed4264de103e6e5fb2964dbfbb6401d63255ec263",
+ "y_sha256": "c2f95ab6b26ca90a88f1c0de29596692d998fdfadf91b7385f4b2efb57ab25bf",
+ "y_slot_sha256": [
+  "23c3be7a56b0c594d3d0c64f36b9be74daf3d375005bd628712b6fcf598c6352",
+  "b7172ff0cd43c69aad27d708f72edaddb4e19e77caa43317fbb0ee705b5bab3e",
+  "7676ff601f98f0165b6cb9879b4225cc13104562e601de370cc381e23a21d131"
+ ],
+ "y_abs_sum": 239738.6042422189
+}

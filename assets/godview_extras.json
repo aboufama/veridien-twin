@@ -1,0 +1,2767 @@
+{
+ "version": 2,
+ "units": "m",
+ "frame": "each dynamic mesh in its body's frame (S for instruments, K for the scope); static meshes (dynamic false, no body) in D",
+ "note": "god's-eye-view-only meshes, merged by web/twin/godview_extras.js mergeExtras: parts beyond the dome (handles, eyepiece, light post and cable, camera head) are added; an entry with 'replaces' takes the named scene mesh's place (the camera modules for the lens_front meshes). The camera simulations never load this file",
+ "source": {
+  "script": "scripts/build_godview_extras.py",
+  "scene_json_sha256_16": "752675f3c4435c19"
+ },
+ "meshes": [
+  {
+   "name": "extra_L_handle",
+   "file": "meshes/extra_L_handle.bin",
+   "material": "trocar_housing",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "build_dir": null,
+   "vertex_count": 19238,
+   "triangle_count": 36992,
+   "max_chord_error_m": 3.85e-05,
+   "max_edge_m": 0.0042,
+   "bbox": [
+    [
+     -0.0105,
+     -0.0105,
+     -0.427381
+    ],
+    [
+     0.054537,
+     0.055059,
+     -0.304181
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     19238
+    ],
+    "normals": [
+     230856,
+     19238
+    ],
+    "indices": [
+     461712,
+     110976
+    ]
+   },
+   "bytes": 905616,
+   "sha256_16": "4ac6bf9d594e87b4",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "overall_length_mm": 123.2,
+    "knob": {
+     "diameter_mm": 21.0,
+     "length_mm": 25.0
+    },
+    "barrel": {
+     "diameter_mm": 16.0,
+     "to_mm_behind_shaft_end": 70.0
+    },
+    "rings": {
+     "hole_mm": 21.6,
+     "outer_mm": 34.4,
+     "width_mm": 9.0,
+     "fixed_centre_back_down_mm": [
+      50.0,
+      58.0
+     ],
+     "thumb_centre_back_down_mm": [
+      100.0,
+      40.0
+     ]
+    },
+    "lowest_below_axis_mm": 75.2,
+    "attachment": "S frame; knob nose at z = -304.18 mm (6 mm over the shaft's proximal end at z = -310.18 mm), axis = shaft axis; rings in the plane of the shaft and down_S = [0.703, 0.711, 0] (world -z at the default pose)",
+    "details": {
+     "knob_flutes": "12 rounded scallops, 1.0 mm deep, on the 10 mm grip band",
+     "fillets_mm": "0.6-1.5 on every revolved corner",
+     "ratchet": "toothed bar (12 teeth, 1.1 mm high, 0.25 mm rim rounds) from the finger ring toward the thumb ring",
+     "pivot": "filleted boss + domed screw heads both sides",
+     "rings": "elliptical-section tubes (fully round)"
+    },
+    "status": "assumed (plausible scissor ring handle; not measured)",
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_R_handle",
+   "file": "meshes/extra_R_handle.bin",
+   "material": "trocar_housing",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "build_dir": null,
+   "vertex_count": 19238,
+   "triangle_count": 36992,
+   "max_chord_error_m": 3.85e-05,
+   "max_edge_m": 0.0042,
+   "bbox": [
+    [
+     -0.055078,
+     -0.0105,
+     -0.4277
+    ],
+    [
+     0.0105,
+     0.054518,
+     -0.3045
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     19238
+    ],
+    "normals": [
+     230856,
+     19238
+    ],
+    "indices": [
+     461712,
+     110976
+    ]
+   },
+   "bytes": 905616,
+   "sha256_16": "e48b4917abf58931",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "overall_length_mm": 123.2,
+    "knob": {
+     "diameter_mm": 21.0,
+     "length_mm": 25.0
+    },
+    "barrel": {
+     "diameter_mm": 16.0,
+     "to_mm_behind_shaft_end": 70.0
+    },
+    "rings": {
+     "hole_mm": 21.6,
+     "outer_mm": 34.4,
+     "width_mm": 9.0,
+     "fixed_centre_back_down_mm": [
+      50.0,
+      58.0
+     ],
+     "thumb_centre_back_down_mm": [
+      100.0,
+      40.0
+     ]
+    },
+    "lowest_below_axis_mm": 75.2,
+    "attachment": "S frame; knob nose at z = -304.50 mm (6 mm over the shaft's proximal end at z = -310.50 mm), axis = shaft axis; rings in the plane of the shaft and down_S = [-0.711, 0.703, 0] (world -z at the default pose)",
+    "details": {
+     "knob_flutes": "12 rounded scallops, 1.0 mm deep, on the 10 mm grip band",
+     "fillets_mm": "0.6-1.5 on every revolved corner",
+     "ratchet": "toothed bar (12 teeth, 1.1 mm high, 0.25 mm rim rounds) from the finger ring toward the thumb ring",
+     "pivot": "filleted boss + domed screw heads both sides",
+     "rings": "elliptical-section tubes (fully round)"
+    },
+    "status": "assumed (plausible scissor ring handle; not measured)",
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_scope_eyepiece",
+   "file": "meshes/extra_scope_eyepiece.bin",
+   "material": "scope_steel",
+   "group": "scope",
+   "dynamic": true,
+   "body": "scope",
+   "build_dir": null,
+   "vertex_count": 9858,
+   "triangle_count": 19712,
+   "max_chord_error_m": 6.294e-06,
+   "max_edge_m": 0.00164,
+   "bbox": [
+    [
+     -0.016,
+     -0.016,
+     -0.339924
+    ],
+    [
+     0.016,
+     0.016,
+     -0.3
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     9858
+    ],
+    "normals": [
+     118296,
+     9858
+    ],
+    "indices": [
+     236592,
+     59136
+    ]
+   },
+   "bytes": 473136,
+   "sha256_16": "022861fd5f8d8728",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "diameter_mm": 32.0,
+    "length_mm": 30.0,
+    "body_diameter_mm": 15.0,
+    "attachment": "K frame, axis = shaft axis, from z = -300 mm (10 mm over the shaft, a 10.6 mm collar) to z = -340 mm",
+    "status": "assumed (Storz HOPKINS II class)"
+   }
+  },
+  {
+   "name": "extra_scope_lightpost",
+   "file": "meshes/extra_scope_lightpost.bin",
+   "material": "scope_steel",
+   "group": "scope",
+   "dynamic": true,
+   "body": "scope",
+   "build_dir": null,
+   "vertex_count": 8194,
+   "triangle_count": 14848,
+   "max_chord_error_m": 5.541e-06,
+   "max_edge_m": 0.0013713,
+   "bbox": [
+    [
+     -0.0046,
+     -0.0213,
+     -0.3246
+    ],
+    [
+     0.0046,
+     -0.0065,
+     -0.3154
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     8194
+    ],
+    "normals": [
+     98328,
+     8194
+    ],
+    "indices": [
+     196656,
+     44544
+    ]
+   },
+   "bytes": 374832,
+   "sha256_16": "58eed8b9bd6a823c",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "diameter_mm": 6.8,
+    "reach_from_axis_mm": 21.0,
+    "z_mm": -320.0,
+    "direction_K": [
+     0,
+     -1,
+     0
+    ],
+    "mm_from_proximal_end": 20.0,
+    "status": "assumed"
+   }
+  },
+  {
+   "name": "extra_scope_cable",
+   "file": "meshes/extra_scope_cable.bin",
+   "material": "insulation_black",
+   "group": "scope",
+   "dynamic": true,
+   "body": "scope",
+   "build_dir": null,
+   "vertex_count": 6116,
+   "triangle_count": 12096,
+   "max_chord_error_m": 4.216e-06,
+   "max_edge_m": 0.0015153,
+   "bbox": [
+    [
+     -0.0052,
+     -0.068,
+     -0.3252
+    ],
+    [
+     0.0052,
+     -0.017,
+     -0.3148
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     6116
+    ],
+    "normals": [
+     73392,
+     6116
+    ],
+    "indices": [
+     146784,
+     36288
+    ]
+   },
+   "bytes": 291936,
+   "sha256_16": "e8247aafbfd2f106",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "connector_diameter_mm": 10.4,
+    "cable_diameter_mm": 7.0,
+    "stub_length_mm": 24.0,
+    "path": "from the post end: the connector (27 mm), then a 24 mm stub along -y with a rounded end (3.2 mm round)",
+    "end_K_mm": [
+     0.0,
+     -68.0,
+     -320.0
+    ],
+    "status": "assumed (Storz 495 class cable jacket); cut short on purpose (user, 2026-11-01)"
+   }
+  },
+  {
+   "name": "extra_scope_camera_head",
+   "file": "meshes/extra_scope_camera_head.bin",
+   "material": "insulation_black",
+   "group": "scope",
+   "dynamic": true,
+   "body": "scope",
+   "build_dir": null,
+   "vertex_count": 14642,
+   "triangle_count": 29280,
+   "max_chord_error_m": 6.854e-06,
+   "max_edge_m": 0.0030786,
+   "bbox": [
+    [
+     -0.02,
+     -0.02,
+     -0.448
+    ],
+    [
+     0.02,
+     0.02,
+     -0.338
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     14642
+    ],
+    "normals": [
+     175704,
+     14642
+    ],
+    "indices": [
+     351408,
+     87840
+    ]
+   },
+   "bytes": 702768,
+   "sha256_16": "0de98a0baba32b13",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "diameter_mm": 40.0,
+    "length_mm": 90.0,
+    "boot_length_mm": 20.0,
+    "boot_end": "rounded (3.5 mm), no cable (user, 2026-11-01)",
+    "attachment": "K frame, axis = shaft axis, front face at z = -338 mm (2 mm over the eyepiece cup), back at z = -428 mm, boot to z = -448 mm",
+    "status": "assumed (Storz IMAGE1-class camera head)"
+   }
+  },
+  {
+   "name": "extra_L_sleeve",
+   "file": "meshes/extra_L_sleeve.bin",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "build_dir": null,
+   "vertex_count": 8352,
+   "triangle_count": 16512,
+   "max_chord_error_m": 5.353e-06,
+   "max_edge_m": 0.0040119,
+   "bbox": [
+    [
+     -0.0025,
+     -0.0025,
+     -0.310181
+    ],
+    [
+     0.0025,
+     0.0025,
+     -0.005616
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     8352
+    ],
+    "normals": [
+     100224,
+     8352
+    ],
+    "indices": [
+     200448,
+     49536
+    ]
+   },
+   "bytes": 398592,
+   "sha256_16": "5e6283894bd40723",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "L_shaft",
+   "dims": {
+    "od_mm": 5.0,
+    "wall_mm": 0.2,
+    "from_z_mm": -310.18,
+    "to_z_mm": -5.616,
+    "distal_bevel": "OD 5.0 -> 4.64 mm over 0.6 mm (17 deg), 0.15 mm round at its start, 0.05 mm at the tip",
+    "instrument": "L"
+   }
+  },
+  {
+   "name": "extra_R_sleeve",
+   "file": "meshes/extra_R_sleeve.bin",
+   "material": "insulation_black",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "build_dir": null,
+   "vertex_count": 8400,
+   "triangle_count": 16608,
+   "max_chord_error_m": 5.353e-06,
+   "max_edge_m": 0.0039708,
+   "bbox": [
+    [
+     -0.0025,
+     -0.0025,
+     -0.3105
+    ],
+    [
+     0.0025,
+     0.0025,
+     -0.005616
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     8400
+    ],
+    "normals": [
+     100800,
+     8400
+    ],
+    "indices": [
+     201600,
+     49824
+    ]
+   },
+   "bytes": 400896,
+   "sha256_16": "a5037368f85a42a5",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "R_shaft",
+   "dims": {
+    "od_mm": 5.0,
+    "wall_mm": 0.2,
+    "from_z_mm": -310.5,
+    "to_z_mm": -5.616,
+    "distal_bevel": "OD 5.0 -> 4.64 mm over 0.6 mm (17 deg), 0.15 mm round at its start, 0.05 mm at the tip",
+    "instrument": "R"
+   }
+  },
+  {
+   "name": "extra_trocar_L_housing",
+   "file": "meshes/extra_trocar_L_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "L/cannula",
+   "build_dir": null,
+   "vertex_count": 12780,
+   "triangle_count": 24976,
+   "max_chord_error_m": 6.851e-06,
+   "max_edge_m": 0.001669,
+   "bbox": [
+    [
+     -0.013,
+     -0.013,
+     -0.0361
+    ],
+    [
+     0.0302,
+     0.013,
+     -0.001
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12780
+    ],
+    "normals": [
+     153360,
+     12780
+    ],
+    "indices": [
+     306720,
+     74928
+    ]
+   },
+   "bytes": 606432,
+   "sha256_16": "bd0313a29688854a",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_L_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_L_cap",
+   "file": "meshes/extra_trocar_L_cap.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "L/cannula",
+   "build_dir": null,
+   "vertex_count": 4800,
+   "triangle_count": 9216,
+   "max_chord_error_m": 6.639e-06,
+   "max_edge_m": 0.0017268,
+   "bbox": [
+    [
+     -0.0124,
+     -0.0124,
+     -0.045973
+    ],
+    [
+     0.0124,
+     0.0124,
+     -0.0361
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4800
+    ],
+    "normals": [
+     57600,
+     4800
+    ],
+    "indices": [
+     115200,
+     27648
+    ]
+   },
+   "bytes": 225792,
+   "sha256_16": "d4a41336db428b7e",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_L_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_L_lever",
+   "file": "meshes/extra_trocar_L_lever.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "L/cannula",
+   "build_dir": null,
+   "vertex_count": 1396,
+   "triangle_count": 2480,
+   "max_chord_error_m": 9.248e-06,
+   "max_edge_m": 0.0035968,
+   "bbox": [
+    [
+     0.0165,
+     0.0043,
+     -0.0256
+    ],
+    [
+     0.0325,
+     0.0068,
+     -0.0196
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1396
+    ],
+    "normals": [
+     16752,
+     1396
+    ],
+    "indices": [
+     33504,
+     7440
+    ]
+   },
+   "bytes": 63264,
+   "sha256_16": "a8de06a97378a645",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_L_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_R_housing",
+   "file": "meshes/extra_trocar_R_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "R/cannula",
+   "build_dir": null,
+   "vertex_count": 12780,
+   "triangle_count": 24976,
+   "max_chord_error_m": 6.851e-06,
+   "max_edge_m": 0.001669,
+   "bbox": [
+    [
+     -0.013,
+     -0.013,
+     -0.0361
+    ],
+    [
+     0.0302,
+     0.013,
+     -0.001
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12780
+    ],
+    "normals": [
+     153360,
+     12780
+    ],
+    "indices": [
+     306720,
+     74928
+    ]
+   },
+   "bytes": 606432,
+   "sha256_16": "bd0313a29688854a",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_R_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_R_cap",
+   "file": "meshes/extra_trocar_R_cap.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "R/cannula",
+   "build_dir": null,
+   "vertex_count": 4800,
+   "triangle_count": 9216,
+   "max_chord_error_m": 6.639e-06,
+   "max_edge_m": 0.0017268,
+   "bbox": [
+    [
+     -0.0124,
+     -0.0124,
+     -0.045973
+    ],
+    [
+     0.0124,
+     0.0124,
+     -0.0361
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4800
+    ],
+    "normals": [
+     57600,
+     4800
+    ],
+    "indices": [
+     115200,
+     27648
+    ]
+   },
+   "bytes": 225792,
+   "sha256_16": "d4a41336db428b7e",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_R_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_R_lever",
+   "file": "meshes/extra_trocar_R_lever.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "R/cannula",
+   "build_dir": null,
+   "vertex_count": 1396,
+   "triangle_count": 2480,
+   "max_chord_error_m": 9.248e-06,
+   "max_edge_m": 0.0035968,
+   "bbox": [
+    [
+     0.0165,
+     0.0043,
+     -0.0256
+    ],
+    [
+     0.0325,
+     0.0068,
+     -0.0196
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1396
+    ],
+    "normals": [
+     16752,
+     1396
+    ],
+    "indices": [
+     33504,
+     7440
+    ]
+   },
+   "bytes": 63264,
+   "sha256_16": "a8de06a97378a645",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_R_housing",
+   "dims": {
+    "outer_diameter_mm": 26.0,
+    "top_z_mm": -46.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 6.0,
+    "cap_height_mm": 9.9,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_C_housing",
+   "file": "meshes/extra_trocar_C_housing.bin",
+   "material": "trocar_housing",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "C/cannula",
+   "build_dir": null,
+   "vertex_count": 14340,
+   "triangle_count": 28096,
+   "max_chord_error_m": 6.851e-06,
+   "max_edge_m": 0.0017251,
+   "bbox": [
+    [
+     -0.017,
+     -0.017,
+     -0.0439
+    ],
+    [
+     0.0342,
+     0.017,
+     -0.001
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     14340
+    ],
+    "normals": [
+     172080,
+     14340
+    ],
+    "indices": [
+     344160,
+     84288
+    ]
+   },
+   "bytes": 681312,
+   "sha256_16": "f3162af20b7af03a",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_C_housing",
+   "dims": {
+    "outer_diameter_mm": 34.0,
+    "top_z_mm": -56.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 10.7,
+    "cap_height_mm": 12.1,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_C_cap",
+   "file": "meshes/extra_trocar_C_cap.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "C/cannula",
+   "build_dir": null,
+   "vertex_count": 5280,
+   "triangle_count": 10176,
+   "max_chord_error_m": 8.781e-06,
+   "max_edge_m": 0.0017836,
+   "bbox": [
+    [
+     -0.0164,
+     -0.0164,
+     -0.055979
+    ],
+    [
+     0.0164,
+     0.0164,
+     -0.0439
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5280
+    ],
+    "normals": [
+     63360,
+     5280
+    ],
+    "indices": [
+     126720,
+     30528
+    ]
+   },
+   "bytes": 248832,
+   "sha256_16": "449da12a4c822dba",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_C_housing",
+   "dims": {
+    "outer_diameter_mm": 34.0,
+    "top_z_mm": -56.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 10.7,
+    "cap_height_mm": 12.1,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_trocar_C_lever",
+   "file": "meshes/extra_trocar_C_lever.bin",
+   "material": "trocar_valve",
+   "group": "trocar",
+   "dynamic": true,
+   "body": "C/cannula",
+   "build_dir": null,
+   "vertex_count": 1396,
+   "triangle_count": 2480,
+   "max_chord_error_m": 9.248e-06,
+   "max_edge_m": 0.0035968,
+   "bbox": [
+    [
+     0.0205,
+     0.0043,
+     -0.0304
+    ],
+    [
+     0.0365,
+     0.0068,
+     -0.0244
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1396
+    ],
+    "normals": [
+     16752,
+     1396
+    ],
+    "indices": [
+     33504,
+     7440
+    ]
+   },
+   "bytes": 63264,
+   "sha256_16": "08c8c4f92ce5d3db",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "trocar_C_housing",
+   "dims": {
+    "outer_diameter_mm": 34.0,
+    "top_z_mm": -56.0,
+    "bottom_z_mm": -1.0,
+    "bore_mm": 10.7,
+    "cap_height_mm": 12.1,
+    "details": "body: 1.2 mm round at the cap seat, 1.0 mm at the foot, 0.3 mm at the bore, 20 grip flutes 0.35 mm deep; cap: 1.5 mm rim rounds, 16 flutes 0.45 mm, funnel to the bore; stopcock: port tube \u00d86, luer tip \u00d84.6 with a \u00d86.4 flange, valve barrel \u00d87.8 x 9.2, lever 15.6 x 5.2 x 2.0 mm with 0.8 mm rim rounds",
+    "status": "assumed (generic disposable trocar; not measured)"
+   }
+  },
+  {
+   "name": "extra_L_jaw_a",
+   "file": "meshes/extra_L_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/jaw_a",
+   "replaces": "L_jaw_a",
+   "build_dir": null,
+   "vertex_count": 19226,
+   "triangle_count": 23456,
+   "max_chord_error_m": 0.0001406,
+   "max_edge_m": 0.010112,
+   "bbox": [
+    [
+     -0.002224,
+     -0.001975,
+     -0.004217
+    ],
+    [
+     0.002224,
+     0.002447,
+     0.019818
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     19226
+    ],
+    "normals": [
+     230712,
+     19226
+    ],
+    "indices": [
+     461424,
+     70368
+    ]
+   },
+   "bytes": 742896,
+   "sha256_16": "d77520239920a260",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'jaw_A' + OCC edge fillets",
+    "fillets": {
+     "rounded": 163,
+     "left_sharp": 554,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 154.1
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_jaw_b",
+   "file": "meshes/extra_L_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/jaw_b",
+   "replaces": "L_jaw_b",
+   "build_dir": null,
+   "vertex_count": 14256,
+   "triangle_count": 17072,
+   "max_chord_error_m": 7.841e-05,
+   "max_edge_m": 0.010112,
+   "bbox": [
+    [
+     -0.002224,
+     -0.002447,
+     -0.004215
+    ],
+    [
+     0.002224,
+     0.001975,
+     0.019818
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     14256
+    ],
+    "normals": [
+     171072,
+     14256
+    ],
+    "indices": [
+     342144,
+     51216
+    ]
+   },
+   "bytes": 547008,
+   "sha256_16": "ccb52a4b0f684e94",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'jaw_B' + OCC edge fillets",
+    "fillets": {
+     "rounded": 149,
+     "left_sharp": 640,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 155.3
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_collar",
+   "file": "meshes/extra_L_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "replaces": "L_collar",
+   "build_dir": null,
+   "vertex_count": 5747,
+   "triangle_count": 8563,
+   "max_chord_error_m": 1.895e-05,
+   "max_edge_m": 0.31174,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002222,
+     -0.310098
+    ],
+    [
+     0.0025,
+     0.002222,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5747
+    ],
+    "normals": [
+     68964,
+     5747
+    ],
+    "indices": [
+     137928,
+     25689
+    ]
+   },
+   "bytes": 240684,
+   "sha256_16": "4b4927dad8b8a07f",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": false,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'tube' + OCC edge fillets",
+    "fillets": {
+     "rounded": 22,
+     "left_sharp": 50,
+     "radii_mm": [
+      0.25,
+      0.08
+     ],
+     "s": 11.6
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_L_pin",
+   "file": "meshes/extra_L_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "L/shaft",
+   "replaces": "L_pin",
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.53e-06,
+   "max_edge_m": 0.004001,
+   "bbox": [
+    [
+     -0.002596,
+     -0.0009,
+     -0.0009
+    ],
+    [
+     0.002596,
+     0.0009,
+     0.0009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(fenestrated) part 'pin' + OCC edge fillets",
+    "fillets": {
+     "rounded": 0,
+     "left_sharp": 30,
+     "radii_mm": [],
+     "s": 0.0
+    },
+    "instrument": "L",
+    "kind": "fenestrated"
+   }
+  },
+  {
+   "name": "extra_R_jaw_a",
+   "file": "meshes/extra_R_jaw_a.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/jaw_a",
+   "replaces": "R_jaw_a",
+   "build_dir": null,
+   "vertex_count": 9940,
+   "triangle_count": 13356,
+   "max_chord_error_m": 1.728e-05,
+   "max_edge_m": 0.0053513,
+   "bbox": [
+    [
+     -0.002199,
+     -0.001975,
+     -0.004217
+    ],
+    [
+     0.004012,
+     0.00225,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     9940
+    ],
+    "normals": [
+     119280,
+     9940
+    ],
+    "indices": [
+     238560,
+     40068
+    ]
+   },
+   "bytes": 398832,
+   "sha256_16": "5d2b6b055cc0d3a5",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'jaw_A' + OCC edge fillets",
+    "fillets": {
+     "rounded": 83,
+     "left_sharp": 493,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 150.5
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_jaw_b",
+   "file": "meshes/extra_R_jaw_b.bin",
+   "material": "steel_jaw",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/jaw_b",
+   "replaces": "R_jaw_b",
+   "build_dir": null,
+   "vertex_count": 12263,
+   "triangle_count": 17646,
+   "max_chord_error_m": 0.002339,
+   "max_edge_m": 0.0048378,
+   "bbox": [
+    [
+     -0.002199,
+     -0.00225,
+     -0.004215
+    ],
+    [
+     0.004013,
+     0.001975,
+     0.0195
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12263
+    ],
+    "normals": [
+     147156,
+     12263
+    ],
+    "indices": [
+     294312,
+     52938
+    ]
+   },
+   "bytes": 506064,
+   "sha256_16": "a244bca6ad22680d",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'jaw_B' + OCC edge fillets",
+    "fillets": {
+     "rounded": 80,
+     "left_sharp": 481,
+     "radii_mm": [
+      0.2,
+      0.06
+     ],
+     "s": 153.9
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_collar",
+   "file": "meshes/extra_R_collar.bin",
+   "material": "steel_satin",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "replaces": "R_collar",
+   "build_dir": null,
+   "vertex_count": 5747,
+   "triangle_count": 8563,
+   "max_chord_error_m": 1.895e-05,
+   "max_edge_m": 0.31206,
+   "bbox": [
+    [
+     -0.0025,
+     -0.002222,
+     -0.310417
+    ],
+    [
+     0.0025,
+     0.002222,
+     0.001896
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5747
+    ],
+    "normals": [
+     68964,
+     5747
+    ],
+    "indices": [
+     137928,
+     25689
+    ]
+   },
+   "bytes": 240684,
+   "sha256_16": "73eae87cf39a1803",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": false,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'tube' + OCC edge fillets",
+    "fillets": {
+     "rounded": 22,
+     "left_sharp": 50,
+     "radii_mm": [
+      0.25,
+      0.08
+     ],
+     "s": 16.0
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_R_pin",
+   "file": "meshes/extra_R_pin.bin",
+   "material": "steel_polished",
+   "group": "instrument_part",
+   "dynamic": true,
+   "body": "R/shaft",
+   "replaces": "R_pin",
+   "build_dir": null,
+   "vertex_count": 766,
+   "triangle_count": 788,
+   "max_chord_error_m": 5.53e-06,
+   "max_edge_m": 0.004001,
+   "bbox": [
+    [
+     -0.002596,
+     -0.0009,
+     -0.0009
+    ],
+    [
+     0.002596,
+     0.0009,
+     0.0009
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     766
+    ],
+    "normals": [
+     9192,
+     766
+    ],
+    "indices": [
+     18384,
+     2364
+    ]
+   },
+   "bytes": 27840,
+   "sha256_16": "87442ec8f2036372",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "veridien.twin.cad.brep.build_parts(maryland) part 'pin' + OCC edge fillets",
+    "fillets": {
+     "rounded": 0,
+     "left_sharp": 30,
+     "radii_mm": [],
+     "s": 0.0
+    },
+    "instrument": "R",
+    "kind": "maryland"
+   }
+  },
+  {
+   "name": "extra_CAM1_module_black",
+   "file": "meshes/extra_CAM1_module_black.bin",
+   "material": "insulation_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 18616,
+   "triangle_count": 18338,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.020777,
+   "bbox": [
+    [
+     0.016057,
+     0.037682,
+     0.188634
+    ],
+    [
+     0.048257,
+     0.069575,
+     0.210345
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18616
+    ],
+    "normals": [
+     223392,
+     18616
+    ],
+    "indices": [
+     446784,
+     55014
+    ]
+   },
+   "bytes": 666840,
+   "sha256_16": "37d4175ad999540b",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM1",
+   "dims": {
+    "camera": "CAM1",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM1_module_glass",
+   "file": "meshes/extra_CAM1_module_glass.bin",
+   "material": "lens_glass_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 1413,
+   "triangle_count": 1836,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010156,
+   "bbox": [
+    [
+     0.026542,
+     0.043952,
+     0.188016
+    ],
+    [
+     0.03925,
+     0.056638,
+     0.205165
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1413
+    ],
+    "normals": [
+     16956,
+     1413
+    ],
+    "indices": [
+     33912,
+     5508
+    ]
+   },
+   "bytes": 55944,
+   "sha256_16": "080f0f3f3a508086",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM1",
+   "dims": {
+    "camera": "CAM1",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM1_module_white",
+   "file": "meshes/extra_CAM1_module_white.bin",
+   "material": "petg_cap",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 312,
+   "triangle_count": 224,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010875,
+   "bbox": [
+    [
+     0.042855,
+     0.044364,
+     0.206534
+    ],
+    [
+     0.047748,
+     0.055795,
+     0.216734
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     312
+    ],
+    "normals": [
+     3744,
+     312
+    ],
+    "indices": [
+     7488,
+     672
+    ]
+   },
+   "bytes": 10176,
+   "sha256_16": "07d3d4155812ca61",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM1",
+   "dims": {
+    "camera": "CAM1",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM1_module_metal",
+   "file": "meshes/extra_CAM1_module_metal.bin",
+   "material": "steel_satin",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 10184,
+   "triangle_count": 10432,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.0078262,
+   "bbox": [
+    [
+     0.016072,
+     0.037925,
+     0.200646
+    ],
+    [
+     0.048077,
+     0.069722,
+     0.215954
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     10184
+    ],
+    "normals": [
+     122208,
+     10184
+    ],
+    "indices": [
+     244416,
+     31296
+    ]
+   },
+   "bytes": 369600,
+   "sha256_16": "284cf7a663d6ab7f",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM1",
+   "dims": {
+    "camera": "CAM1",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM2_module_black",
+   "file": "meshes/extra_CAM2_module_black.bin",
+   "material": "insulation_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 18616,
+   "triangle_count": 18338,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.020777,
+   "bbox": [
+    [
+     0.016067,
+     -0.015055,
+     0.188661
+    ],
+    [
+     0.048263,
+     0.01692,
+     0.210133
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18616
+    ],
+    "normals": [
+     223392,
+     18616
+    ],
+    "indices": [
+     446784,
+     55014
+    ]
+   },
+   "bytes": 666840,
+   "sha256_16": "8874744a6d820476",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM2",
+   "dims": {
+    "camera": "CAM2",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM2_module_glass",
+   "file": "meshes/extra_CAM2_module_glass.bin",
+   "material": "lens_glass_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 1413,
+   "triangle_count": 1836,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010156,
+   "bbox": [
+    [
+     0.026589,
+     -0.002154,
+     0.187978
+    ],
+    [
+     0.039297,
+     0.010386,
+     0.205112
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1413
+    ],
+    "normals": [
+     16956,
+     1413
+    ],
+    "indices": [
+     33912,
+     5508
+    ]
+   },
+   "bytes": 55944,
+   "sha256_16": "0aea1484b900704e",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM2",
+   "dims": {
+    "camera": "CAM2",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM2_module_white",
+   "file": "meshes/extra_CAM2_module_white.bin",
+   "material": "petg_cap",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 312,
+   "triangle_count": 224,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010875,
+   "bbox": [
+    [
+     0.042837,
+     -0.010531,
+     0.204553
+    ],
+    [
+     0.047751,
+     0.000811,
+     0.214643
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     312
+    ],
+    "normals": [
+     3744,
+     312
+    ],
+    "indices": [
+     7488,
+     672
+    ]
+   },
+   "bytes": 10176,
+   "sha256_16": "543626a1510ba6e1",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM2",
+   "dims": {
+    "camera": "CAM2",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM2_module_metal",
+   "file": "meshes/extra_CAM2_module_metal.bin",
+   "material": "steel_satin",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 10184,
+   "triangle_count": 10432,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.0078262,
+   "bbox": [
+    [
+     0.016077,
+     -0.015188,
+     0.200826
+    ],
+    [
+     0.04808,
+     0.016675,
+     0.213874
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     10184
+    ],
+    "normals": [
+     122208,
+     10184
+    ],
+    "indices": [
+     244416,
+     31296
+    ]
+   },
+   "bytes": 369600,
+   "sha256_16": "774d090620a45488",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM2",
+   "dims": {
+    "camera": "CAM2",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM3_module_black",
+   "file": "meshes/extra_CAM3_module_black.bin",
+   "material": "insulation_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 18616,
+   "triangle_count": 18338,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.020777,
+   "bbox": [
+    [
+     -0.008189,
+     -0.130535,
+     0.105558
+    ],
+    [
+     0.023727,
+     -0.106495,
+     0.138229
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     18616
+    ],
+    "normals": [
+     223392,
+     18616
+    ],
+    "indices": [
+     446784,
+     55014
+    ]
+   },
+   "bytes": 666840,
+   "sha256_16": "7d47fd0ada22ce96",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM3",
+   "dims": {
+    "camera": "CAM3",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM3_module_glass",
+   "file": "meshes/extra_CAM3_module_glass.bin",
+   "material": "lens_glass_black",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 1413,
+   "triangle_count": 1836,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010156,
+   "bbox": [
+    [
+     0.003944,
+     -0.123584,
+     0.111903
+    ],
+    [
+     0.016565,
+     -0.106128,
+     0.12494
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     1413
+    ],
+    "normals": [
+     16956,
+     1413
+    ],
+    "indices": [
+     33912,
+     5508
+    ]
+   },
+   "bytes": 55944,
+   "sha256_16": "28edb20799d89f2a",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM3",
+   "dims": {
+    "camera": "CAM3",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM3_module_white",
+   "file": "meshes/extra_CAM3_module_white.bin",
+   "material": "petg_cap",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 312,
+   "triangle_count": 224,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.010875,
+   "bbox": [
+    [
+     0.017335,
+     -0.136577,
+     0.113033
+    ],
+    [
+     0.023087,
+     -0.125774,
+     0.124716
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     312
+    ],
+    "normals": [
+     3744,
+     312
+    ],
+    "indices": [
+     7488,
+     672
+    ]
+   },
+   "bytes": 10176,
+   "sha256_16": "7c3e117ce860c1c5",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM3",
+   "dims": {
+    "camera": "CAM3",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_CAM3_module_metal",
+   "file": "meshes/extra_CAM3_module_metal.bin",
+   "material": "steel_satin",
+   "group": "camera_module",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 10184,
+   "triangle_count": 10432,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.0078262,
+   "bbox": [
+    [
+     -0.008303,
+     -0.135539,
+     0.10586
+    ],
+    [
+     0.023425,
+     -0.116656,
+     0.138336
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     10184
+    ],
+    "normals": [
+     122208,
+     10184
+    ],
+    "indices": [
+     244416,
+     31296
+    ]
+   },
+   "bytes": 369600,
+   "sha256_16": "eb66c7c63090eeab",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "replaces": "lens_front_CAM3",
+   "dims": {
+    "camera": "CAM3",
+    "source": "camera_ar0144_usbgs720p02.glb (repo CAD, docs/TRACKING_CAMERA_CAD.md)",
+    "placement": "lens front (dome-glass apex, CAD z = 17.0 mm) at lens_front_D, CAD +z along optical_axis_D, CAD +y along image_up_D",
+    "as_installed": "snap-off frame removed (32.08 mm board), JST plug kept, wires/cable/USB plug left out (they run in the shell's grooves), 4 M2 pan-head board screws added, lens grip \u00d815.0 -> measured \u00d817.0",
+    "placement_check": {
+     "lens_front_err_mm": 0.0069,
+     "axis_err_deg": 0.0286
+    }
+   }
+  },
+  {
+   "name": "extra_stand",
+   "file": "meshes/extra_stand.bin",
+   "material": "bench_white",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 12475,
+   "triangle_count": 19724,
+   "max_edge_m": 0.47335,
+   "bbox": [
+    [
+     -0.32118,
+     -0.200676,
+     -0.066264
+    ],
+    [
+     0.22482,
+     0.255324,
+     0.008736
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     12475
+    ],
+    "normals": [
+     149700,
+     12475
+    ],
+    "indices": [
+     299400,
+     59172
+    ]
+   },
+   "bytes": 536088,
+   "sha256_16": "4ffb4b4429543652",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "Veridien_dome_all.step BASE_hub_bay (hub bay, slot, notch, dowel holes)",
+    "pose": "as assembled (assembly frame = D x 1e3)",
+    "underside_z_m": -0.0662643,
+    "tray_z_m": 0.0087357,
+    "god_view_change": "tray inside the inner skirt (ellipse 228 x 183 mm about the dome centre) cut from 8.74 mm to bench z 3.7357 mm: the camera simulations' floor",
+    "material_note": "bench_white: matte white like the printed base, and not removed by the cutaway (pla_matte_white is)"
+   }
+  },
+  {
+   "name": "extra_hub",
+   "file": "meshes/extra_hub.bin",
+   "material": "steel_satin",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 24,
+   "triangle_count": 12,
+   "max_edge_m": 0.15163,
+   "bbox": [
+    [
+     0.1914,
+     -0.055076,
+     -0.062264
+    ],
+    [
+     0.2143,
+     0.089724,
+     -0.017264
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     24
+    ],
+    "normals": [
+     288,
+     24
+    ],
+    "indices": [
+     576,
+     36
+    ]
+   },
+   "bytes": 720,
+   "sha256_16": "679d72fbda4e0b51",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "hub": "Rosonway RSH-H7C4 (box)",
+    "in": "the hub bay, closed by the cover plate"
+   }
+  },
+  {
+   "name": "extra_hub_plugs",
+   "file": "meshes/extra_hub_plugs.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 702,
+   "triangle_count": 924,
+   "max_edge_m": 0.029682,
+   "bbox": [
+    [
+     0.1574,
+     -0.041076,
+     -0.047764
+    ],
+    [
+     0.2145,
+     0.109724,
+     -0.031764
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     702
+    ],
+    "normals": [
+     8424,
+     702
+    ],
+    "indices": [
+     16848,
+     2772
+    ]
+   },
+   "bytes": 27936,
+   "sha256_16": "63e6a38178788229",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "plugs": "3 x USB-A overmould + relief, host USB-C, 12 V (boxes)"
+   }
+  },
+  {
+   "name": "extra_CAM1_lead",
+   "file": "meshes/extra_CAM1_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3498,
+   "triangle_count": 6784,
+   "max_edge_m": 0.0022972,
+   "bbox": [
+    [
+     0.044052,
+     0.027743,
+     0.005769
+    ],
+    [
+     0.18615,
+     0.054975,
+     0.219209
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3498
+    ],
+    "normals": [
+     41976,
+     3498
+    ],
+    "indices": [
+     83952,
+     20352
+    ]
+   },
+   "bytes": 165360,
+   "sha256_16": "8b5cdcb2b6b8f896",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM1",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 947.3,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 5.22,
+    "to_hub_bay_mm": 286.56,
+    "wires_mm": 18.66,
+    "spiral_outer_radius_mm": 22.49,
+    "spiral_turns_per_arm": 1.28,
+    "spiral_level": 1,
+    "usb_a_port": 1,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM1_lead_base",
+   "file": "meshes/extra_CAM1_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5522,
+   "triangle_count": 10976,
+   "max_edge_m": 0.0027668,
+   "bbox": [
+    [
+     0.0741,
+     -0.038974,
+     -0.061964
+    ],
+    [
+     0.186184,
+     0.091704,
+     0.005769
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5522
+    ],
+    "normals": [
+     66264,
+     5522
+    ],
+    "indices": [
+     132528,
+     32928
+    ]
+   },
+   "bytes": 264240,
+   "sha256_16": "6e30c61164986311",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM1",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_CAM2_lead",
+   "file": "meshes/extra_CAM2_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3498,
+   "triangle_count": 6784,
+   "max_edge_m": 0.0023517,
+   "bbox": [
+    [
+     0.044035,
+     -0.009672,
+     0.006312
+    ],
+    [
+     0.186174,
+     0.026925,
+     0.217165
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3498
+    ],
+    "normals": [
+     41976,
+     3498
+    ],
+    "indices": [
+     83952,
+     20352
+    ]
+   },
+   "bytes": 165360,
+   "sha256_16": "6b223431afc5a126",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM2",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 947.7,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 5.22,
+    "to_hub_bay_mm": 291.87,
+    "wires_mm": 18.34,
+    "spiral_outer_radius_mm": 23.17,
+    "spiral_turns_per_arm": 1.36,
+    "spiral_level": 2,
+    "usb_a_port": 2,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM2_lead_base",
+   "file": "meshes/extra_CAM2_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5490,
+   "triangle_count": 10912,
+   "max_edge_m": 0.002769,
+   "bbox": [
+    [
+     0.0791,
+     -0.020973,
+     -0.057564
+    ],
+    [
+     0.186184,
+     0.092384,
+     0.006312
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5490
+    ],
+    "normals": [
+     65880,
+     5490
+    ],
+    "indices": [
+     131760,
+     32736
+    ]
+   },
+   "bytes": 262704,
+   "sha256_16": "98f163bd3a9aeca2",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM2",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_CAM3_lead",
+   "file": "meshes/extra_CAM3_lead.bin",
+   "material": "lead_pvc_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 3906,
+   "triangle_count": 7600,
+   "max_edge_m": 0.0026575,
+   "bbox": [
+    [
+     0.01846,
+     -0.148306,
+     0.006344
+    ],
+    [
+     0.185154,
+     0.011572,
+     0.123965
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     3906
+    ],
+    "normals": [
+     46872,
+     3906
+    ],
+    "indices": [
+     93744,
+     22800
+    ]
+   },
+   "bytes": 184944,
+   "sha256_16": "3b35cb8fba79c1c0",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM3",
+    "source": "veridien.design.dome_camera_install.routes (KEEP_JST)",
+    "jacket_length_mm": 949.5,
+    "jacket_d_mm": 3.8,
+    "wires": "4 x \u00d81.0",
+    "min_bend_radius_mm": 4.73,
+    "to_hub_bay_mm": 355.46,
+    "wires_mm": 16.55,
+    "spiral_outer_radius_mm": 21.95,
+    "spiral_turns_per_arm": 1.21,
+    "spiral_level": 3,
+    "usb_a_port": 3,
+    "lead_end_to_end_mm": 1000.0,
+    "part": "pads to the shell's foot (in the grooves; cut with the shell)"
+   }
+  },
+  {
+   "name": "extra_CAM3_lead_base",
+   "file": "meshes/extra_CAM3_lead_base.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 4994,
+   "triangle_count": 9920,
+   "max_edge_m": 0.0028241,
+   "bbox": [
+    [
+     0.0841,
+     -0.002972,
+     -0.053164
+    ],
+    [
+     0.18519,
+     0.091164,
+     0.006672
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4994
+    ],
+    "normals": [
+     59928,
+     4994
+    ],
+    "indices": [
+     119856,
+     29760
+    ]
+   },
+   "bytes": 238896,
+   "sha256_16": "6933130fa9e89271",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "camera": "CAM3",
+    "part": "the shell's foot to the USB-A plug (base slot, service spiral, hub bay)"
+   }
+  },
+  {
+   "name": "extra_hub_usbc_lead",
+   "file": "meshes/extra_hub_usbc_lead.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5986,
+   "triangle_count": 11904,
+   "max_edge_m": 0.0036461,
+   "bbox": [
+    [
+     0.1955,
+     0.109724,
+     -0.334264
+    ],
+    [
+     1.022,
+     0.128,
+     -0.037764
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5986
+    ],
+    "normals": [
+     71832,
+     5986
+    ],
+    "indices": [
+     143664,
+     35712
+    ]
+   },
+   "bytes": 286512,
+   "sha256_16": "2c1124a84605bc1d",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "lead": "host USB-C",
+    "diameter_mm": 4.0,
+    "route": "hub +y end -> rear notch -> table -> off the bench's +x edge",
+    "status": "assumed (the hub's host and power leads leave through the notch, dome_camera_install docstring)"
+   }
+  },
+  {
+   "name": "extra_hub_12v_lead",
+   "file": "meshes/extra_hub_12v_lead.bin",
+   "material": "insulation_black",
+   "group": "stand_wiring",
+   "dynamic": false,
+   "body": null,
+   "build_dir": null,
+   "vertex_count": 5970,
+   "triangle_count": 11872,
+   "max_edge_m": 0.0035565,
+   "bbox": [
+    [
+     0.20675,
+     0.109724,
+     -0.334514
+    ],
+    [
+     1.02175,
+     0.13575,
+     -0.038014
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     5970
+    ],
+    "normals": [
+     71640,
+     5970
+    ],
+    "indices": [
+     143280,
+     35616
+    ]
+   },
+   "bytes": 285744,
+   "sha256_16": "589b47ba5658e936",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "lead": "12 V DC",
+    "diameter_mm": 3.5,
+    "route": "hub +y end -> rear notch -> table -> off the bench's +x edge",
+    "status": "assumed (the hub's host and power leads leave through the notch, dome_camera_install docstring)"
+   }
+  },
+  {
+   "name": "extra_r24_base",
+   "file": "meshes/extra_r24_base.bin",
+   "material": "bench_white",
+   "group": "practice_module",
+   "dynamic": true,
+   "body": "prop/module",
+   "build_dir": null,
+   "vertex_count": 4059,
+   "triangle_count": 8138,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.21916,
+   "bbox": [
+    [
+     -0.013673,
+     -0.09718,
+     0.00374
+    ],
+    [
+     0.159301,
+     0.15182,
+     0.08774
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     4059
+    ],
+    "normals": [
+     48708,
+     4059
+    ],
+    "indices": [
+     97416,
+     24414
+    ]
+   },
+   "bytes": 195072,
+   "sha256_16": "07a41cfc0d090164",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "assets/dome/source/kit_d03_anatomy.npz part 1: R24_PLA_Base_ASSEMBLY.stl",
+    "placement": "kit frame + (76.82, 27.32, 10.74) mm (docs/DOME_PORTS.md offset, lowered 5 mm onto the god view's cut-down tray); not yet fitted to the real camera images",
+    "pose": "vertices in D at the kit placement; the page poses body prop/module (identity = kit placement; P key drags it on the floor)"
+   }
+  },
+  {
+   "name": "extra_r27_pad",
+   "file": "meshes/extra_r27_pad.bin",
+   "material": "uterus_pva",
+   "group": "practice_module",
+   "dynamic": true,
+   "body": "prop/module",
+   "build_dir": null,
+   "vertex_count": 10521,
+   "triangle_count": 18000,
+   "max_chord_error_m": 0.0,
+   "max_edge_m": 0.20335,
+   "bbox": [
+    [
+     -0.001297,
+     -0.08268,
+     0.00794
+    ],
+    [
+     0.120772,
+     0.13732,
+     0.066862
+    ]
+   ],
+   "layout": {
+    "positions": [
+     0,
+     10521
+    ],
+    "normals": [
+     126252,
+     10521
+    ],
+    "indices": [
+     252504,
+     54000
+    ]
+   },
+   "bytes": 468504,
+   "sha256_16": "71096fbdd211e16e",
+   "overview_only": true,
+   "godview_only": true,
+   "closed": true,
+   "dims": {
+    "source": "assets/dome/source/kit_d03_anatomy.npz part 2: R27_One_Piece_Pad_CAST.stl",
+    "placement": "kit frame + (76.82, 27.32, 10.74) mm (docs/DOME_PORTS.md offset, lowered 5 mm onto the god view's cut-down tray); not yet fitted to the real camera images",
+    "pose": "vertices in D at the kit placement; the page poses body prop/module (identity = kit placement; P key drags it on the floor)"
+   }
+  }
+ ],
+ "bench": {
+  "z": -0.0662643,
+  "note": "god's-eye view only (mergeExtras): the table under the stand, the base's underside. The camera simulations keep scene.json bench.z = 0.003735660994053"
+ }
+}
